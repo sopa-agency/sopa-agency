@@ -90,7 +90,14 @@ export default function LayoutClient({
 
   useEffect(() => {
     if (section !== 'home') return;
-    const onScroll = () => setScrollP(Math.min(1, window.scrollY / (window.innerHeight * 1.2)));
+    const onScroll = () => {
+      const scrollP = Math.min(1, window.scrollY / (window.innerHeight * 1.2));
+      setScrollP(scrollP);
+      if (window.scrollY >= (document.documentElement.scrollHeight - window.innerHeight)) {
+        window.scrollTo({ top: 0 });
+        setScrollP(0);
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
@@ -224,13 +231,13 @@ export default function LayoutClient({
           </div>
         )}
         {section === 'home' && (
-          <>
-            <ScrollShowcase />
-            <div className="relative z-[20]">
-              <CTA locale={locale} />
-            </div>
-          </>
-        )}
+                  <>
+                    <ScrollShowcase />
+                    <div className="relative z-[20]">
+                      <CTA locale={locale} />
+                    </div>
+                  </>
+                )}
         <div key={section}>
           {section === 'work' && (
             <div className="max-w-7xl mx-auto px-6 py-16">
@@ -381,8 +388,9 @@ export default function LayoutClient({
         </div>
       </main>
 
-      {/* Footer: normal flow — appears naturally after content when scrolled */}
-      <Footer locale={locale} />
+      {section !== 'home' && (
+        <Footer locale={locale} />
+      )}
 
       <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} locale={locale} onNavigate={navigate} />
       <TransitionOverlay hidden={!isHome} />
