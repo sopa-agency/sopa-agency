@@ -99,12 +99,24 @@ body {
 .page-anim-d1 { animation-delay: 0.15s; }
 .page-anim-d2 { animation-delay: 0.30s; }
 
-/* legacy alias kept for ghost title */
-.slide-from-right {
-  opacity: 0;
-  animation: slide-from-right 0.9s ease-out both;
+/* Scroll-triggered fade in and slide up */
+@keyframes scroll-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
-.slide-from-right-d1 { animation-delay: 0.15s; }
+
+.animate-scroll-fade-in-up {
+  animation: scroll-fade-in-up 0.8s ease-out both;
+}
+.animate-scroll-fade-in-up-d1 { animation-delay: 0.15s; }
+.animate-scroll-fade-in-up-d2 { animation-delay: 0.30s; }
+.animate-scroll-fade-in-up-d3 { animation-delay: 0.45s; }
 
 /* font-futura / display titles */
 .font-futura,
