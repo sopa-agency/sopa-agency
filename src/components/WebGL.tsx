@@ -293,12 +293,20 @@ export default function WebGL({ section = 'home', open, onProgress, tint = [1.0,
       }
     }
     animate();
-    function onMove(e: MouseEvent) {
+    function setMouse(clientX: number, clientY: number) {
       const w = window as unknown as Record<string, number>;
-      w.APP_mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      w.APP_mouseY = -((e.clientY / window.innerHeight) * 2 - 1);
+      w.APP_mouseX = (clientX / window.innerWidth) * 2 - 1;
+      w.APP_mouseY = -((clientY / window.innerHeight) * 2 - 1);
+    }
+    function onMove(e: MouseEvent) {
+      setMouse(e.clientX, e.clientY);
+    }
+    function onTouchMove(e: TouchEvent) {
+      const t = e.touches[0];
+      if (t) setMouse(t.clientX, t.clientY);
     }
     window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
 
     const handleResize = () => {
       const w = container.clientWidth;
@@ -315,6 +323,7 @@ export default function WebGL({ section = 'home', open, onProgress, tint = [1.0,
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
       container.removeChild(renderer.domElement);

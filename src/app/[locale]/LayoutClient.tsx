@@ -160,7 +160,7 @@ export default function LayoutClient({
 
   return (
     <>
-      <Loader progress={loaded ? 1 : 0.5} done={loaded} />
+      <Loader progress={progress} done={loaded} />
       {/* Orb background — fixed, full-screen, always behind content */}
       <div
         className="fixed inset-0 z-0 transition-opacity duration-1000 ease-in-out"
@@ -291,7 +291,7 @@ export default function LayoutClient({
                         loop
                         playsInline
                         preload="none"
-                        className="absolute inset-0 w-full aspect-video object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                        className="absolute inset-0 w-full aspect-video object-cover opacity-0 transition-opacity duration-500 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100"
                       />
                     )}
                     <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/80 via-black/20 to-transparent">

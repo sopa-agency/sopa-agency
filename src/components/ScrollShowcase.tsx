@@ -580,9 +580,12 @@ export default function ScrollShowcase() {
     const camera = new THREE.PerspectiveCamera(20, viewport.clientWidth / viewport.clientHeight, 1, 4000);
     camera.position.set(0, 0, 70);
 
+    // lighter shader/particle budget on phones, same signal as WebGL.tsx's orb
+    const isDesktop = !/Mobi|Android/i.test(navigator.userAgent);
+
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
     renderer.setSize(viewport.clientWidth, viewport.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isDesktop ? 2 : 1.5));
     viewport.appendChild(renderer.domElement);
 
     const light = new THREE.DirectionalLight('#ffffff', 0.5);
@@ -591,7 +594,7 @@ export default function ScrollShowcase() {
 
     // background particles spanning the tower (BackgroundParticlesObject3D)
     const pGeo = new THREE.BufferGeometry();
-    const pCount = 800;
+    const pCount = isDesktop ? 800 : 300;
     const pArr = new Float32Array(pCount * 3);
     for (let i = 0; i < pCount; i++) {
       pArr[i * 3] = (Math.random() - 0.5) * 200;
@@ -610,7 +613,7 @@ export default function ScrollShowcase() {
     scene.add(pObj);
 
     // speed lines (BackgroundLinesObject3D): vertical segments, stretch while scrolling
-    const lCount = 150;
+    const lCount = isDesktop ? 150 : 60;
     const lPos = new Float32Array(lCount * 6);
     for (let i = 0; i < lCount; i++) {
       const x = Math.random() * 40 - 20, y = Math.random() * (SECTIONS.length * SECTION_H) - SECTION_H, z = Math.random() * 100 - 50;

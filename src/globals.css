@@ -146,14 +146,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* work tiles: dim by default, brighten on hover (original .list-item img) */
-.work-tile img {
-  opacity: 0.7;
-  transition: 0.5s opacity, 0.5s transform;
-}
-.work-tile:hover img {
-  opacity: 1;
-  transform: scale(1.05);
+/* work tiles: dim by default, brighten on hover (original .list-item img) —
+   only on pointers that can actually hover; touch has no hover state, so
+   dimming there would leave the whole grid permanently washed out. */
+@media (hover: hover) and (pointer: fine) {
+  .work-tile img {
+    opacity: 0.7;
+    transition: 0.5s opacity, 0.5s transform;
+  }
+  .work-tile:hover img {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 /* Loader overlay: quick fade out (pure CSS — no JS timers) */
