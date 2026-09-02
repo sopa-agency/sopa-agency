@@ -1,40 +1,73 @@
 // src/components/PhilosophyGrid.tsx
-// Philosophy states as interactive micro-cards grid
 'use client';
 import { useInView } from '@/hooks/useInView';
+import { philosophy } from '@/data/philosophy';
 
-const PHILOSOPHY_ITEMS = [
-  { id: 1, title: "FROM AN IDEA" },
-  { id: 2, title: "GIVE IT SHAPE" },
-  { id: 3, title: "CREATE TRENDS" },
-  { id: 4, title: "LET IT MORPH" },
-  { id: 5, title: "EYES ON RESULTS" },
-  { id: 6, title: "POWERED BY AI" },
-  { id: 7, title: "KEEP LEARNING" },
-  { id: 8, title: "WORK AS A TEAM" },
-];
-
-export default function PhilosophyGrid({ className = '' }: { className?: string }) {
+export default function PhilosophyGrid({ locale = 'en', className = '' }: { locale?: string, className?: string }) {
   const [ref, inView] = useInView({ threshold: 0.1 });
+  const data = philosophy[locale as keyof typeof philosophy] || philosophy.en;
 
   return (
-    <section className={`relative py-20 ${className}`}>
-      <div ref={ref} className={`max-w-7xl mx-auto px-6 ${inView ? 'animate-scroll-fade-in-up' : ''}`}>
-        <h2 className="text-3xl font-bold mb-12 text-center page-title-anim">
-          Core Philosophy
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 page-anim page-anim-d1">
-          {PHILOSOPHY_ITEMS.map((item) => (
-            <div
-              key={item.id}
-              className="group relative flex items-center justify-center min-h-[80px] rounded-xl border border-white/20 bg-black/40 backdrop-blur-sm transition-all duration-500 hover:bg-black/60 hover:border-white/30"
-            >
-              <span className="text-sm font-medium text-white/90 tracking-wider uppercase">
-                {item.title}
-              </span>
+    <section className={`relative py-24 flex items-center ${className}`}>
+      <div ref={ref} className={`w-full max-w-7xl mx-auto px-6 ${inView ? 'animate-scroll-fade-in-up' : ''}`}>
+        
+        {/* Header */}
+        <div className="mb-16 md:w-2/3">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 page-title-anim">
+            {data.title}
+          </h2>
+          <p className="text-lg md:text-xl opacity-70 page-title-anim page-title-anim-d1">
+            {data.subtitle}
+          </p>
+        </div>
+
+        {/* Steps */}
+        <div className="grid gap-8 lg:grid-cols-3 mb-16 page-anim page-anim-d1">
+          {data.steps.map((step, index) => (
+            <div key={index} className="flex flex-col border-t border-white/20 pt-6">
+              <div className="text-sm font-medium text-amber-300 mb-4">{step.num}</div>
+              <h3 className="text-2xl font-semibold mb-3">
+                {step.title}
+              </h3>
+              <p className="opacity-70 mb-6 flex-grow">
+                {step.description}
+              </p>
+              <div className="text-xs font-mono opacity-50 tracking-wider">
+                {step.tags}
+              </div>
             </div>
           ))}
         </div>
+
+        {/* Footer */}
+        <div className="border border-white/20 bg-black/40 backdrop-blur-sm rounded-2xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between page-anim page-anim-d2">
+          <div className="md:w-2/3">
+            <h3 className="text-2xl font-bold mb-3">{data.footerTitle}</h3>
+            <p className="opacity-70 mb-4">{data.footerText}</p>
+            <p className="text-amber-300 font-medium italic">"{data.tagline}"</p>
+          </div>
+          <div className="flex flex-col sm:flex-row md:flex-col gap-4 min-w-max">
+            <button 
+              onClick={() => {
+                const event = new CustomEvent('sopa:navigate', { detail: 'work' });
+                window.dispatchEvent(event);
+              }}
+              className="px-6 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-sm font-semibold"
+            >
+              {data.links.work}
+            </button>
+            <button 
+              onClick={() => {
+                const event = new CustomEvent('sopa:navigate', { detail: 'contact' });
+                window.dispatchEvent(event);
+              }}
+              className="px-6 py-3 rounded-full bg-white text-black hover:bg-amber-300 transition-colors text-sm font-semibold"
+            >
+              {data.links.contact}
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
   );
