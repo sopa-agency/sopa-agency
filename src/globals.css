@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
+  --background: #0b0a08;
   --foreground: #ededed;
 
   /* accent (SOPA amber) as bare channels so glows can do rgba(var(--accent-rgb), a).
-     UI chrome still uses the amber-* utilities; this only drives orb-adjacent glows. */
-  --accent-rgb: 255, 224, 0;
+     UI chrome still uses the amber-* utilities; this only drives orb-adjacent glows.
+     Default theme's accent is Avant-Garde's cool white. */
+  --accent-rgb: 219, 222, 235;
 
-  /* Default theme: Next-Gen AI (Space Grotesk + Plus Jakarta Sans + JetBrains Mono) */
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-body: var(--font-plus-jakarta), system-ui, sans-serif;
+  /* Default theme: Avant-Garde (Syne + Newsreader + JetBrains Mono) */
+  --font-display: var(--font-syne), system-ui, sans-serif;
+  --font-body: var(--font-newsreader), Georgia, serif;
   --font-code: var(--font-jetbrains-mono), monospace;
 }
 

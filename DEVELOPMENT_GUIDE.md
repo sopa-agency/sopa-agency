@@ -78,9 +78,9 @@ its own **orb / background / glow colour**. Switchable at runtime via the pill b
 
 | Theme | id | Display | Body | Mono | Accent / orb |
 |---|---|---|---|---|---|
-| Next-Gen AI (default) | `next-gen` | Space Grotesk | Plus Jakarta Sans | JetBrains Mono | amber `#FFE000` |
+| Avant-Garde (default) | `avant-garde` | Syne | Newsreader (serif) | JetBrains Mono | cool white `#DBDEEB` |
+| Next-Gen AI | `next-gen` | Space Grotesk | Plus Jakarta Sans | JetBrains Mono | amber `#FFE000` |
 | Cybernetic | `cyber` | Space Mono | Inter | IBM Plex Mono | cyan `#22D3EE` |
-| Avant-Garde | `avant-garde` | Syne | Newsreader (serif) | JetBrains Mono | cool white `#DBDEEB` |
 
 **How it works:**
 1. `src/lib/fontTheme.ts` — `useFontTheme()` hook: localStorage + `data-font-theme` on

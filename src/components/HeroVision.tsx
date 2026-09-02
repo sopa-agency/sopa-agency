@@ -16,7 +16,15 @@ export default function HeroVision({ locale, scrollP, className = '' }: { locale
       style={{ opacity: 1 - scrollP }}
     >
       <div className="page-anim font-futura pointer-events-auto max-w-5xl">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-amber-300/30 bg-amber-300/10 px-4 py-2 font-mono text-xs text-amber-200 backdrop-blur-sm">
+        {/* follows the active font theme's accent (unlike buttons/nav chrome, which stay amber) */}
+        <div
+          className="mb-6 inline-flex items-center gap-2 rounded-xl px-4 py-2 font-mono text-xs backdrop-blur-sm"
+          style={{
+            border: '1px solid rgba(var(--accent-rgb), 0.3)',
+            background: 'rgba(var(--accent-rgb), 0.1)',
+            color: 'rgba(var(--accent-rgb), 0.9)',
+          }}
+        >
           <span>Web</span>
           <span className="opacity-40">·</span>
           <span>AI</span>

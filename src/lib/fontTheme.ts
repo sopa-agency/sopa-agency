@@ -19,21 +19,22 @@ export const THEME_TINT: Record<FontTheme, [number, number, number]> = {
 };
 
 export function getStoredFontTheme(): FontTheme {
-  if (typeof window === 'undefined') return 'next-gen';
+  if (typeof window === 'undefined') return 'avant-garde';
   try {
     const t = localStorage.getItem(STORAGE_KEY);
     if (t && (FONT_THEMES as string[]).includes(t)) return t as FontTheme;
   } catch {
     /* private mode / disabled storage */
   }
-  return 'next-gen';
+  return 'avant-garde';
 }
 
 export function useFontTheme(): [FontTheme, (t: FontTheme) => void] {
-  // SSR and the first client render must both be 'next-gen' to avoid a hydration
-  // mismatch. layout.tsx's pre-paint script has already set data-font-theme on
-  // <html>; we reconcile React state to it right after mount.
-  const [theme, setThemeState] = useState<FontTheme>('next-gen');
+  // SSR and the first client render must both be 'avant-garde' (the default
+  // theme) to avoid a hydration mismatch. layout.tsx's pre-paint script has
+  // already set data-font-theme on <html>; we reconcile React state to it
+  // right after mount.
+  const [theme, setThemeState] = useState<FontTheme>('avant-garde');
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- sync after mount, avoids hydration mismatch

@@ -15,16 +15,17 @@ import "@/globals.css";
 
 const GA_ID = "G-HWM0ZNJJVF";
 
-// Default theme (Next-Gen AI) trio — the only fonts on the critical path.
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+// Default theme (Avant-Garde) trio — the only fonts on the critical path.
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
   display: "swap",
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -36,8 +37,15 @@ const jetbrainsMono = JetBrains_Mono({
 
 // Non-default theme fonts — self-hosted but not preloaded; fetched when the
 // visitor picks that theme.
-const syne = Syne({
-  variable: "--font-syne",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
   display: "swap",
   preload: false,
@@ -62,14 +70,6 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  display: "swap",
-  preload: false,
-});
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
   display: "swap",
   preload: false,
 });

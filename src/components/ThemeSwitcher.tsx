@@ -15,12 +15,19 @@ type ThemeMeta = {
 
 const THEMES: ThemeMeta[] = [
   {
+    id: 'avant-garde',
+    name: 'Avant-Garde',
+    fontVar: 'var(--font-syne)',
+    pairing: 'Syne · Newsreader · JetBrains Mono',
+    dot: '#DBDEEB',
+    isDefault: true,
+  },
+  {
     id: 'next-gen',
     name: 'Next-Gen AI',
     fontVar: 'var(--font-space-grotesk)',
     pairing: 'Space Grotesk · Plus Jakarta · JetBrains Mono',
     dot: '#FFE000',
-    isDefault: true,
   },
   {
     id: 'cyber',
@@ -28,13 +35,6 @@ const THEMES: ThemeMeta[] = [
     fontVar: 'var(--font-space-mono)',
     pairing: 'Space Mono · Inter · IBM Plex Mono',
     dot: '#22D3EE',
-  },
-  {
-    id: 'avant-garde',
-    name: 'Avant-Garde',
-    fontVar: 'var(--font-syne)',
-    pairing: 'Syne · Newsreader · JetBrains Mono',
-    dot: '#DBDEEB',
   },
 ];
 
