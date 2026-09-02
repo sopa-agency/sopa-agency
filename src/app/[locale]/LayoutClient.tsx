@@ -202,7 +202,7 @@ export default function LayoutClient({
         {section === 'home' && (
           <div className="flex flex-col h-[calc(100vh*6)] snap-y snap-mandatory overflow-y-auto scroll-smooth">
             <HeroVision locale={locale} scrollP={scrollP} className="h-screen snap-start" />
-            <PhilosophyGrid className="h-screen snap-start" />
+            <PhilosophyGrid locale={locale} className="min-h-screen snap-start" />
             <WorksSolutionsGrid className="h-screen snap-start" />
             <AboutNetwork locale={locale} className="h-screen snap-start" />
             <ContactActionCenter locale={locale} className="h-screen snap-start" />
