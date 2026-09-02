@@ -33,6 +33,7 @@ type Section = 'home' | 'work' | 'team' | 'portfolio' | 'solutions' | 'about' | 
 | `.page-anim` | Fade + drift up (40px) | 0.8s | `.page-anim-d1` (0.15s), `.page-anim-d2` (0.30s) |
 | `.aos-zoom` | Scale 0.6 → 1 + fade | 1s | `.aos-zoom-d1` (0.5s), `.aos-zoom-d2` (0.7s) |
 | `.slide-from-right` | Legacy alias for title | 0.9s | `.slide-from-right-d1` (0.15s) |
+| `.animate-scroll-fade-in-up` | Fade + drift up (40px), re-triggers on re-entry via `useInView` | 0.8s | `-d1` (0.15s), `-d2` (0.30s), `-d3` (0.45s) |
 
 **Usage:**
 ```tsx
@@ -101,8 +102,7 @@ its own **orb / background / glow colour**. Switchable at runtime via the pill b
 in `fontTheme.ts` and `THEMES` in `ThemeSwitcher.tsx`.
 
 **Chrome stays amber:** the `amber-*` utilities (buttons, borders, folio, nav) are *not*
-themed — only orb, `--background`, and the radial glows recolour. `ScrollShowcase.tsx`
-(home 3D scroll) also stays amber by design.
+themed — only orb, `--background`, and the radial glows recolour.
 
 ## 5. Colour Palette (Amber/Black)
 
@@ -141,7 +141,11 @@ const data = yourSection[l] ?? yourSection.en;
 | `Team` | Member cards with skills, AI badge | `title`, `subtitle`, `locale` |
 | `Solutions` | Sticky card stack (zeitmedia style) | `title`, `locale` |
 | `Contact` | Terminal form + LLM chat (3 turns) | `title`, `locale` |
-| `ScrollShowcase` | WebGL scroll narrative (home only) | — |
+| `HeroVision` | Home hero — fades out as `scrollP` → 1 | `locale`, `scrollP`, `className` |
+| `PhilosophyGrid` | Home "how we ship" 3-step + CTA card | `locale`, `className` |
+| `WorksSolutionsGrid` | Home services 3-col grid | `locale`, `className` |
+| `AboutNetwork` | Home "human/machine" glass statement card | `locale`, `className` |
+| `ContactActionCenter` | Home closing CTA + social/network grid | `locale`, `className` |
 | `Showreel` | Video modal | `videoUrl`, `onClose` |
 | `Loader` | Top progress bar | `progress` 0–1, `done` boolean |
 

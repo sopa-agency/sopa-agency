@@ -13,7 +13,11 @@ import WebGL from "@/components/WebGL";
 import Showreel from "@/components/Showreel";
 import WorkDetail from "@/components/WorkDetail";
 import Loader from "@/components/Loader";
-import ScrollShowcase from "@/components/ScrollShowcase";
+import HeroVision from "@/components/HeroVision";
+import PhilosophyGrid from "@/components/PhilosophyGrid";
+import WorksSolutionsGrid from "@/components/WorksSolutionsGrid";
+import AboutNetwork from "@/components/AboutNetwork";
+import ContactActionCenter from "@/components/ContactActionCenter";
 import { site } from "@/data/site";
 import { workItems, work, workCategories, type WorkItem, type WorkCategory } from "@/data/work";
 import { team } from "@/data/team";
@@ -93,7 +97,8 @@ export default function LayoutClient({
 
   useEffect(() => {
     if (section !== 'home') return;
-    const onScroll = () => setScrollP(Math.min(1, window.scrollY / (window.innerHeight * 1.2)));
+    // fully open by one viewport of scroll — matches HeroVision's own h-screen height
+    const onScroll = () => setScrollP(Math.min(1, window.scrollY / window.innerHeight));
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
@@ -114,7 +119,6 @@ export default function LayoutClient({
   }, []);
 
   const l = locale as keyof typeof site;
-  const t = site[l] ?? site.en;
   const ex = EXTRA[l] ?? EXTRA.en;
 
   const navigate = (s: Section) => {
@@ -195,49 +199,15 @@ export default function LayoutClient({
       <Analytics section={section} />
       <Header locale={locale} section={section} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} onNavigate={navigate} />
 
-      {/* Hero content overlay — only on home, over orb */}
-      {section === 'home' && (
-        <div
-          className="fixed inset-0 z-10 flex flex-col items-center justify-center min-h-screen text-center px-6 pointer-events-none transition-opacity duration-700"
-          style={{ opacity: 1 - scrollP }}
-        >
-          <div className="page-anim font-futura pointer-events-auto max-w-5xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-amber-300/30 bg-amber-300/10 px-4 py-2 font-mono text-xs text-amber-200 backdrop-blur-sm">
-              <span>Web</span>
-              <span className="opacity-40">·</span>
-              <span>AI</span>
-              <span className="opacity-40">·</span>
-              <span>Base</span>
-            </div>
-            <h1
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-white leading-[0.9] mb-6"
-              style={{ textShadow: '0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)' }}
-            >
-              {t.title}
-            </h1>
-            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-white/95 mb-4 tracking-tight"
-              style={{ textShadow: '0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)' }}
-            >
-              {t.tagline}
-            </p>
-            <p className="text-sm sm:text-base md:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"
-              style={{ textShadow: '0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)' }}
-            >
-              {t.description}
-            </p>
-            <span className="mt-12 inline-block text-xs opacity-40 animate-pulse pointer-events-auto">↓</span>
-          </div>
-        </div>
-      )}
-
       <main className="relative z-20 flex-grow text-white pt-16">
         {children}
         {section === 'home' && (
           <>
-            <ScrollShowcase />
-            <div className="relative z-[20]">
-              <CTA locale={locale} />
-            </div>
+            <HeroVision locale={locale} scrollP={scrollP} />
+            <PhilosophyGrid locale={locale} />
+            <WorksSolutionsGrid locale={locale} />
+            <AboutNetwork locale={locale} />
+            <ContactActionCenter locale={locale} />
           </>
         )}
         <div key={section}>
