@@ -3,7 +3,7 @@
 // menu clicks swap sections client-side behind the bar wipe.
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,7 +13,11 @@ import WebGL from "@/components/WebGL";
 import Showreel from "@/components/Showreel";
 import WorkDetail from "@/components/WorkDetail";
 import Loader from "@/components/Loader";
-import ScrollShowcase from "@/components/ScrollShowcase";
+import HeroVision from "@/components/HeroVision";
+import PhilosophyGrid from "@/components/PhilosophyGrid";
+import WorksSolutionsGrid from "@/components/WorksSolutionsGrid";
+import AboutNetwork from "@/components/AboutNetwork";
+import ContactActionCenter from "@/components/ContactActionCenter";
 import { site } from "@/data/site";
 import { workItems, work, workCategories, type WorkItem, type WorkCategory } from "@/data/work";
 import { team } from "@/data/team";
@@ -90,7 +94,14 @@ export default function LayoutClient({
 
   useEffect(() => {
     if (section !== 'home') return;
-    const onScroll = () => setScrollP(Math.min(1, window.scrollY / (window.innerHeight * 1.2)));
+    const onScroll = () => {
+      const scrollP = Math.min(1, window.scrollY / window.innerHeight);
+      setScrollP(scrollP);
+      if (window.scrollY >= (document.documentElement.scrollHeight - window.innerHeight)) {
+        window.scrollTo({ top: 0 });
+        setScrollP(0);
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
@@ -114,7 +125,7 @@ export default function LayoutClient({
   const t = site[l] ?? site.en;
   const ex = EXTRA[l] ?? EXTRA.en;
 
-  const navigate = (s: Section) => {
+  const navigate = useCallback((s: Section) => {
     if (s === section) {
       // already there — just go back to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -127,7 +138,7 @@ export default function LayoutClient({
       const url = s === 'home' ? `/${locale}` : `/${locale}/${s}`;
       window.history.pushState(null, '', url);
     });
-  };
+  }, [section, locale, withWipe]);
 
   // cross-component navigation (Contact page CTA cards)
   useEffect(() => {
@@ -180,41 +191,6 @@ export default function LayoutClient({
       <Analytics section={section} />
       <Header locale={locale} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} onNavigate={navigate} />
 
-      {/* Hero content overlay — only on home, over orb */}
-      {section === 'home' && (
-        <div
-          className="fixed inset-0 z-10 flex flex-col items-center justify-center min-h-screen text-center px-6 pointer-events-none transition-opacity duration-700"
-          style={{ opacity: 1 - scrollP }}
-        >
-          <div className="page-anim font-futura pointer-events-auto max-w-5xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-amber-300/30 bg-amber-300/10 px-4 py-2 font-mono text-xs text-amber-200 backdrop-blur-sm">
-              <span>Web</span>
-              <span className="opacity-40">·</span>
-              <span>AI</span>
-              <span className="opacity-40">·</span>
-              <span>Base</span>
-            </div>
-            <h1
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-white leading-[0.9] mb-6"
-              style={{ textShadow: '0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)' }}
-            >
-              {t.title}
-            </h1>
-            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-white/95 mb-4 tracking-tight"
-              style={{ textShadow: '0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)' }}
-            >
-              {t.tagline}
-            </p>
-            <p className="text-sm sm:text-base md:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"
-              style={{ textShadow: '0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)' }}
-            >
-              {t.description}
-            </p>
-            <span className="mt-12 inline-block text-xs opacity-40 animate-pulse pointer-events-auto">↓</span>
-          </div>
-        </div>
-      )}
-
       <main className="relative z-20 flex-grow text-white pt-16">
         {children}
         {/* ghost watermark title behind content — slides up with page-anim */}
@@ -224,12 +200,14 @@ export default function LayoutClient({
           </div>
         )}
         {section === 'home' && (
-          <>
-            <ScrollShowcase />
-            <div className="relative z-[20]">
-              <CTA locale={locale} />
-            </div>
-          </>
+          <div className="flex flex-col h-[calc(100vh*6)] snap-y snap-mandatory overflow-y-auto scroll-smooth">
+            <HeroVision locale={locale} scrollP={scrollP} className="h-screen snap-start" />
+            <PhilosophyGrid locale={locale} className="min-h-screen snap-start" />
+            <WorksSolutionsGrid className="h-screen snap-start" />
+            <AboutNetwork locale={locale} className="h-screen snap-start" />
+            <ContactActionCenter locale={locale} className="h-screen snap-start" />
+            {/* ponytail: gap session so the last snap lands content centered, not pinned to bottom edge */}            <div className="h-screen snap-start" />
+          </div>
         )}
         <div key={section}>
           {section === 'work' && (
@@ -381,8 +359,9 @@ export default function LayoutClient({
         </div>
       </main>
 
-      {/* Footer: normal flow — appears naturally after content when scrolled */}
-      <Footer locale={locale} />
+      {section !== 'home' && (
+        <Footer locale={locale} />
+      )}
 
       <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} locale={locale} onNavigate={navigate} />
       <TransitionOverlay hidden={!isHome} />
