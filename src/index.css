@@ -1,0 +1,233 @@
+/* `source(none)` desliga a detecção automática: por padrão o Tailwind varre o
+   projeto inteiro e pesca nomes de classe citados na documentação (README,
+   CLAUDE.md), injetando CSS morto no build. Aqui só o código é varrido. */
+@import "tailwindcss" source(none);
+
+/* Fontes servidas pelo próprio domínio (Fontsource) — sem CDN de terceiro.
+   Cada família traz um @font-face por subset com `unicode-range`, então o
+   navegador baixa só o latino: os outros ficam no dist sem nunca ser pedidos. */
+@import "@fontsource-variable/bricolage-grotesque/wght.css";
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource/instrument-serif/latin-400.css";
+@import "@fontsource/instrument-serif/latin-400-italic.css";
+
+@source "../index.html";
+@source "../src";
+
+@theme {
+  --color-hero-top: #2a2d2f;
+  --color-hero-mid: #242729;
+  --color-hero-bot: #212425;
+  --color-frame: #000000;
+  --color-ink: #e9e7e4;
+  --color-ink-bright: #f2f0ee;
+  --color-surface: #0c0d0e;
+  --color-surface-raised: #17181a;
+  --color-card: #131416;
+  --color-card-panel: #0e0f11;
+
+  /* acentos por card na seção de serviços */
+  --color-accent-warm: #f0863c;
+  --color-accent-cool: #4f9bf0;
+  --color-accent-mint: #74d6b4;
+
+  /* segunda linha do H1: escura o bastante para virar recorte quando o feixe
+     passa por trás, com croma suficiente para não ler como preto sujo */
+  --color-wine: #5e1a2e;
+
+  /* contorno da palavra gigante do footer */
+  --color-stroke: rgba(225, 222, 218, 0.3);
+  --color-stroke-glow: rgba(225, 222, 218, 0.75);
+
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* títulos de seção e o H1 do hero */
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  /* título e palavra gigante do rodapé */
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  /* narrativa do hero: serifa de texto, não de display — é o único bloco
+     longo do site e precisa aguentar leitura corrida em corpo pequeno */
+  --font-reading: Georgia, "Times New Roman", serif;
+  /* corpo, botões e rótulos */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* varredura de luz que atravessa o H1 do hero */
+  --animate-shine: shine 9s linear infinite;
+
+  @keyframes shine {
+    from {
+      background-position: 190% 0;
+    }
+    to {
+      background-position: -90% 0;
+    }
+  }
+
+  /* fio pontilhado da dica de scroll, subindo — o mesmo sentido do gesto que
+     o texto pede, e do conteúdo que vem de baixo */
+  --animate-dot-drift: dot-drift 1.8s linear infinite;
+
+  @keyframes dot-drift {
+    from {
+      background-position: center 7px;
+    }
+    to {
+      background-position: center 0;
+    }
+  }
+
+  /* pulso lento da cópia que "acende" a palavra do footer */
+  --animate-breathe: breathe 7s ease-in-out infinite;
+
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-frame);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Utilitários próprios via `@utility` — assim aceitam variantes (md:, hover:…). */
+
+/* Altura da janela como ela está AGORA, com a barra do navegador ocupando o
+   que ocupa. `100vh` no celular mede a tela sem a barra e não muda nunca, mas
+   o `useHeroScroll` faz a conta com `window.innerHeight`, que é o valor
+   dinâmico — com os dois discordando, o card nascia mais alto que a tela e o
+   texto passava fora do centro. `dvh` é o mesmo número que o JS lê.
+   O `vh` fica de reserva para navegador sem `dvh` — o minificador descarta a
+   linha sozinho quando todos os alvos do build já suportam a unidade. */
+@utility h-viewport {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* Mesma medida, como piso: a seção ocupa a tela inteira e cresce se o conteúdo
+   pedir. É o que faz o rodapé fechar a página como uma cena, não como sobra. */
+@utility min-h-viewport {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Facho de luz atravessando um título — para ser usado numa CÓPIA do texto,
+   sobreposta ao original.
+
+   O texto recorta um degradê que é transparente nas pontas e branco no meio
+   (`background-clip: text`), então a cópia só pinta onde o facho está passando
+   e deixa ver o texto de verdade por baixo no resto do tempo. Como é uma
+   camada só cobrindo o bloco inteiro, o facho é UM, com uma inclinação só,
+   cruzando todas as linhas no mesmo instante — aplicado linha a linha, cada
+   uma ganhava a sua luz, com o ângulo recomeçando dentro de cada caixa.
+
+   A cor original fica onde está: quem está por baixo é o próprio título, então
+   nada apaga, nada muda de tom, e com movimento reduzido a cópia some.
+
+   O facho é estreito e tem franja quente de um lado e fria do outro. Sobre a
+   letra clara, branco em cima de quase-branco não teria para onde subir — quem
+   se vê é a cor passando, não o brilho. É a mesma aberração cromática que o
+   shader do feixe faz logo atrás, então a luz que atravessa as letras é lida
+   como sendo a de lá.
+
+   Cada linha do título recebe a sua camada, sempre do tamanho do bloco inteiro:
+   é o que mantém a inclinação e o trajeto iguais entre elas. O que muda de uma
+   para a outra é o atraso — daí a luz varrer uma e depois a outra — e a
+   opacidade, porque o mesmo branco que quase não aparece sobre letra clara
+   salta sobre letra escura e roubaria a cena. */
+@utility text-shine {
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 43%,
+    rgba(255, 188, 130, 0.5) 47.5%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(150, 200, 255, 0.5) 52.5%,
+    rgba(255, 255, 255, 0) 57%
+  );
+  background-size: 280% 100%;
+  background-position: 190% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 9s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    background-image: none;
+    animation: none;
+  }
+}
+
+/* Véu escuro atrás de um bloco de texto, para ele aguentar o feixe de luz
+   passando por trás sem perder contraste.
+
+   É um retângulo cheio, arredondado e desfocado — não um gradiente radial. A
+   elipse perdia força justamente onde o texto mais precisa: no fim das linhas
+   e na primeira e na última, que caem perto da borda do gradiente e recebiam
+   quase nada. Assim o miolo tem opacidade constante sob todo o texto e só as
+   beiradas se dissolvem, sem aresta para o olho pegar. Fica no ::before. */
+@utility text-halo {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1rem -1.5rem;
+    z-index: -1;
+    border-radius: 1.75rem;
+    background: rgba(0, 0, 0, 0.62);
+    filter: blur(20px);
+  }
+}
+
+/* Fio de pontos na vertical, subindo devagar — a direção é a dica. Herda a cor
+   de quem o usa, então basta um `text-*` para calibrar. */
+@utility line-dots {
+  background-image: radial-gradient(circle at center, currentColor 1px, transparent 1.2px);
+  background-size: 3px 7px;
+  background-repeat: repeat-y;
+  animation: dot-drift 1.8s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Hachura diagonal dos tiles vazios da grade de stack. */
+@utility bg-hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.045) 0 1px,
+    transparent 1px 7px
+  );
+}
+
+/* Máscara radial do campo de hexágonos: nítido no centro, some nas bordas. */
+@utility mask-shapes-field {
+  -webkit-mask-image: radial-gradient(
+    closest-side,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.6) 42%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    closest-side,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.6) 42%,
+    transparent 72%
+  );
+}
