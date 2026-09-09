@@ -15,7 +15,13 @@
     <link rel="canonical" href="https://sopa.team/" />
 
     <!-- Preview de link (WhatsApp, LinkedIn, Slack). Esses robôs não executam
-         JavaScript: o que eles mostram sai daqui, não da página renderizada. -->
+         JavaScript: o que eles mostram sai daqui, não da página renderizada.
+
+         A imagem é um print da home — a palavra, o feixe e as estrelas, sem o
+         resto da interface. JPEG e não PNG: o mesmo quadro em PNG dá 428 KB, e
+         o WhatsApp costuma desistir do preview acima de uns 300 KB. Aqui são
+         75 KB, e num quadro que é quase todo degradê escuro o JPEG não deixa
+         banda visível — o grão do shader ajuda. Para refazer, ver o README. -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SOPA" />
     <meta property="og:locale" content="pt_BR" />
@@ -25,9 +31,10 @@
       property="og:description"
       content="Estratégia, design, marketing e engenharia na mesma panela. Da ideia a algo testável em poucas horas, e no ar no mesmo dia."
     />
-    <meta property="og:image" content="https://sopa.team/og.png" />
+    <meta property="og:image" content="https://sopa.team/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:alt" content="SOPA — agência de criação e tecnologia" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -38,7 +45,7 @@
         "name": "SOPA",
         "alternateName": "Sopa Agency",
         "url": "https://sopa.team/",
-        "logo": "https://sopa.team/og.png",
+        "logo": "https://sopa.team/og.jpg",
         "description": "Agência de criação e tecnologia: estratégia, design, marketing e engenharia na mesma equipe.",
         "areaServed": "Worldwide",
         "sameAs": [

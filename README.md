@@ -249,6 +249,7 @@ description, o Open Graph e o JSON-LD são escritos à mão no `index.html`. Os
 robôs de preview de link não executam JavaScript, então o que aparece no
 WhatsApp e no LinkedIn sai de lá.
 
+
 ## Tema
 
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
