@@ -68,7 +68,7 @@ src/
 │   │   ├── LightBeam.tsx     # feixe de luz (shader WebGL2)
 │   │   ├── beamShaders.ts    # vertex e fragment do feixe
 │   │   ├── Starfield.tsx     # poeira de estrelas piscando (canvas 2D)
-│   │   └── HeroStory.tsx     # narrativa que atravessa o card
+│   │   └── HeroStory.tsx     # narrativa em terminal que atravessa o card
 │   └── services/
 │       ├── WorkGrid.tsx      # trabalhos no ar, o vídeo toca no lugar do print
 │       └── ProcessSteps.tsx  # como um contrato de automação começa
@@ -115,7 +115,8 @@ Cinco camadas empilhadas dentro de um card, de baixo para cima:
    a dispersão de prisma varre offsets verticais coloridos, e camadas de névoa
    tingem o fundo de quente (esquerda) a frio (direita)
 4. **bloco central** — a palavra gigante e, pendurados nela, os botões
-5. **HeroStory** — a narrativa que atravessa o card
+5. **HeroStory** — a narrativa que atravessa o card, no registro de terminal
+   do bloco do canto (ver abaixo)
 
 Os dois canvas são medidos pela **viewport**, não pelo card: o padding do card
 cresce a cada frame enquanto se rola, e um canvas que acompanhasse esse tamanho
@@ -140,16 +141,42 @@ posição de scroll dentro do track do hero:
 | feixe se abre | 0 → 14% | `beamRef` (0→1) rasga o feixe ao meio (ver abaixo) |
 | palavra some | 10 → 22% | `--hw` (1→0), depois da moldura: entre as duas sobra um instante com a marca sozinha no card |
 | narrativa passa | 4 → 94% | o bloco de texto sobe de baixo para cima |
-| spotlight | — | cada parágrafo acende ao se aproximar do centro da viewport e apaga ao sair |
+| leitura | — | cada **linha** surge apagada no pé do card, é acesa por um facho da esquerda para a direita na altura do olho e vai apagando ao sair por cima |
 
 #### O ritmo, e por que estes números
 
-A faixa do spotlight é **assimétrica**: 0,58 de viewport para quem ainda sobe de
-baixo, 0,32 para quem já passou. Simétrica, existia um trecho em que a palavra
-gigante já tinha sumido e o primeiro parágrafo ainda não acendera — o card
-ficava vazio, e card vazio no meio de um scroll longo lê como fim de página: a
-pessoa para de rolar. Com a entrada mais longa que a saída, sempre há um canto
-de texto brilhando no pé do card dizendo que ainda vem coisa.
+A narrativa é uma **saída de terminal** — `//` abrindo cada trecho,
+monoespaçada no corpo, quebras de linha à mão — e a unidade do efeito é a
+**linha**, não o parágrafo. O hook mede uma por uma e escreve nelas `--typed`
+(0 → 1) e a opacidade.
+
+São três faixas, e elas fazem coisas diferentes de propósito:
+
+| faixa | altura da janela | o que faz |
+|---|---|---|
+| `APPEAR` | 0,98 → 0,72 | a linha surge, **apagada**, ainda no pé do card |
+| `WIPE` | 0,60 → 0,55 | o facho a acende da esquerda para a direita, com o cursor na ponta |
+| `FADE` | 0,30 → 0,06 | vai apagando ao sair por cima, até `READ_DIM` — não até zero |
+
+A separação entre `APPEAR` e `WIPE` é o que faz o efeito funcionar. A primeira
+versão cortava a linha com `clip-path`, então ela só nascia quando o facho a
+alcançava; para o card não ficar vazio embaixo, o facho tinha que ser largo, e
+largo ele pegava cinco linhas ao mesmo tempo — cinco cursores piscando, o que
+terminal nenhum faz. Com as linhas já presentes em cinza, o facho pode ser
+estreito e sobra um cursor. Card vazio no meio de um scroll longo lê como fim de
+página, e a pessoa para de rolar; é por isso que `APPEAR` começa quase no pé da
+tela.
+
+O que já foi lido não some: fica em `READ_DIM`, como scrollback. Sai da tela
+porque rolou, não porque apagou.
+
+> **As quebras de linha em `content.ts` são estruturais.** Cada string é uma
+> linha de verdade na tela — é ela que o facho atravessa e é ela que acende e
+> apaga. Por isso o corpo é dimensionado em `ch`, para a linha mais longa (46
+> caracteres) nunca refluir: refluindo, o facho valeria para duas fileiras ao
+> mesmo tempo. Mexer na copy é mexer nas quebras, e quebrar em fim de oração,
+> nunca no meio de um sintagma — a linha é lida sozinha, iluminada, com as
+> vizinhas apagadas.
 
 O mesmo defeito existia na outra ponta, e por isso `CURTAIN` caiu de 1 tela para
 0,4 e `HOLD` de 0,3 para 0,1. O hero fica **imóvel** durante a cortina; uma tela
@@ -249,23 +276,55 @@ description, o Open Graph e o JSON-LD são escritos à mão no `index.html`. Os
 robôs de preview de link não executam JavaScript, então o que aparece no
 WhatsApp e no LinkedIn sai de lá.
 
+### A imagem de preview
+
+`public/og.jpg` é um **print da home de verdade**, não uma arte à parte: a
+palavra, o feixe e as estrelas, sem o resto da interface. Refazer, quando o hero
+mudar:
+
+1. `pnpm build && pnpm preview`
+2. Abrir em **1200×630** com `deviceScaleFactor: 2` — o dobro e depois reduzir
+   dá antisserrilhado melhor do que capturar direto no tamanho final.
+3. Esconder o que não entra: o botão do menu (`button[aria-controls="menu"]`),
+   o `#menu`, e, dentro de `#topo section`, tudo que não seja canvas nem
+   contenha o `h1`. Vale ir pela estrutura e não por classe: as classes do
+   Tailwind mudam a cada ajuste de layout, o esqueleto (dois canvas de fundo
+   mais o `h1` no meio) não.
+4. Forçar `font-size: 33vw` na palavra. Ela é dimensionada por
+   `min(36vw, 30vh)`, e num quadro 1200×630 quem manda é o `vh`: sairia com
+   189px, pequena demais para uma miniatura de link.
+5. Esperar uns 7s antes do disparo — o canvas do feixe entra com fade de 1,8s, e
+   a linha central oscila devagar; o quadro bonito não é o primeiro.
+6. Reduzir para 1200×630 e salvar como **JPEG**, não PNG.
+
+> **Por que JPEG.** O mesmo quadro em PNG dá 428 KB, e o WhatsApp costuma
+> desistir do preview acima de uns 300 KB. Em JPEG são 75 KB, e num quadro que é
+> quase todo degradê escuro não aparece banda — o grão que o shader já joga por
+> cima é o que segura isso. Trocar de volta para PNG custa o preview no lugar
+> onde ele mais é usado.
 
 ## Tema
 
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
 
-- **cores** — `hero-top/mid/bot` (gradiente do card), `frame` (preto do fundo),
+- **cores** — `hero-top/mid/bot` (gradiente do card, escurecido para a
+  narrativa se sustentar sem véu atrás), `frame` (preto do fundo),
   `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card`
   (fundos), `accent-warm` / `accent-cool` / `accent-mint`
   (acentos por seção), `stroke` / `stroke-glow` (contorno da palavra do hero)
 - **fontes** — `sans` (Geist) no corpo, `display` (Bricolage Grotesque) e
   `serif` (Instrument Serif) nos títulos, `mono` nos rótulos
-- **animação** — `animate-breathe` (pulso da palavra do hero),
-  `animate-shine`, `animate-dot-drift`
+- **animação** — `animate-breathe` (pulso da palavra do hero), `animate-caret`
+  (piscar do cursor da narrativa), `animate-shine`, `animate-dot-drift`
 
 Os utilitários próprios ficam fora do `@theme`, declarados com `@utility` para
-que aceitem variantes (`md:text-halo`): `bg-hatch`, `text-shine`, `text-halo`,
-`line-dots`, `h-viewport` / `min-h-viewport`.
+que aceitem variantes (`md:line-dots`): `bg-hatch`, `text-shine`,
+`line-reading`, `line-dots`, `h-viewport` / `min-h-viewport`.
+
+O `text-halo` — um véu desfocado atrás da narrativa — foi embora junto com o
+escurecimento do card. Ele existia por causa do feixe de luz passando por trás
+do texto, e o feixe hoje já se abriu e saiu bem antes de a narrativa chegar: o
+que sobrava dele era um borrão sem motivo.
 
 ## Estado atual
 

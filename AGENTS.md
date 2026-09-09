@@ -54,6 +54,13 @@ de tradução nem estruture conteúdo por locale — a copy é uma string só.
 `services`, `faq`, `footer`). Componentes não têm texto embutido — para mudar
 qualquer palavra do site, mexa só nesse arquivo.
 
+**As quebras de `hero.story` são estruturais.** Cada string ali é uma linha de
+verdade na tela: é ela que o facho de leitura atravessa, e é ela que acende e
+apaga. O corpo é dimensionado em `ch` para a mais longa (46 caracteres) nunca
+refluir — refluindo, o facho passa a valer para duas fileiras ao mesmo tempo.
+Mexeu na copy, refaça as quebras, e quebre em fim de oração: a linha é lida
+sozinha, iluminada, com as vizinhas apagadas.
+
 **O tema vive no `@theme` de `src/index.css`**, não há `tailwind.config`. Cores,
 fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
 `@layer utilities`), senão não aceitam variantes como `md:`.

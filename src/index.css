@@ -15,9 +15,15 @@
 @source "../src";
 
 @theme {
-  --color-hero-top: #2a2d2f;
-  --color-hero-mid: #242729;
-  --color-hero-bot: #212425;
+  /* Degradê do card. Escureceu: a narrativa que atravessa o card é o bloco de
+     texto mais longo do site, e num cinza mais claro ela só se sustentava com
+     um véu desfocado atrás. O véu existia por causa do feixe passando por trás
+     do texto — e o feixe hoje já se abriu e saiu bem antes de a narrativa
+     chegar, então o que sobrava dele era um borrão sem motivo. Escurecendo o
+     fundo, o texto se vira sozinho e o véu foi embora. */
+  --color-hero-top: #212426;
+  --color-hero-mid: #1b1e20;
+  --color-hero-bot: #17191b;
   --color-frame: #000000;
   --color-ink: #e9e7e4;
   --color-ink-bright: #f2f0ee;
@@ -41,9 +47,6 @@
   --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
   /* a palavra gigante do hero, os títulos do rodapé e dos cards */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  /* narrativa do hero: serifa de texto, não de display — é o único bloco
-     longo do site e precisa aguentar leitura corrida em corpo pequeno */
-  --font-reading: Georgia, "Times New Roman", serif;
   /* corpo, botões e rótulos */
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
@@ -69,6 +72,21 @@
     }
     to {
       background-position: center 0;
+    }
+  }
+
+  /* piscar do cursor da narrativa. `step-end` porque cursor de terminal não
+     tem meio-termo: ou está aceso ou não está */
+  --animate-caret: caret 1.1s step-end infinite;
+
+  @keyframes caret {
+    0%,
+    55% {
+      opacity: 1;
+    }
+    56%,
+    100% {
+      opacity: 0;
     }
   }
 
@@ -163,26 +181,44 @@
   }
 }
 
-/* Véu escuro atrás de um bloco de texto, para ele aguentar o feixe de luz
-   passando por trás sem perder contraste.
+/* Linha de terminal atravessada por um facho de leitura. `--typed` (0 → 1) é
+   escrito pelo `useHeroScroll`, linha a linha, a cada frame.
 
-   É um retângulo cheio, arredondado e desfocado — não um gradiente radial. A
-   elipse perdia força justamente onde o texto mais precisa: no fim das linhas
-   e na primeira e na última, que caem perto da borda do gradiente e recebiam
-   quase nada. Assim o miolo tem opacidade constante sob todo o texto e só as
-   beiradas se dissolvem, sem aresta para o olho pegar. Fica no ::before. */
-@utility text-halo {
-  position: relative;
-  isolation: isolate;
+   A linha existe inteira o tempo todo; o que muda é a COR, num degradê de dois
+   tons recortado pelo texto: aceso atrás do facho, apagado à frente dele. Não
+   é recorte de verdade — a primeira versão cortava a linha com `clip-path`, e
+   aí a linha só nascia quando o facho a alcançava. Para o card não ficar vazio
+   embaixo, o facho tinha que ser largo, e largo ele pegava cinco linhas ao
+   mesmo tempo: cinco cursores piscando, o que terminal nenhum faz. Com as
+   linhas já presentes em cinza, o facho pode ser estreito, e sobra um cursor.
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -1rem -1.5rem;
-    z-index: -1;
-    border-radius: 1.75rem;
-    background: rgba(0, 0, 0, 0.62);
-    filter: blur(20px);
+   `1.5ch` de transição: a borda tem que ser curta o bastante para ler como
+   cursor passando, e longa o bastante para não serrilhar dentro de um glifo.
+
+   Repare que a rampa fica ATRÁS da borda, e que o percurso é `100% + 1.5ch` e
+   não `100%`. Com a rampa à frente — que é o jeito ingênuo de escrever isto —
+   em `--typed: 0` ela pousa na coluna zero e acende o primeiro caractere e meio
+   de TODA linha, inclusive as que ninguém leu ainda: o texto inteiro ganhava
+   uma borda clara na lateral esquerda. Jogando a rampa para trás e alongando o
+   percurso, os dois extremos fecham certo — em 0 a linha é toda apagada, em 1 é
+   toda acesa.
+
+   Com movimento reduzido, a linha inteira acende — quem continua conduzindo a
+   leitura é a opacidade, que o hook escreve de qualquer jeito. */
+@utility line-reading {
+  background-image: linear-gradient(
+    90deg,
+    var(--ink-on) 0,
+    var(--ink-on) calc(var(--typed, 1) * (100% + 1.5ch) - 1.5ch),
+    var(--ink-off) calc(var(--typed, 1) * (100% + 1.5ch))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  @media (prefers-reduced-motion: reduce) {
+    background-image: none;
+    color: var(--ink-on);
   }
 }
 

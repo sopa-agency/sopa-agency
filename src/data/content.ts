@@ -88,26 +88,63 @@ export const hero = {
   /** Dica no pé do hero: some junto com o resto do bloco inicial. */
   scrollHint: 'Arraste para cima',
   /**
-   * Texto que atravessa o card enquanto o hero fica preso na viewport.
-   * Cada parágrafo é um bloco que acende sozinho ao passar pelo centro da
-   * tela — mexer na quantidade muda o ritmo da leitura e pede um ajuste na
+   * Texto que atravessa o card enquanto o hero fica preso na viewport, no
+   * mesmo registro de terminal do bloco do canto: comentário com `//` abrindo
+   * cada trecho, corpo em monoespaçada.
+   *
+   * **As quebras de linha são à mão, e são estruturais.** Cada string é uma
+   * linha de verdade na tela: é ela que se imprime da esquerda para a direita
+   * enquanto se rola, e é ela a unidade que acende e apaga. Reflow automático
+   * quebraria o efeito no meio — por isso o corpo é dimensionado para a linha
+   * mais longa caber sempre, e por isso mexer na copy é mexer nas quebras.
+   *
+   * Quebre em fim de oração, nunca no meio de um sintagma: a linha é lida
+   * sozinha, iluminada, enquanto as vizinhas estão apagadas.
+   *
+   * Mexer na quantidade de linhas muda o ritmo da leitura e pede um ajuste na
    * altura do track em `Hero.tsx`.
    *
    * Sem CTA no fim: o botão ficava a uma tela dos serviços, que já pedem
    * contato. Ver a nota de CTAs no topo do arquivo.
    */
   story: {
-    paragraphs: [
-      'A SOPA é uma agência de criação e tecnologia que atende dentro e fora do ' +
-        'Brasil. Estratégia, design, marketing e engenharia na mesma equipe, para ' +
-        'transformar ideia em produto de verdade — rápido.',
-      'Gostamos de mostrar antes de explicar. Quase sempre o primeiro contato já ' +
-        'chega com um preview ou uma demo funcionando.',
-      'Sites, marcas, imagens, automações e sistemas sob medida, para quem está ' +
-        'começando e para quem já está rodando. Equipe enxuta e ferramenta de ponta: ' +
-        'da ideia a algo testável em poucas horas, e muitos projetos entregues no ' +
-        'mesmo dia.',
-      'Menos reunião sobre o que poderia ser feito. Mais coisa pronta para experimentar.',
+    blocks: [
+      {
+        tag: '// quem',
+        lines: [
+          'A SOPA é uma agência de criação e tecnologia',
+          'que atende dentro e fora do Brasil.',
+          'Estratégia, design, marketing e engenharia',
+          'na mesma equipe, para transformar ideia',
+          'em produto de verdade — rápido.',
+        ],
+      },
+      {
+        tag: '// como',
+        lines: [
+          'Gostamos de mostrar antes de explicar.',
+          'Quase sempre o primeiro contato já chega',
+          'com um preview ou uma demo funcionando.',
+        ],
+      },
+      {
+        tag: '// o que',
+        lines: [
+          'Sites, marcas, imagens, automações e sistemas',
+          'sob medida — para quem está começando',
+          'e para quem já está rodando.',
+          'Equipe enxuta e ferramenta de ponta:',
+          'da ideia a algo testável em poucas horas,',
+          'e muitos projetos entregues no mesmo dia.',
+        ],
+      },
+      {
+        tag: '// no fim',
+        lines: [
+          'Menos reunião sobre o que poderia ser feito.',
+          'Mais coisa pronta para experimentar.',
+        ],
+      },
     ],
   },
 }

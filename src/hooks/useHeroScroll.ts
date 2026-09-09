@@ -31,18 +31,28 @@ const BEAM_OPEN = { start: 0, length: 0.14 }
 /** Trecho em que o texto atravessa o card. */
 const STORY = { start: 0.04, length: 0.9 }
 /**
- * Faixa central em que um bloco fica aceso, em fração da viewport — e ela é
- * ASSIMÉTRICA de propósito: quem ainda sobe de baixo começa a acender bem antes
- * de chegar ao centro, quem já passou apaga rápido.
+ * A zona de leitura, em frações da altura da janela — 0 no topo, 1 no pé. São
+ * três faixas, e elas fazem coisas diferentes de propósito.
  *
- * Simétrica, sobrava um trecho em que a palavra gigante já tinha sumido e o
- * primeiro parágrafo ainda não acendera. O card ficava vazio, e card vazio no
- * meio de um scroll longo lê como fim de página — a pessoa para de rolar. Com a
- * entrada mais longa que a saída, sempre há um canto de texto brilhando no pé
- * do card dizendo que ainda vem coisa.
+ * `APPEAR` é larga: a linha surge, apagada, ainda lá embaixo. É o que impede o
+ * pé do card de ficar vazio — card vazio no meio de um scroll longo lê como fim
+ * de página, e a pessoa para de rolar.
+ *
+ * `WIPE` é estreita: é o facho que acende a linha da esquerda para a direita,
+ * na altura em que se lê. Estreita porque o cursor mora na ponta do facho, e
+ * numa faixa larga cinco linhas estariam sendo varridas ao mesmo tempo — cinco
+ * cursores piscando, o que terminal nenhum faz.
+ *
+ * `FADE` é a saída: da altura do olho para cima a linha vai apagando até
+ * `READ_DIM`, e não até zero. O que já foi lido continua ali, fraco, como
+ * scrollback — some porque sai da tela, não porque apagou.
  */
-const SPOTLIGHT_IN = 0.58
-const SPOTLIGHT_OUT = 0.32
+const APPEAR = { start: 0.98, end: 0.72 }
+const WIPE = { start: 0.6, end: 0.55 }
+const FADE = { start: 0.06, end: 0.30 }
+const READ_DIM = 0.14
+/** Onde a última linha assenta quando o progresso chega a 1. */
+const LAST_LINE_AT = 0.44
 /**
  * Telas do fim do track em que o hero fica PARADO enquanto a seção seguinte
  * sobe por cima dele. Ficam fora da conta do progresso, junto com o HOLD
@@ -86,8 +96,9 @@ const HOLD = 0.1
  *    valor viaja num ref que o `LightBeam` lê no loop dele.
  * 3. **texto atravessa** — o bloco de texto sobe de baixo para cima por
  *    dentro do card fixo; o feixe fica parado, daí o parallax.
- * 4. **spotlight** — cada bloco acende conforme se aproxima do centro da
- *    viewport e apaga ao se afastar.
+ * 4. **leitura** — cada LINHA surge apagada lá embaixo, é acesa da esquerda
+ *    para a direita por um facho na altura do olho, com o cursor na ponta
+ *    dele, e vai apagando ao sair por cima.
  *
  * Tudo é lido da posição de scroll a cada frame, então o efeito acompanha a
  * rolagem nos dois sentidos.
@@ -97,6 +108,9 @@ export function useHeroScroll() {
   const contentRef = useRef<HTMLDivElement>(null)
   const storyRef = useRef<HTMLDivElement>(null)
   const beamRef = useRef(0)
+  /** As linhas da narrativa, colhidas do DOM no primeiro frame: são sempre as
+   *  mesmas, e reconsultar o seletor a cada frame seria trabalho à toa. */
+  const lineCache = useRef<HTMLElement[] | null>(null)
 
   useEffect(() => {
     const track = trackRef.current
@@ -143,26 +157,47 @@ export function useHeroScroll() {
       // 3) texto atravessa o card
       const story = storyRef.current
       if (story) {
+        const lines =
+          lineCache.current ??
+          (lineCache.current = Array.from(story.querySelectorAll<HTMLElement>('[data-line]')))
+
         const storyProgress = clamp((progress - STORY.start) / STORY.length, 0, 1)
 
-        // A distância percorrida é calculada para que o ÚLTIMO parágrafo
-        // termine centralizado, e não passe direto por cima: sem isso o card
-        // fica vazio no fim do track.
-        const lastBlock = story.lastElementChild as HTMLElement | null
-        const travel = viewport * 0.5 + story.offsetHeight - (lastBlock?.offsetHeight ?? 0) / 2
+        // A distância percorrida é calculada para que a ÚLTIMA LINHA assente na
+        // altura de leitura, e não passe direto por cima: sem isso o card fica
+        // vazio no fim do track.
+        const last = lines[lines.length - 1]
+        const travel =
+          viewport * (1 - LAST_LINE_AT) + story.offsetHeight - (last?.offsetHeight ?? 0) / 2
         const y = viewport * 0.5 - storyProgress * travel
         story.style.transform = `translate(-50%, ${y.toFixed(1)}px)`
 
-        // 4) spotlight por bloco
-        const center = viewport * 0.5
-        for (const child of story.children) {
-          const block = child as HTMLElement
-          const box = block.getBoundingClientRect()
-          // positivo: o bloco ainda está abaixo do centro, subindo para ele
-          const offset = box.top + box.height / 2 - center
-          const band = viewport * (offset > 0 ? SPOTLIGHT_IN : SPOTLIGHT_OUT)
-          const nearness = clamp(1 - Math.abs(offset) / band, 0, 1)
-          block.style.opacity = easeOutCubic(nearness).toFixed(3)
+        // 4) impressão linha a linha
+        //
+        // Duas passadas, e não uma: escrever estilo entre duas leituras de
+        // `getBoundingClientRect` invalida o layout e faz o navegador recalcular
+        // tudo de novo a cada linha. Lendo todas antes de escrever qualquer
+        // uma, é um cálculo só para as vinte.
+        const centers = lines.map((el) => {
+          const box = el.getBoundingClientRect()
+          return (box.top + box.height / 2) / viewport
+        })
+
+        for (let i = 0; i < lines.length; i++) {
+          const yf = centers[i]
+          const appear = clamp((APPEAR.start - yf) / (APPEAR.start - APPEAR.end), 0, 1)
+          const typed = clamp((WIPE.start - yf) / (WIPE.start - WIPE.end), 0, 1)
+          const leaving = clamp((yf - FADE.start) / (FADE.end - FADE.start), 0, 1)
+          const line = lines[i]
+
+          line.style.setProperty('--typed', typed.toFixed(3))
+          line.style.opacity = (
+            appear *
+            (READ_DIM + (1 - READ_DIM) * easeOutCubic(leaving))
+          ).toFixed(3)
+          // o cursor só existe enquanto o facho está atravessando a linha:
+          // parado no fim de uma linha já acesa, ele viraria adorno
+          line.style.setProperty('--caret', typed > 0.004 && typed < 0.996 ? '1' : '0')
         }
       }
 
