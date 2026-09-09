@@ -30,6 +30,23 @@ pnpm preview    # serve o dist/ para conferir o build
 pnpm lint       # oxlint
 ```
 
+## Deploy
+
+Vercel. O `vercel.json` na raiz é o que aponta o framework:
+
+```json
+{ "framework": "vite", "buildCommand": "pnpm build", "outputDirectory": "dist" }
+```
+
+> **Não apague esse arquivo.** O projeto na Vercel foi criado quando este repo
+> era um app Next.js, e o preset de framework lá continua Next. Sem a chave
+> `framework`, o deploy instala as dependências sem reclamar e só então falha em
+> `No Next.js version detected`. As chaves do `vercel.json` têm precedência sobre
+> o painel, então o conserto fica versionado junto com o código.
+
+Sem rewrite de SPA de propósito: a página é uma só, e um fallback para o
+`index.html` faria qualquer URL errada responder 200 em vez de 404.
+
 ## Estrutura
 
 ```

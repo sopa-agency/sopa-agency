@@ -33,6 +33,15 @@ pnpm build   # tsc -b && vite build
 pnpm lint
 ```
 
+## Deploy
+
+Vercel, a partir do `vercel.json` — e ele precisa existir. O projeto na Vercel
+foi criado quando isto aqui era Next.js, e o preset de framework lá continua
+Next: sem o `"framework": "vite"` do arquivo, o build morre em
+`No Next.js version detected` depois de instalar tudo direitinho. As chaves do
+`vercel.json` têm precedência sobre as configurações do painel, então o conserto
+mora no repositório e não em quem apertar deploy. Não apague o arquivo.
+
 ## Idioma
 
 O site é **só português**. Não existe versão em inglês: o seletor PT/EN do menu
