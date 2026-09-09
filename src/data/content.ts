@@ -13,10 +13,32 @@ export const contact = {
   message: 'Oi! Vim pelo site da SOPA e quero conversar sobre um projeto.',
 } as const
 
-/** Link pronto do WhatsApp, com a mensagem já digitada na conversa. */
-export const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
-  contact.message,
-)}`
+/** Monta um link do WhatsApp com a mensagem já digitada na conversa. */
+export const waLink = (message: string) =>
+  `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`
+
+/** Link genérico, para os CTAs que não vêm de um contexto específico. */
+export const whatsappUrl = waLink(contact.message)
+
+/**
+ * Onde o site pede contato — e onde NÃO pede.
+ *
+ * O mesmo botão repetido em toda seção deixa de ser convite e vira ruído: se
+ * está em todo lugar, não está em lugar nenhum. A página tem quatro pontos de
+ * contato, cada um com uma razão diferente para existir:
+ *
+ *   1. menu       — sempre à mão, para quem já decidiu antes de ler
+ *   2. hero       — a porta de entrada, sem contexto ainda
+ *   3. serviços   — um por card, com a INTENÇÃO do card na mensagem: quem
+ *                   clica em Automação já abre a conversa falando de
+ *                   automação. É isso que os faz merecer o lugar; fossem dois
+ *                   botões iguais lado a lado, um sobraria.
+ *   4. rodapé     — o fecho, para quem leu a página inteira
+ *
+ * Sem CTA: a narrativa do hero (o botão caía uma tela antes dos serviços, que
+ * já pedem contato) e o FAQ (quem está tirando dúvida ainda não decidiu — e o
+ * rodapé vem logo depois).
+ */
 
 /**
  * Menu do canto superior direito. Os `href` apontam para os `id` das seções —
@@ -53,16 +75,16 @@ export const hero = {
     'dado vira decisão > decisão vira próxima ideia',
     '// e o círculo se abre',
   ],
-  title: ['Sopa', 'Agency'],
-  /** Linha do título que vai em preto: o feixe de luz passa por trás dela e a
-   *  palavra só se revela quando a luz cruza aquela altura. */
-  knockout: 'Agency',
+  /**
+   * O H1 é a palavra gigante em contorno, sozinha no centro do card. `label`
+   * fecha o lockup logo abaixo dela, em corpo pequeno e muito espaçado.
+   */
+  wordmark: 'SOPA',
+  label: 'Agency',
   actions: {
     primary: 'Entre em contato',
     secondary: 'Trabalhos no ar',
   },
-  /** Uma linha por item — hoje é uma só, logo abaixo dos botões. */
-  subtitle: ['Criação e Tecnologia'],
   /** Dica no pé do hero: some junto com o resto do bloco inicial. */
   scrollHint: 'Arraste para cima',
   /**
@@ -70,6 +92,9 @@ export const hero = {
    * Cada parágrafo é um bloco que acende sozinho ao passar pelo centro da
    * tela — mexer na quantidade muda o ritmo da leitura e pede um ajuste na
    * altura do track em `Hero.tsx`.
+   *
+   * Sem CTA no fim: o botão ficava a uma tela dos serviços, que já pedem
+   * contato. Ver a nota de CTAs no topo do arquivo.
    */
   story: {
     paragraphs: [
@@ -84,7 +109,6 @@ export const hero = {
         'mesmo dia.',
       'Menos reunião sobre o que poderia ser feito. Mais coisa pronta para experimentar.',
     ],
-    cta: { label: 'Entre em contato', href: whatsappUrl },
   },
 }
 
@@ -93,8 +117,15 @@ export const services = {
   title: ['Criação com método.', 'Automação que trabalha.'],
   description:
     'Da presença digital à operação do dia a dia, criamos sites, sistemas e automações que colocam ideias no ar e trabalho no automático.',
-  /** Rótulos do botão que abre e fecha a lista de serviços de cada card. */
-  toggle: { open: 'Ver os serviços', close: 'Fechar' },
+  /**
+   * Duas faixas de largura inteira, alternando o lado do painel visual. Cada uma
+   * traz `accent` (a cor que corre pela faixa) e `visual` (qual painel vai ao
+   * lado do texto).
+   *
+   * O `cta` de cada faixa leva ao mesmo WhatsApp, mas com rótulo e mensagem do
+   * assunto DELA — a conversa já começa no lugar certo, e os dois botões deixam
+   * de ser o mesmo botão duas vezes.
+   */
   cards: [
     {
       id: 'criacao',
@@ -113,8 +144,13 @@ export const services = {
           detail: 'Fluxos, interfaces e protótipos prontos para desenvolvimento.',
         },
       ],
-      cta: 'Entrar em contato',
-      ctaIcon: 'whatsapp',
+      cta: {
+        label: 'Começar um projeto',
+        icon: 'whatsapp',
+        href: waLink(
+          'Oi! Vim pelo site da SOPA e quero tirar um projeto de criação do papel — site, marca ou produto digital.',
+        ),
+      },
       visual: 'works',
     },
     {
@@ -122,8 +158,19 @@ export const services = {
       accent: 'cool',
       icon: 'shuffle',
       label: 'Automação',
-      headline: 'Seu WhatsApp respondendo, qualificando e vendendo por você.',
+      headline:
+        'Olhamos a sua operação, achamos onde o trabalho se repete e automatizamos — no sistema que você já usa.',
+      /**
+       * Nenhum nome de ferramenta nesta lista, de propósito. Ela desfilava CRMs
+       * e ERPs que o cliente pode nunca ter ouvido falar, e o recado que sobrava
+       * era "só serve se você usa isto". É o contrário: o que se contrata é a
+       * revisão da operação, e a tecnologia é problema de quem constrói.
+       */
       services: [
+        {
+          name: 'Revisão da operação',
+          detail: 'Um raio-x do que é feito à mão hoje e do que dá para tirar da frente.',
+        },
         { name: 'Atendimento automático', detail: 'Respostas instantâneas, 24 horas por dia.' },
         {
           name: 'Agente de IA',
@@ -139,16 +186,21 @@ export const services = {
         },
         {
           name: 'Integrações',
-          detail: 'Conecta WhatsApp com CRM, ERP, planilhas e outras ferramentas.',
+          detail: 'Liga o que a empresa já usa — inclusive sistema feito em casa.',
         },
       ],
-      cta: 'Entrar em contato',
-      ctaIcon: 'whatsapp',
-      visual: 'integrations',
+      cta: {
+        label: 'Pedir uma revisão',
+        icon: 'whatsapp',
+        href: waLink(
+          'Oi! Vim pelo site da SOPA e quero uma revisão da minha operação para saber o que dá para automatizar.',
+        ),
+      },
+      visual: 'process',
     },
   ],
   /**
-   * Trabalhos no ar, mostrados no card de Criação.
+   * Trabalhos no ar, no painel da faixa de Criação.
    *
    * O print é opcional: enquanto não existir, o slot aparece como placeholder
    * hachurado com o domínio escrito. Para publicar um, salve a imagem em
@@ -162,40 +214,43 @@ export const services = {
     { slug: 'slop', name: 'Slop', href: 'https://www.slop.fi/' },
   ],
   /**
-   * Integrações do card de Automação: ferramentas que o cliente reconhece e já
-   * usa, não a stack de quem constrói. `brand` é o desenho da marca; quem ainda
-   * não tem cai no monograma, e o `tint` dá cor a ele — sem cor, monograma no
-   * meio de logo colorido lê como peça faltando. A cor é da paleta do site, de
-   * propósito: não é a da marca e não deve fingir que é. Agrupadas por função — por onde a
-   * conversa entra, onde a venda é registrada e o que roda a operação. Cada
-   * grupo é uma fileira, e a largura dos tiles se divide entre os itens dele.
+   * Como um contrato de automação começa — o painel da faixa de Automação.
+   *
+   * Ocupa o lugar de uma grade de logos de ferramentas. Logo responde "com o que
+   * vocês trabalham"; a pergunta que o cliente faz antes dessa é "serve para
+   * mim?", e uma parede de marcas que ele não reconhece responde que não. O
+   * processo responde que sim: o que se contrata é a revisão, e ela cabe em
+   * qualquer operação.
+   *
+   * A `note` é a linha mais importante do bloco — é ela que tira o pé do cliente
+   * da dúvida de precisar ter alguma coisa antes de chamar.
    */
-  integrationGroups: [
-    {
-      title: 'Canais',
-      items: [
-        { monogram: 'WA', label: 'WhatsApp', brand: 'whatsapp' },
-        { monogram: 'IG', label: 'Instagram', brand: 'instagram' },
-      ],
-    },
-    {
-      title: 'Vendas e CRM',
-      items: [
-        { monogram: 'HS', label: 'HubSpot', brand: 'hubspot' },
-        { monogram: 'PD', label: 'Pipedrive', tint: 'mint' },
-        { monogram: 'RD', label: 'RD Station', tint: 'warm' },
-      ],
-    },
-    {
-      title: 'Operação',
-      items: [
-        { monogram: 'BL', label: 'Bling', tint: 'cool' },
-        { monogram: 'OM', label: 'Omie', tint: 'mint' },
-        { monogram: 'GS', label: 'Planilhas', brand: 'googlesheets' },
-        { monogram: 'GC', label: 'Agenda', brand: 'googlecalendar' },
-      ],
-    },
-  ],
+  process: {
+    eyebrow: 'como entra',
+    steps: [
+      {
+        n: '01',
+        name: 'Conversa',
+        detail: 'Vinte minutos olhando a operação como ela é hoje — não como deveria ser.',
+      },
+      {
+        n: '02',
+        name: 'Revisão',
+        detail: 'Mapeamos o que é refeito à mão, o que se perde no meio do caminho e o que atrasa.',
+      },
+      {
+        n: '03',
+        name: 'Proposta',
+        detail: 'O que automatizar primeiro, o que dá para medir e quanto custa. Escopo fechado.',
+      },
+      {
+        n: '04',
+        name: 'No ar',
+        detail: 'Construímos, ligamos no que já existe e acompanhamos depois que entra.',
+      },
+    ],
+    note: 'Funciona com o que a sua empresa já tem — WhatsApp, planilha, CRM, sistema feito em casa. Ou com o que ainda nem existe.',
+  },
 } as const
 
 export const faq = {
@@ -256,8 +311,6 @@ export const faq = {
 } as const
 
 export const footer = {
-  /** Palavra gigante em contorno, ancorada no rodapé. */
-  wordmark: 'SOPA',
   title: ['Bom trabalho', 'continua rendendo'],
   /** Quebras de linha na mão: cada item é uma linha do bloco centralizado. */
   lede: [

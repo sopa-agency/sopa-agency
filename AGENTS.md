@@ -71,3 +71,9 @@ contexto.
 
 **Efeitos de scroll leem a posição a cada frame** e devem funcionar nos dois
 sentidos — nada de estado acumulado que só avança.
+
+**O feixe não se dirige por variável CSS.** O `useHeroScroll` publica `--p`,
+`--hc` e `--hw` no track, mas a abertura do feixe viaja num ref (`beamRef`) até
+o `LightBeam`: quem desenha é um shader, e um uniform não lê `--var`. Buscar a
+variável de volta com `getComputedStyle` custaria um cálculo de estilo por
+frame. O rodapé não passa o ref — é assim que o feixe de lá fica em repouso.

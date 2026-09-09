@@ -24,25 +24,22 @@
   --color-surface: #0c0d0e;
   --color-surface-raised: #17181a;
   --color-card: #131416;
-  --color-card-panel: #0e0f11;
 
   /* acentos por card na seção de serviços */
   --color-accent-warm: #f0863c;
   --color-accent-cool: #4f9bf0;
   --color-accent-mint: #74d6b4;
 
-  /* segunda linha do H1: escura o bastante para virar recorte quando o feixe
-     passa por trás, com croma suficiente para não ler como preto sujo */
-  --color-wine: #5e1a2e;
-
-  /* contorno da palavra gigante do footer */
-  --color-stroke: rgba(225, 222, 218, 0.3);
+  /* contorno da palavra gigante do hero. Mais forte do que parece necessário
+     no papel: o fio corre sobre o degradê do card, que é bem mais claro que o
+     preto do resto da página, e com menos alfa a letra sumia no meio dele */
+  --color-stroke: rgba(225, 222, 218, 0.42);
   --color-stroke-glow: rgba(225, 222, 218, 0.75);
 
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  /* títulos de seção e o H1 do hero */
+  /* títulos de seção e navegação */
   --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
-  /* título e palavra gigante do rodapé */
+  /* a palavra gigante do hero, os títulos do rodapé e dos cards */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
   /* narrativa do hero: serifa de texto, não de display — é o único bloco
      longo do site e precisa aguentar leitura corrida em corpo pequeno */
@@ -75,7 +72,7 @@
     }
   }
 
-  /* pulso lento da cópia que "acende" a palavra do footer */
+  /* pulso lento da cópia que "acende" a palavra gigante do hero */
   --animate-breathe: breathe 7s ease-in-out infinite;
 
   @keyframes breathe {
@@ -129,10 +126,11 @@
 
    O texto recorta um degradê que é transparente nas pontas e branco no meio
    (`background-clip: text`), então a cópia só pinta onde o facho está passando
-   e deixa ver o texto de verdade por baixo no resto do tempo. Como é uma
-   camada só cobrindo o bloco inteiro, o facho é UM, com uma inclinação só,
-   cruzando todas as linhas no mesmo instante — aplicado linha a linha, cada
-   uma ganhava a sua luz, com o ângulo recomeçando dentro de cada caixa.
+   e deixa ver o texto de verdade por baixo no resto do tempo.
+
+   No hero isso vale dobrado: a palavra é só contorno, com o miolo vazio, então
+   o que o facho preenche é o vão das letras — a luz não passa por cima delas,
+   passa por DENTRO.
 
    A cor original fica onde está: quem está por baixo é o próprio título, então
    nada apaga, nada muda de tom, e com movimento reduzido a cópia some.
@@ -141,13 +139,7 @@
    letra clara, branco em cima de quase-branco não teria para onde subir — quem
    se vê é a cor passando, não o brilho. É a mesma aberração cromática que o
    shader do feixe faz logo atrás, então a luz que atravessa as letras é lida
-   como sendo a de lá.
-
-   Cada linha do título recebe a sua camada, sempre do tamanho do bloco inteiro:
-   é o que mantém a inclinação e o trajeto iguais entre elas. O que muda de uma
-   para a outra é o atraso — daí a luz varrer uma e depois a outra — e a
-   opacidade, porque o mesmo branco que quase não aparece sobre letra clara
-   salta sobre letra escura e roubaria a cena. */
+   como sendo a de lá. */
 @utility text-shine {
   background-image: linear-gradient(
     100deg,
@@ -216,18 +208,3 @@
   );
 }
 
-/* Máscara radial do campo de hexágonos: nítido no centro, some nas bordas. */
-@utility mask-shapes-field {
-  -webkit-mask-image: radial-gradient(
-    closest-side,
-    rgba(0, 0, 0, 0.95),
-    rgba(0, 0, 0, 0.6) 42%,
-    transparent 72%
-  );
-  mask-image: radial-gradient(
-    closest-side,
-    rgba(0, 0, 0, 0.95),
-    rgba(0, 0, 0, 0.6) 42%,
-    transparent 72%
-  );
-}

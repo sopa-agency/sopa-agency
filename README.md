@@ -12,7 +12,7 @@ português, fundo escuro, com um hero em WebGL que conduz a narrativa por scroll
 | TypeScript | tipos em tudo |
 | Tailwind CSS v4 | estilo, via `@tailwindcss/vite` (sem arquivo de config — o tema mora no `@theme` do `src/index.css`) |
 | oxlint | lint |
-| WebGL2 + Canvas 2D | efeitos do hero e do footer, sem biblioteca |
+| WebGL2 | o feixe de luz do hero e do footer, sem biblioteca |
 
 Sem roteador, sem CMS, sem backend: tudo é estático e o conteúdo vem de um
 módulo TypeScript.
@@ -40,22 +40,21 @@ src/
 │   ├── Hero.tsx           # hero com scrollytelling
 │   ├── Services.tsx       # dois cards com painel visual
 │   ├── Faq.tsx            # acordeão em pills
-│   └── Footer.tsx         # CTA + palavra gigante + feixe
+│   └── Footer.tsx         # CTA de fecho + feixe
 ├── components/
 │   ├── Menu.tsx           # menu que abre a partir de quatro pontos
 │   ├── SpecularButton.tsx # botão com reflexo que segue o cursor
-│   ├── ScrambleText.tsx   # texto que se embaralha ao entrar
+│   ├── ScrambleText.tsx   # texto que se embaralha ao entrar (sem uso hoje)
 │   ├── SectionHeading.tsx # eyebrow + título das seções
 │   ├── Icon.tsx           # ícones em traço, um switch de paths
 │   ├── hero/
 │   │   ├── LightBeam.tsx     # feixe de luz (shader WebGL2)
 │   │   ├── beamShaders.ts    # vertex e fragment do feixe
-│   │   ├── ShapesField.tsx   # hexágonos em wireframe (canvas 2D)
+│   │   ├── Starfield.tsx     # poeira de estrelas piscando (canvas 2D)
 │   │   └── HeroStory.tsx     # narrativa que atravessa o card
 │   └── services/
 │       ├── WorkGrid.tsx      # trabalhos no ar, o vídeo toca no lugar do print
-│       ├── IntegrationGrid.tsx # ferramentas que a automação conecta
-│       └── BrandMark.tsx     # logo das marcas; sem logo, cai no monograma
+│       └── ProcessSteps.tsx  # como um contrato de automação começa
 ├── assets/trabalhos/      # clipe + print de cada trabalho, casados por slug
 ├── hooks/
 │   ├── useHeroScroll.ts   # todo o comportamento de scroll do hero
@@ -65,36 +64,102 @@ src/
 
 ## As seções
 
-A página é `Hero → Serviços → FAQ → Footer`. Os CTAs apontam para as âncoras
-`#servicos`, `#faq` e `#contato` (esta última é o próprio footer), e os botões
-de "entre em contato" abrem o WhatsApp com a mensagem já digitada.
+A página é `Hero → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
+`#servicos`, `#faq` e `#contato` (esta última é o próprio footer).
+
+### Onde a página pede contato
+
+Quatro pontos, cada um com uma razão diferente para existir — a política está
+escrita por extenso no topo do `content.ts`, e é para lá que vai qualquer
+mudança:
+
+| ponto | por quê |
+|---|---|
+| menu | sempre à mão, para quem já decidiu antes de ler |
+| hero | a porta de entrada, ainda sem contexto |
+| card de serviço (×2) | cada um abre o WhatsApp já falando do assunto DELE — é o que os faz merecer o lugar, em vez de serem o mesmo botão duas vezes |
+| rodapé | o fecho, para quem leu a página inteira |
+
+**Sem CTA de propósito:** o fim da narrativa do hero (caía uma tela antes dos
+serviços) e o FAQ (quem está tirando dúvida ainda não decidiu, e o rodapé vem
+logo depois). Botão repetido em toda seção deixa de ser convite e vira ruído.
 
 ### Hero
 
 Cinco camadas empilhadas dentro de um card, de baixo para cima:
 
 1. **gradiente** escuro do card (`--color-hero-top/mid/bot`)
-2. **ShapesField** — hexágonos concêntricos girando devagar, com máscara radial
-   (`mask-shapes-field`) que apaga as bordas
+2. **Starfield** — pontos pequenos e esparsos piscando fora de fase, em canvas
+   2D. Sem forma de estrela: nesta escala um disco de um pixel e pouco é o que
+   o olho lê como brilho distante. Os alfas são altos para um céu, porque o
+   fundo aqui é cinza e não preto — no valor "realista" as estrelas sumiam
+   dentro do degradê
 3. **LightBeam** — shader WebGL2: uma linha central ondulante vira intensidade;
    a dispersão de prisma varre offsets verticais coloridos, e camadas de névoa
    tingem o fundo de quente (esquerda) a frio (direita)
-4. **conteúdo inicial** — logo, título, botões, subtítulo e a dica de scroll
+4. **bloco central** — a palavra gigante e, pendurados nela, os botões
 5. **HeroStory** — a narrativa que atravessa o card
+
+Os dois canvas são medidos pela **viewport**, não pelo card: o padding do card
+cresce a cada frame enquanto se rola, e um canvas que acompanhasse esse tamanho
+realocaria o buffer de desenho sessenta vezes por segundo. Quem recorta nas
+bordas é o `overflow-hidden` do card.
+
+O H1 é a própria palavra **SOPA** em corpo gigante e só contorno
+(`-webkit-text-stroke`), no centro exato do card. Tudo o que vem depois dela — o
+"Agency" e os botões — está fora do fluxo, pendurado num `top-full`: a altura do
+wrapper é a da palavra e mais nada, então mexer no que vem embaixo não desloca o
+que é para ficar no meio. Três cópias sobrepostas: o contorno, uma que acende
+num pulso lento (`animate-breathe`) e uma que recorta o facho de luz
+(`text-shine`) — como o miolo das letras é vazado, a luz passa por DENTRO delas.
 
 `useHeroScroll` roda um único loop de animação e dirige as etapas a partir da
 posição de scroll dentro do track do hero:
 
-| etapa | o que faz |
-|---|---|
-| bordas fecham | `--p` (0→1) alimenta o `padding` e o `border-radius`; o preto do fundo aparece por trás e o card "se solta" das bordas |
-| título some | `--hc` (1→0) apaga o conteúdo inicial e o desloca para cima |
-| narrativa passa | o bloco de texto sobe de baixo para cima; o feixe fica parado, daí o parallax |
-| spotlight | cada parágrafo acende ao chegar no centro da viewport e apaga ao sair |
+| etapa | faixa do track | o que faz |
+|---|---|---|
+| bordas fecham | 0 → 30% | `--p` (0→1) alimenta o `padding` e o `border-radius`; o preto do fundo aparece por trás e o card "se solta" das bordas |
+| moldura sai | 0,5 → 5,5% | `--hc` (1→0) apaga o texto do canto, os botões e a dica, com os botões **subindo** 36px |
+| feixe se abre | 0 → 14% | `beamRef` (0→1) rasga o feixe ao meio (ver abaixo) |
+| palavra some | 10 → 22% | `--hw` (1→0), depois da moldura: entre as duas sobra um instante com a marca sozinha no card |
+| narrativa passa | 4 → 94% | o bloco de texto sobe de baixo para cima |
+| spotlight | — | cada parágrafo acende ao se aproximar do centro da viewport e apaga ao sair |
+
+#### O ritmo, e por que estes números
+
+A faixa do spotlight é **assimétrica**: 0,58 de viewport para quem ainda sobe de
+baixo, 0,32 para quem já passou. Simétrica, existia um trecho em que a palavra
+gigante já tinha sumido e o primeiro parágrafo ainda não acendera — o card
+ficava vazio, e card vazio no meio de um scroll longo lê como fim de página: a
+pessoa para de rolar. Com a entrada mais longa que a saída, sempre há um canto
+de texto brilhando no pé do card dizendo que ainda vem coisa.
+
+O mesmo defeito existia na outra ponta, e por isso `CURTAIN` caiu de 1 tela para
+0,4 e `HOLD` de 0,3 para 0,1. O hero fica **imóvel** durante a cortina; uma tela
+inteira disso, com o texto parado e o feixe já embora, também lê como fim. Com
+0,4 ele solta a fixação cedo e volta a deslizar junto com a seção que sobe.
+
+> **`CURTAIN` e o `-mt-[40vh]` do `Services` são o mesmo número visto de dois
+> lugares.** Mexer num sem o outro faz o progresso do hero terminar em hora
+> diferente da que a cortina começa.
 
 Tudo é recalculado a cada frame a partir do scroll, então o efeito acompanha a
 rolagem **nos dois sentidos**. A distância percorrida pela narrativa é medida
-para que o último bloco (o CTA) termine centralizado, em vez de passar direto.
+para que o último parágrafo termine centralizado, em vez de passar direto.
+
+#### A abertura do feixe
+
+O feixe não sai de cena apagando: ele **arrebenta**. O shader recebe `uB` (0→1)
+e desloca o campo para fora — acima da linha central subtrai o raio, abaixo
+soma —, então o perfil inteiro passa a existir em duas cópias que voam para o
+topo e para o pé do quadro, borrando no caminho, enquanto uma máscara devolve o
+preto do card pelo meio. Um clarão satura a luz e tira a cor no instante do
+rasgo. Em `uB = 0` o deslocamento é zero e o desenho é o de sempre — é por isso
+que o feixe do rodapé, que não recebe scroll nenhum, continua idêntico.
+
+O valor viaja num **ref**, não numa variável CSS: quem desenha é um shader, e um
+uniform não se alimenta de `--var`. Ler a variável de volta com
+`getComputedStyle` custaria um cálculo de estilo por frame.
 
 > **Cuidado ao mexer no `HeroStory`:** no Tailwind v4 os utilitários de translate
 > usam a propriedade `translate`, que **compõe** com o `transform` inline em vez
@@ -103,22 +168,41 @@ para que o último bloco (o CTA) termine centralizado, em vez de passar direto.
 
 ### Serviços
 
-Dois cards, cada um com um acento próprio: âmbar para **Criação**, azul para
-**Automação**. O card define `--accent` inline e os filhos consomem via
-`bg-(--accent)/12`, `text-(--accent)`… — assim os painéis não precisam saber de
-qual card são. Cada card tem rótulo, headline, a lista de serviços que abre e
-fecha, um CTA e um painel visual no rodapé:
+Duas **faixas** de largura inteira, uma por frente de trabalho, na mesma
+disposição: texto à esquerda, painel à direita. Cada faixa tem um acento próprio
+— âmbar para **Criação**, azul para **Automação** — que ela define em `--accent`
+inline, e os filhos consomem via `text-(--accent)`, `bg-(--accent)`… Assim os
+painéis não precisam saber de qual faixa são.
+
+Eram dois cards gêmeos lado a lado, e a simetria custava caro dos dois lados: os
+clipes dos trabalhos — a coisa mais forte da página — ficavam com um quarto da
+largura e não se enxergavam, e a lista de serviços vivia escondida atrás de um
+"ver os serviços" porque não cabia aberta. Em faixa, a lista fica sempre aberta e
+os clipes dobram de tamanho.
+
+Os painéis ficam **centrados**, não esticados: os dois têm altura própria — as
+proporções dos thumbs num, os quatro passos no outro. Esticados até a altura da
+coluna de texto, o vão sobrava dentro deles, e no processo isso abria um buraco
+de mais de cem pixels entre um passo e o seguinte.
 
 - `WorkGrid` — os trabalhos no ar. Cada slot mostra o print e troca pelo clipe
   quando ele pode tocar; os arquivos são casados pelo slug em build time, então
   publicar um trabalho novo é salvar `<slug>.mp4`/`<slug>.webp` em
   `src/assets/trabalhos/` e citar o slug no `content.ts`. Sem print, o slot cai
-  num placeholder hachurado com o domínio escrito.
-- `IntegrationGrid` — as ferramentas que a automação conecta, agrupadas por
-  função (por onde a conversa entra, onde a venda é registrada, o que roda a
-  operação). Uma fileira por grupo. Quem tem logo aparece com ela; quem não tem
-  cai no monograma tingido com uma cor da paleta do site — de propósito, para
-  não fingir ser a cor da marca.
+  num placeholder hachurado com o domínio escrito. Uma coluna no celular: em
+  duas, cada clipe ficava com uns 145px e não dava para distinguir um site do
+  outro.
+- `ProcessSteps` — como um contrato de automação começa, em quatro passos
+  ligados por um fio.
+
+> **Por que não uma grade de logos.** Este painel era uma parede de ferramentas
+> — HubSpot, Pipedrive, RD Station, Bling, Omie… Logo de ferramenta responde
+> "com o que vocês trabalham"; a pergunta que o cliente faz *antes* dessa é
+> "serve para mim?", e uma parede de marcas que ele não reconhece responde que
+> não. O que se contrata é a **revisão da operação**, e revisão cabe em qualquer
+> empresa: a linha do rodapé do painel existe só para dizer isso. Pela mesma
+> razão não há nome de ferramenta na lista de serviços de Automação, e o
+> headline deixou de ser sobre WhatsApp.
 
 ### FAQ
 
@@ -128,10 +212,13 @@ resposta é animada por `grid-template-rows` (`0fr` → `1fr`), e `aria-expanded
 
 ### Footer
 
-Mesmas camadas do hero, com o **mesmo** `LightBeam` — só muda a ancoragem da
-faixa. Atrás dele, a palavra da marca em corpo gigante: preenchimento
-transparente e contorno fino (`-webkit-text-stroke`), com uma segunda cópia por
-cima que acende num pulso lento (`animate-breathe`).
+O **mesmo** `LightBeam` do hero, só com outra ancoragem da faixa — e sem receber
+scroll, então ele não se abre: fica no desenho de repouso. Por cima, o título em
+serifado (segunda linha em itálico, o único lugar do site com esse contraste), o
+lede, o CTA de fecho e a linha de links.
+
+A palavra gigante em contorno morava aqui e subiu para o hero: nas duas pontas
+ela deixava de ser o retrato da marca e virava textura.
 
 ## Ajustar conteúdo
 
@@ -150,17 +237,17 @@ WhatsApp e no LinkedIn sai de lá.
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
 
 - **cores** — `hero-top/mid/bot` (gradiente do card), `frame` (preto do fundo),
-  `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card` /
-  `card-panel` (fundos), `accent-warm` / `accent-cool` / `accent-mint`
-  (acentos por seção), `stroke` / `stroke-glow` (contorno do footer)
+  `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card`
+  (fundos), `accent-warm` / `accent-cool` / `accent-mint`
+  (acentos por seção), `stroke` / `stroke-glow` (contorno da palavra do hero)
 - **fontes** — `sans` (Geist) no corpo, `display` (Bricolage Grotesque) e
   `serif` (Instrument Serif) nos títulos, `mono` nos rótulos
-- **animação** — `animate-breathe` (pulso da palavra do footer),
+- **animação** — `animate-breathe` (pulso da palavra do hero),
   `animate-shine`, `animate-dot-drift`
 
 Os utilitários próprios ficam fora do `@theme`, declarados com `@utility` para
-que aceitem variantes (`md:mask-fade-x`): `mask-shapes-field`, `bg-hatch`,
-`text-shine`, `text-halo`, `line-dots`, `h-viewport` / `min-h-viewport`.
+que aceitem variantes (`md:text-halo`): `bg-hatch`, `text-shine`, `text-halo`,
+`line-dots`, `h-viewport` / `min-h-viewport`.
 
 ## Estado atual
 
