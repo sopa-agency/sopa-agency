@@ -30,7 +30,10 @@ const bySlug = (files: Record<string, string>, slug: string) =>
 
 export function WorkGrid() {
   return (
-    <div className="grid grid-cols-2 gap-3 p-4">
+    // Uma coluna no celular. Em duas, cada clipe ficava com uns 145px de
+    // largura — nessa escala não se distingue um site do outro, e o painel que
+    // deveria mostrar trabalho virava textura.
+    <div className="grid grid-cols-1 gap-3.5 p-4 sm:grid-cols-2 md:p-5">
       {services.works.map((work) => {
         const clip = bySlug(CLIPS, work.slug)
         const shot = bySlug(SHOTS, work.slug)

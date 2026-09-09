@@ -9,8 +9,20 @@ import { BEAM_FRAG, BEAM_VERT } from './beamShaders'
  * `className` posiciona a faixa dentro do container (o hero e o footer usam
  * alturas e ancoragens diferentes). Se o WebGL2 não estiver disponível (ou o
  * shader falhar), o componente apenas não desenha nada — a seção segue de pé.
+ *
+ * `opening` é a abertura do feixe (0→1), e chega como REF, não como prop de
+ * valor: quem a escreve é o loop do `useHeroScroll`, a cada frame, e um estado
+ * de React aqui significaria uma re-renderização por frame. O loop daqui lê o
+ * `.current` na hora de montar o uniform. Sem ela — o caso do rodapé — o feixe
+ * fica em zero e desenha o de sempre.
  */
-export function LightBeam({ className = 'top-[6vh] h-[88vh]' }: { className?: string }) {
+export function LightBeam({
+  className = 'top-[6vh] h-[88vh]',
+  opening,
+}: {
+  className?: string
+  opening?: { current: number }
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [ready, setReady] = useState(false)
 
@@ -94,6 +106,7 @@ export function LightBeam({ className = 'top-[6vh] h-[88vh]' }: { className?: st
 
         const uRes = gl.getUniformLocation(program, 'uRes')
         const uT = gl.getUniformLocation(program, 'uT')
+        const uB = gl.getUniformLocation(program, 'uB')
 
         const dpr = Math.min(window.devicePixelRatio || 1, 2)
         let bufW = 0
@@ -142,6 +155,7 @@ export function LightBeam({ className = 'top-[6vh] h-[88vh]' }: { className?: st
 
           gl.uniform2f(uRes, bufW, bufH)
           gl.uniform1f(uT, elapsed / 1000)
+          gl.uniform1f(uB, opening?.current ?? 0)
           gl.clearColor(0, 0, 0, 0)
           gl.clear(gl.COLOR_BUFFER_BIT)
           gl.drawArrays(gl.TRIANGLES, 0, 3)
@@ -197,7 +211,10 @@ export function LightBeam({ className = 'top-[6vh] h-[88vh]' }: { className?: st
     build()
 
     return dispose
-  }, [])
+    // `opening` é um ref estável (nasce de um `useRef`), então isto roda uma
+    // vez só — está na lista para não segurar um ref antigo se um dia o
+    // componente passar a receber outro.
+  }, [opening])
 
   return (
     <div

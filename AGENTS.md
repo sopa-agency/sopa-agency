@@ -33,6 +33,15 @@ pnpm build   # tsc -b && vite build
 pnpm lint
 ```
 
+## Deploy
+
+Vercel, a partir do `vercel.json` — e ele precisa existir. O projeto na Vercel
+foi criado quando isto aqui era Next.js, e o preset de framework lá continua
+Next: sem o `"framework": "vite"` do arquivo, o build morre em
+`No Next.js version detected` depois de instalar tudo direitinho. As chaves do
+`vercel.json` têm precedência sobre as configurações do painel, então o conserto
+mora no repositório e não em quem apertar deploy. Não apague o arquivo.
+
 ## Idioma
 
 O site é **só português**. Não existe versão em inglês: o seletor PT/EN do menu
@@ -71,3 +80,9 @@ contexto.
 
 **Efeitos de scroll leem a posição a cada frame** e devem funcionar nos dois
 sentidos — nada de estado acumulado que só avança.
+
+**O feixe não se dirige por variável CSS.** O `useHeroScroll` publica `--p`,
+`--hc` e `--hw` no track, mas a abertura do feixe viaja num ref (`beamRef`) até
+o `LightBeam`: quem desenha é um shader, e um uniform não lê `--var`. Buscar a
+variável de volta com `getComputedStyle` custaria um cálculo de estilo por
+frame. O rodapé não passa o ref — é assim que o feixe de lá fica em repouso.
