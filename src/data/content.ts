@@ -37,12 +37,15 @@ import { pt } from './content.pt'
  * num rótulo, mexa sabendo que ele é o que separa um convite de um eco: dois
  * botões com o mesmo texto são um botão repetido, mesmo em seções distantes.
  *
- * **Nenhum CTA leva o ícone do WhatsApp.** Ele estava nos quatro, e um mesmo
- * símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e
- * vira textura da página. Com ele foi embora o mecanismo de ícone preenchido do
- * `Icon.tsx`, que existia só para essa marca. O custo é que o botão não anuncia
- * mais que abre outro app; se isso pesar, o conserto é nomear o canal em UM
- * rótulo, não devolver o ícone a todos.
+ * **Só o CTA do rodapé leva o ícone do WhatsApp.** Ele estava nos quatro, e um
+ * mesmo símbolo repetido não se resolve com rótulo diferente: deixa de ser
+ * sinal e vira textura da página. Mas tirado de todos, nenhum botão avisava que
+ * o clique abre outro app — e os rótulos falam de intenção, não de canal.
+ *
+ * O rodapé é onde ele ganha o lugar: é o último ponto, de quem leu a página
+ * inteira e está decidindo, e é exatamente aí que saber o canal ajuda em vez de
+ * poluir. Aparecendo uma vez só, volta a ser sinal. Não devolva o ícone aos
+ * outros três: é a repetição, e não o ícone, que era o problema.
  *
  * **O menu não tem CTA.** Ele é lista de navegação e nada mais: quatro links
  * do mesmo padrão, incluindo "Contato", que aponta para o `id="contato"` do

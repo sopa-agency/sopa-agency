@@ -1,3 +1,4 @@
+import { Icon } from '../components/Icon'
 import { SpecularButton } from '../components/SpecularButton'
 import { LightBeam } from '../components/hero/LightBeam'
 import { footer } from '../data/content'
@@ -44,6 +45,7 @@ export function Footer() {
           rel="noreferrer"
           className="rounded-xl border border-white/8 bg-surface-raised px-[22px] py-3 text-sm text-ink hover:border-white/25"
         >
+          <Icon name="whatsapp" className="size-4" />
           {footer.cta.label}
         </SpecularButton>
       </div>

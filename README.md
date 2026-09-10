@@ -156,12 +156,19 @@ para lá que vai qualquer mudança:
 > receberam o mesmo tratamento. Dois botões com o mesmo texto são um botão
 > repetido, mesmo em seções distantes.
 
-**Nenhum CTA leva o ícone do WhatsApp.** Ele estava nos quatro, e um mesmo
-símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e vira
-textura da página. Com ele saiu o mecanismo de ícone preenchido do `Icon.tsx`,
-que existia só para essa marca. O custo: o botão não anuncia mais que abre outro
-app. Se isso pesar, o conserto é nomear o canal em **um** rótulo, não devolver o
-ícone a todos.
+**Só o CTA do rodapé leva o ícone do WhatsApp.** Ele estava nos quatro, e um
+mesmo símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e
+vira textura da página. Mas tirado de todos, nenhum botão avisava que o clique
+abre outro app — os rótulos falam de intenção, não de canal.
+
+O rodapé é onde ele ganha o lugar: é o último ponto, de quem leu a página
+inteira e está decidindo, e é aí que saber o canal ajuda em vez de poluir.
+Aparecendo uma vez só, volta a ser sinal. **Não devolva o ícone aos outros
+três** — era a repetição, não o ícone.
+
+É também a única marca sólida do `Icon.tsx` (preenchimento em vez de traço), e
+por isso o componente tem uma comparação direta com `'whatsapp'` em vez de uma
+tabela: para um caso, tabela é enfeite.
 
 **O menu não tem CTA.** É lista de navegação e nada mais — quatro links do mesmo
 padrão, incluindo "Contato", que aponta para o rodapé, onde está o botão. Um
