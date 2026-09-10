@@ -126,9 +126,8 @@ const services = {
    * traz `accent` (a cor que corre pela faixa) e `visual` (qual painel vai ao
    * lado do texto).
    *
-   * O `cta` de cada faixa leva ao mesmo WhatsApp, mas com rótulo e mensagem do
-   * assunto DELA — a conversa já começa no lugar certo, e os dois botões deixam
-   * de ser o mesmo botão duas vezes.
+   * Sem CTA nas faixas: os dois botões daqui saíram. A seção apresenta o que a
+   * SOPA faz, e quem se convence rola para o rodapé, que é o fecho da página.
    */
   cards: [
     {
@@ -148,12 +147,6 @@ const services = {
           detail: 'Fluxos, interfaces e protótipos prontos para desenvolvimento.',
         },
       ],
-      cta: {
-        label: 'Começar um projeto',
-        href: waLink(
-          'Oi! Vim pelo site da SOPA e quero tirar um projeto de criação do papel — site, marca ou produto digital.',
-        ),
-      },
       visual: 'works',
     },
     {
@@ -192,12 +185,6 @@ const services = {
           detail: 'Liga o que a empresa já usa — inclusive sistema feito em casa.',
         },
       ],
-      cta: {
-        label: 'Pedir uma revisão',
-        href: waLink(
-          'Oi! Vim pelo site da SOPA e quero uma revisão da minha operação para saber o que dá para automatizar.',
-        ),
-      },
       visual: 'process',
     },
   ],

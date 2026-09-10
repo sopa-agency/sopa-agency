@@ -21,9 +21,28 @@
      do texto — e o feixe hoje já se abriu e saiu bem antes de a narrativa
      chegar, então o que sobrava dele era um borrão sem motivo. Escurecendo o
      fundo, o texto se vira sozinho e o véu foi embora. */
-  --color-hero-top: #212426;
-  --color-hero-mid: #1b1e20;
-  --color-hero-bot: #17191b;
+  /* Fundo do card do hero. Era um degradê cinza (#212426 / #1b1e20 / #17191b),
+     já escurecido uma vez para a narrativa se sustentar sem véu atrás; agora é
+     preto puro. Continuam três tokens, e não um, porque o card é pintado com
+     `bg-linear-` de três paradas — dá para voltar a um degradê sem tocar no
+     `Hero.tsx`.
+
+     TRÊS COISAS FICARAM CALIBRADAS PARA O CINZA e não foram refeitas:
+
+     1. o card não se solta mais das bordas. O `--p` do scroll faz o padding
+        crescer para o `--color-frame` aparecer por trás — e ele também é
+        preto, então não há contraste que revele o movimento. O efeito continua
+        rodando, só não se vê.
+     2. os alfas do `Starfield` foram subidos acima do realista porque as
+        estrelas sumiam no degradê cinza. No preto, isso agora é exagero.
+     3. o `--color-stroke` abaixo está em 0.42 pelo mesmo motivo. No preto,
+        idem.
+
+     Os três pedem recalibração para baixo, e o 1 é decisão de design, não de
+     número. */
+  --color-hero-top: #000000;
+  --color-hero-mid: #000000;
+  --color-hero-bot: #000000;
   --color-frame: #000000;
   --color-ink: #e9e7e4;
   --color-ink-bright: #f2f0ee;
@@ -36,9 +55,10 @@
   --color-accent-cool: #4f9bf0;
   --color-accent-mint: #74d6b4;
 
-  /* contorno da palavra gigante do hero. Mais forte do que parece necessário
-     no papel: o fio corre sobre o degradê do card, que é bem mais claro que o
-     preto do resto da página, e com menos alfa a letra sumia no meio dele */
+  /* contorno da palavra gigante do hero. O 0.42 é mais forte do que parece
+     necessário no papel, e existia porque o fio corria sobre o degradê cinza
+     do card. O card virou preto: este número está alto para o fundo de hoje,
+     e é um dos três apontados acima. */
   --color-stroke: rgba(225, 222, 218, 0.42);
   --color-stroke-glow: rgba(225, 222, 218, 0.75);
 

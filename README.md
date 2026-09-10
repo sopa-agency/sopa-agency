@@ -140,21 +140,28 @@ para lá (ver abaixo); o `id` ficou para quem chegar por link direto.
 
 ### Onde a página pede contato
 
-Quatro pontos, cada um com uma razão diferente para existir **e um rótulo
-diferente** — a política está escrita por extenso no topo do `content.ts`, e é
-para lá que vai qualquer mudança:
+**Dois** pontos, e já foram cinco. Cada um com uma razão diferente para
+existir **e um rótulo diferente** — a política está escrita por extenso no topo
+do `content.ts`, e é para lá que vai qualquer mudança:
 
 | ponto | rótulo | por quê |
 |---|---|---|
 | hero | Começar uma conversa | a porta de entrada, ainda sem contexto: a barreira mais baixa da página |
-| card de serviço (×2) | Começar um projeto / Pedir uma revisão | cada um abre o WhatsApp já falando do assunto DELE — é o que os faz merecer o lugar, em vez de serem o mesmo botão duas vezes |
 | rodapé | Tirar um projeto do papel | o fecho, para quem leu a página inteira e aceita o pedido mais direto |
 
-> **O rótulo é o que separa um convite de um eco.** Três destes diziam "Entre em
-> contato", e era a repetição da FRASE que fazia a página soar insistente — não
-> a quantidade de botões. Os cards já tinham resolvido isso; os outros só
-> receberam o mesmo tratamento. Dois botões com o mesmo texto são um botão
-> repetido, mesmo em seções distantes.
+> **O rótulo é o que separa um convite de um eco.** Dos cinco antigos, três
+> diziam "Entre em contato", e era a repetição da FRASE que fazia a página soar
+> insistente — não a quantidade de botões. Dois botões com o mesmo texto são um
+> botão repetido, mesmo em seções distantes.
+
+**Os dois CTAs das faixas de serviço saíram.** Eles abriam o WhatsApp já falando
+do assunto da faixa, e era isso que os fazia merecer o lugar; ainda assim eram
+dois dos cinco botões, e a página pesava mais do que ganhava. A seção de
+serviços agora só apresenta — quem se convence rola até o rodapé.
+
+> **Com eles foi embora a única mensagem de WhatsApp com contexto.** As duas que
+> sobraram são genéricas: a conversa não chega mais dizendo se o assunto é
+> criação ou automação, e a qualificação do lead passou a ser manual.
 
 **Só o CTA do rodapé leva o ícone do WhatsApp.** Ele estava nos quatro, e um
 mesmo símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e
@@ -182,12 +189,15 @@ logo depois). Botão repetido em toda seção deixa de ser convite e vira ruído
 
 Cinco camadas empilhadas dentro de um card, de baixo para cima:
 
-1. **gradiente** escuro do card (`--color-hero-top/mid/bot`)
+1. **fundo** do card (`--color-hero-top/mid/bot`) — hoje preto puro; era
+   um degradê cinza, e os três tokens continuam de pé para dar como voltar
+   a um sem tocar no `Hero.tsx`
 2. **Starfield** — pontos pequenos e esparsos piscando fora de fase, em canvas
    2D. Sem forma de estrela: nesta escala um disco de um pixel e pouco é o que
    o olho lê como brilho distante. Os alfas são altos para um céu, porque o
-   fundo aqui é cinza e não preto — no valor "realista" as estrelas sumiam
-   dentro do degradê
+   fundo era cinza e não preto — no valor "realista" as estrelas sumiam
+   dentro do degradê. **O card virou preto e este alfa não foi refeito:** hoje
+   ele é exagero, e está na lista de recalibrações do `index.css`
 3. **LightBeam** — shader WebGL2: uma linha central ondulante vira intensidade;
    a dispersão de prisma varre offsets verticais coloridos, e camadas de névoa
    tingem o fundo de quente (esquerda) a frio (direita)
@@ -213,7 +223,7 @@ posição de scroll dentro do track do hero:
 
 | etapa | faixa do track | o que faz |
 |---|---|---|
-| bordas fecham | 0 → 30% | `--p` (0→1) alimenta o `padding` e o `border-radius`; o preto do fundo aparece por trás e o card "se solta" das bordas |
+| bordas fecham | 0 → 30% | `--p` (0→1) alimenta o `padding` e o `border-radius`; o `--color-frame` aparece por trás e o card "se solta" das bordas — **hoje invisível**, porque o card também é preto (ver `index.css`) |
 | moldura sai | 0,5 → 5,5% | `--hc` (1→0) apaga o texto do canto, os botões e a dica, com os botões **subindo** 36px |
 | feixe se abre | 0 → 14% | `beamRef` (0→1) rasga o feixe ao meio (ver abaixo) |
 | palavra some | 10 → 22% | `--hw` (1→0), depois da moldura: entre as duas sobra um instante com a marca sozinha no card |
@@ -466,8 +476,8 @@ mudar:
 
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
 
-- **cores** — `hero-top/mid/bot` (gradiente do card, escurecido para a
-  narrativa se sustentar sem véu atrás), `frame` (preto do fundo),
+- **cores** — `hero-top/mid/bot` (fundo do card, hoje preto; era um degradê
+  cinza), `frame` (preto do fundo),
   `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card`
   (fundos), `accent-warm` / `accent-cool` / `accent-mint`
   (acentos por seção), `stroke` / `stroke-glow` (contorno da palavra do hero)

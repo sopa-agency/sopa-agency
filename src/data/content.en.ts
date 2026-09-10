@@ -108,12 +108,6 @@ const services = {
           detail: 'Flows, interfaces and prototypes ready for development.',
         },
       ],
-      cta: {
-        label: 'Start a project',
-        href: waLink(
-          "Hi! I came from SOPA's site and I'd like to get a creative project off the ground — a site, a brand or a digital product.",
-        ),
-      },
       visual: 'works',
     },
     {
@@ -152,12 +146,6 @@ const services = {
           detail: 'Connects what the company already runs — in-house systems included.',
         },
       ],
-      cta: {
-        label: 'Request a review',
-        href: waLink(
-          "Hi! I came from SOPA's site and I'd like a review of my operation to find out what can be automated.",
-        ),
-      },
       visual: 'process',
     },
   ],

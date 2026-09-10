@@ -24,18 +24,21 @@ import { pt } from './content.pt'
  *
  *   1. hero       — "Começar uma conversa": a porta de entrada, sem contexto
  *                   ainda, então a barreira tem que ser a mais baixa da página.
- *   2. serviços   — um por card, com a INTENÇÃO do card no rótulo E na
- *                   mensagem: quem clica em Automação já abre a conversa
- *                   falando de automação. É isso que os faz merecer o lugar;
- *                   fossem dois botões iguais lado a lado, um sobraria.
- *   3. rodapé     — "Tirar um projeto do papel": quem chegou aqui leu a página
+ *   2. rodapé     — "Tirar um projeto do papel": quem chegou aqui leu a página
  *                   inteira e pode receber o pedido mais direto.
  *
- * **Três destes diziam "Entre em contato"**, e era a repetição da FRASE que
- * fazia a página soar insistente — não a quantidade de botões. Os cards já
- * tinham resolvido isso; os outros só receberam o mesmo tratamento. Ao mexer
- * num rótulo, mexa sabendo que ele é o que separa um convite de um eco: dois
- * botões com o mesmo texto são um botão repetido, mesmo em seções distantes.
+ * São DOIS, e já foram cinco. Os rótulos são diferentes de propósito: os cinco
+ * antigos tinham três "Entre em contato", e era a repetição da FRASE que fazia
+ * a página soar insistente. Ao mexer num rótulo, mexa sabendo que ele é o que
+ * separa um convite de um eco — dois botões com o mesmo texto são um botão
+ * repetido, mesmo em seções distantes.
+ *
+ * **Os dois CTAs das faixas de serviço saíram.** Eles abriam o WhatsApp já
+ * falando do assunto da faixa, e era isso que os fazia merecer o lugar; ainda
+ * assim eram dois dos cinco botões, e a página pesava mais do que ganhava. A
+ * seção de serviços agora só apresenta — quem se convence rola para o rodapé.
+ * Com eles foi embora a única mensagem de WhatsApp com contexto: as duas que
+ * sobraram são genéricas.
  *
  * **Só o CTA do rodapé leva o ícone do WhatsApp.** Ele estava nos quatro, e um
  * mesmo símbolo repetido não se resolve com rótulo diferente: deixa de ser
