@@ -140,26 +140,32 @@ para lá (ver abaixo); o `id` ficou para quem chegar por link direto.
 
 ### Onde a página pede contato
 
-Cinco pontos, cada um com uma razão diferente para existir **e um rótulo
+Quatro pontos, cada um com uma razão diferente para existir **e um rótulo
 diferente** — a política está escrita por extenso no topo do `content.ts`, e é
 para lá que vai qualquer mudança:
 
 | ponto | rótulo | por quê |
 |---|---|---|
-| menu | Falar no WhatsApp | sempre à mão, para quem já decidiu antes de ler. O que falta ali é o canal, não o convite |
 | hero | Começar uma conversa | a porta de entrada, ainda sem contexto: a barreira mais baixa da página |
 | card de serviço (×2) | Começar um projeto / Pedir uma revisão | cada um abre o WhatsApp já falando do assunto DELE — é o que os faz merecer o lugar, em vez de serem o mesmo botão duas vezes |
 | rodapé | Tirar um projeto do papel | o fecho, para quem leu a página inteira e aceita o pedido mais direto |
 
-> **O rótulo é o que separa um convite de um eco.** Três destes cinco diziam
-> "Entre em contato", e era a repetição da FRASE que fazia a página soar
-> insistente — não a quantidade de botões. Os cards já tinham resolvido isso; os
-> outros três só receberam o mesmo tratamento. Dois botões com o mesmo texto são
-> um botão repetido, mesmo em seções distantes.
+> **O rótulo é o que separa um convite de um eco.** Três destes diziam "Entre em
+> contato", e era a repetição da FRASE que fazia a página soar insistente — não
+> a quantidade de botões. Os cards já tinham resolvido isso; os outros só
+> receberam o mesmo tratamento. Dois botões com o mesmo texto são um botão
+> repetido, mesmo em seções distantes.
 
-O menu tinha também um **link "Contato"** apontando para o rodapé, ao lado do
-botão que abre a conversa. Saiu: levava a pessoa a um lugar onde havia outro
-botão igual, e quem abre o menu e clica em "Contato" quer falar, não rolar.
+**Nenhum CTA leva o ícone do WhatsApp.** Ele estava nos quatro, e um mesmo
+símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e vira
+textura da página. Com ele saiu o mecanismo de ícone preenchido do `Icon.tsx`,
+que existia só para essa marca. O custo: o botão não anuncia mais que abre outro
+app. Se isso pesar, o conserto é nomear o canal em **um** rótulo, não devolver o
+ícone a todos.
+
+**O menu não tem CTA.** É lista de navegação e nada mais — quatro links do mesmo
+padrão, incluindo "Contato", que aponta para o rodapé, onde está o botão. Um
+botão solto no meio dos links era o único elemento fora do padrão do menu.
 
 **Sem CTA de propósito:** o fim da narrativa do hero (caía uma tela antes dos
 serviços) e o FAQ (quem está tirando dúvida ainda não decidiu, e o rodapé vem

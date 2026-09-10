@@ -17,8 +17,8 @@ const nav = {
     { label: 'Home', href: '#topo' },
     { label: 'Services', href: '#servicos' },
     { label: 'FAQ', href: '#faq' },
+    { label: 'Contact', href: '#contato' },
   ],
-  cta: { label: 'Chat on WhatsApp', href: whatsappUrl },
   languageLabel: 'Language',
   languages: [
     { code: 'pt', label: 'PT', href: '/' },
@@ -110,7 +110,6 @@ const services = {
       ],
       cta: {
         label: 'Start a project',
-        icon: 'whatsapp',
         href: waLink(
           "Hi! I came from SOPA's site and I'd like to get a creative project off the ground — a site, a brand or a digital product.",
         ),
@@ -155,7 +154,6 @@ const services = {
       ],
       cta: {
         label: 'Request a review',
-        icon: 'whatsapp',
         href: waLink(
           "Hi! I came from SOPA's site and I'd like a review of my operation to find out what can be automated.",
         ),

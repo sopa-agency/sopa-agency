@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react'
 
-import { Icon } from '../components/Icon'
 import { SpecularButton } from '../components/SpecularButton'
 import { HeroStory } from '../components/hero/HeroStory'
 import { LightBeam } from '../components/hero/LightBeam'
@@ -146,7 +145,6 @@ export function Hero() {
                     rel="noreferrer"
                     className="rounded-xl border border-white/10 bg-surface-raised px-5 py-3 text-sm text-ink hover:border-white/25"
                   >
-                    <Icon name="whatsapp" className="size-4" />
                     {hero.actions.primary}
                   </SpecularButton>
                   <a

@@ -21,8 +21,8 @@ const nav = {
     { label: 'Início', href: '#topo' },
     { label: 'Serviços', href: '#servicos' },
     { label: 'Perguntas frequentes', href: '#faq' },
+    { label: 'Contato', href: '#contato' },
   ],
-  cta: { label: 'Falar no WhatsApp', href: whatsappUrl },
   /**
    * PT e EN são duas páginas, não um estado do React: o seletor do menu são
    * dois links de verdade. `locale` é quem está no ar agora, e o menu marca o
@@ -150,7 +150,6 @@ const services = {
       ],
       cta: {
         label: 'Começar um projeto',
-        icon: 'whatsapp',
         href: waLink(
           'Oi! Vim pelo site da SOPA e quero tirar um projeto de criação do papel — site, marca ou produto digital.',
         ),
@@ -195,7 +194,6 @@ const services = {
       ],
       cta: {
         label: 'Pedir uma revisão',
-        icon: 'whatsapp',
         href: waLink(
           'Oi! Vim pelo site da SOPA e quero uma revisão da minha operação para saber o que dá para automatizar.',
         ),

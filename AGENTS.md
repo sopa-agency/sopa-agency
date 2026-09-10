@@ -87,12 +87,17 @@ fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
 
 **Uma seção por arquivo** em `src/sections/`, montadas em `App.tsx`.
 
-**Cada CTA tem rótulo próprio.** São cinco pontos de contato (menu, hero, dois
-cards de serviço, rodapé) e nenhum repete o texto do outro — a política inteira
-está no topo do `content.ts`. Três deles diziam "Entre em contato" e era a
-repetição da frase, não a quantidade de botões, que fazia a página soar
-insistente. Ao acrescentar ou mexer num CTA: o rótulo diz o que acontece a
-seguir, e nunca é o mesmo de outro botão da página.
+**Cada CTA tem rótulo próprio, e nenhum tem ícone.** São quatro pontos de
+contato (hero, dois cards de serviço, rodapé) e nenhum repete o texto do outro —
+a política inteira está no topo do `content.ts`. Três deles diziam "Entre em
+contato", e era a repetição da frase, não a quantidade de botões, que fazia a
+página soar insistente. O ícone do WhatsApp saiu dos quatro pela mesma razão, e
+com ele o mecanismo de ícone preenchido do `Icon.tsx`. Ao acrescentar ou mexer
+num CTA: o rótulo diz o que acontece a seguir, nunca é o mesmo de outro botão da
+página, e não entra ícone de canal.
+
+**O menu é só navegação.** Quatro links do mesmo padrão, sem CTA no meio —
+"Contato" aponta para o `id="contato"` do rodapé, e é lá que está o botão.
 
 **As meta tags moram nos dois `index.html`.** Sem framework para gerar
 `<head>`, o title, a description, o OG e o JSON-LD são escritos à mão em

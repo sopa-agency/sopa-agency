@@ -138,7 +138,6 @@ function ServiceBand({ card, index }: { card: Card; index: number }) {
           radius={8}
           className="mt-8 w-fit rounded-lg border border-white/8 bg-white/4 px-7 py-4 text-sm text-ink/80 hover:border-white/20 hover:text-ink"
         >
-          <Icon name={card.cta.icon} className="size-4" />
           {card.cta.label}
         </SpecularButton>
       </div>

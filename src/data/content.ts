@@ -18,36 +18,40 @@ import { pt } from './content.pt'
  * Onde o site pede contato — e onde NÃO pede.
  *
  * O mesmo botão repetido em toda seção deixa de ser convite e vira ruído: se
- * está em todo lugar, não está em lugar nenhum. A página tem cinco pontos de
+ * está em todo lugar, não está em lugar nenhum. A página tem quatro pontos de
  * contato, cada um com uma razão diferente para existir — e, o que importa
  * tanto quanto, **um rótulo diferente**:
  *
- *   1. menu       — "Falar no WhatsApp": para quem já decidiu antes de ler. O
- *                   que falta ali é a informação do canal, não o convite.
- *   2. hero       — "Começar uma conversa": a porta de entrada, sem contexto
+ *   1. hero       — "Começar uma conversa": a porta de entrada, sem contexto
  *                   ainda, então a barreira tem que ser a mais baixa da página.
- *   3. serviços   — um por card, com a INTENÇÃO do card no rótulo E na
+ *   2. serviços   — um por card, com a INTENÇÃO do card no rótulo E na
  *                   mensagem: quem clica em Automação já abre a conversa
  *                   falando de automação. É isso que os faz merecer o lugar;
  *                   fossem dois botões iguais lado a lado, um sobraria.
- *   4. rodapé     — "Tirar um projeto do papel": quem chegou aqui leu a página
+ *   3. rodapé     — "Tirar um projeto do papel": quem chegou aqui leu a página
  *                   inteira e pode receber o pedido mais direto.
  *
- * **Os cinco eram três "Entre em contato" e dois rótulos próprios**, e era a
- * repetição da FRASE que fazia a página soar insistente — não a quantidade de
- * botões. Os cards já tinham resolvido isso; os outros três só receberam o
- * mesmo tratamento. Ao mexer num rótulo, mexa sabendo que ele é o que separa
- * um convite de um eco: dois botões com o mesmo texto são um botão repetido,
- * mesmo em seções distantes.
+ * **Três destes diziam "Entre em contato"**, e era a repetição da FRASE que
+ * fazia a página soar insistente — não a quantidade de botões. Os cards já
+ * tinham resolvido isso; os outros só receberam o mesmo tratamento. Ao mexer
+ * num rótulo, mexa sabendo que ele é o que separa um convite de um eco: dois
+ * botões com o mesmo texto são um botão repetido, mesmo em seções distantes.
+ *
+ * **Nenhum CTA leva o ícone do WhatsApp.** Ele estava nos quatro, e um mesmo
+ * símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e
+ * vira textura da página. Com ele foi embora o mecanismo de ícone preenchido do
+ * `Icon.tsx`, que existia só para essa marca. O custo é que o botão não anuncia
+ * mais que abre outro app; se isso pesar, o conserto é nomear o canal em UM
+ * rótulo, não devolver o ícone a todos.
+ *
+ * **O menu não tem CTA.** Ele é lista de navegação e nada mais: quatro links
+ * do mesmo padrão, incluindo "Contato", que aponta para o `id="contato"` do
+ * rodapé — e é lá que está o botão. Um botão solto no meio dos links era o
+ * único elemento fora do padrão do menu.
  *
  * Sem CTA: a narrativa do hero (o botão caía uma tela antes dos serviços, que
  * já pedem contato) e o FAQ (quem está tirando dúvida ainda não decidiu — e o
  * rodapé vem logo depois).
- *
- * O menu tinha também um LINK "Contato" apontando para o rodapé, ao lado do
- * botão que abre a conversa. Saiu: levava a pessoa a um lugar onde havia outro
- * botão igual, e quem abre o menu e clica em "Contato" quer falar, não rolar.
- * O `id="contato"` do rodapé ficou, para quem chegar por link direto.
  */
 
 // ponytail: o PT é a forma canônica e o EN entra por cast, então o tsc só
