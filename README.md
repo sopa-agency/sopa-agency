@@ -332,7 +332,6 @@ As quatro seções estão construídas e responsivas (checadas em 1440px e 390px
 O que ainda é placeholder e deve ser trocado antes de publicar:
 
 - **o número de WhatsApp em `content.ts` é de teste** — trocar pelo da SOPA
-- **o link do Instagram no rodapé aponta para a home da rede**, não para um perfil
 - **PT/EN e claro/escuro no menu são maquete** — seguem `disabled` até haver
   copy inglesa escrita e paleta clara desenhada
 - não há analytics, formulário de contato nem testes
