@@ -17,9 +17,8 @@ const nav = {
     { label: 'Home', href: '#topo' },
     { label: 'Services', href: '#servicos' },
     { label: 'FAQ', href: '#faq' },
-    { label: 'Contact', href: '#contato' },
   ],
-  cta: { label: 'Get in touch', href: whatsappUrl },
+  cta: { label: 'Chat on WhatsApp', href: whatsappUrl },
   languageLabel: 'Language',
   languages: [
     { code: 'pt', label: 'PT', href: '/' },
@@ -37,7 +36,7 @@ const hero = {
   wordmark: 'SOPA',
   label: 'Agency',
   actions: {
-    primary: 'Get in touch',
+    primary: 'Start a conversation',
     secondary: 'Work in the wild',
   },
   scrollHint: 'Scroll to begin',
@@ -264,7 +263,7 @@ const footer = {
     'and systems made to keep working, keep evolving and keep',
     'paying off long after they go live.',
   ],
-  cta: { label: 'Get in touch', href: whatsappUrl },
+  cta: { label: 'Get a project off the ground', href: whatsappUrl },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
     // sem perfil ainda: manda pro Instagram e pronto

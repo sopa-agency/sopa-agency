@@ -21,9 +21,8 @@ const nav = {
     { label: 'Início', href: '#topo' },
     { label: 'Serviços', href: '#servicos' },
     { label: 'Perguntas frequentes', href: '#faq' },
-    { label: 'Contato', href: '#contato' },
   ],
-  cta: { label: 'Entre em contato', href: whatsappUrl },
+  cta: { label: 'Falar no WhatsApp', href: whatsappUrl },
   /**
    * PT e EN são duas páginas, não um estado do React: o seletor do menu são
    * dois links de verdade. `locale` é quem está no ar agora, e o menu marca o
@@ -50,7 +49,7 @@ const hero = {
   wordmark: 'SOPA',
   label: 'Agency',
   actions: {
-    primary: 'Entre em contato',
+    primary: 'Começar uma conversa',
     secondary: 'Trabalhos no ar',
   },
   /** Dica no pé do hero: some junto com o resto do bloco inicial. */
@@ -323,7 +322,7 @@ const footer = {
     'sistemas feitos para continuar funcionando, evoluindo e gerando',
     'resultado muito depois que entram no ar.',
   ],
-  cta: { label: 'Entre em contato', href: whatsappUrl },
+  cta: { label: 'Tirar um projeto do papel', href: whatsappUrl },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
     // sem perfil ainda: manda pro Instagram e pronto

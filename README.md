@@ -134,21 +134,32 @@ substituir string, é refazer as quebras em fim de oração.
 ## As seções
 
 A página é `Hero → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
-`#servicos`, `#faq` e `#contato` (esta última é o próprio footer) — os `id` são
-os mesmos nas duas locales, então só os rótulos são traduzidos.
+`#servicos` e `#faq` — os `id` são os mesmos nas duas locales, então só os
+rótulos são traduzidos. O footer tem `id="contato"` e o menu **não** aponta mais
+para lá (ver abaixo); o `id` ficou para quem chegar por link direto.
 
 ### Onde a página pede contato
 
-Quatro pontos, cada um com uma razão diferente para existir — a política está
-escrita por extenso no topo do `content.ts`, e é para lá que vai qualquer
-mudança:
+Cinco pontos, cada um com uma razão diferente para existir **e um rótulo
+diferente** — a política está escrita por extenso no topo do `content.ts`, e é
+para lá que vai qualquer mudança:
 
-| ponto | por quê |
-|---|---|
-| menu | sempre à mão, para quem já decidiu antes de ler |
-| hero | a porta de entrada, ainda sem contexto |
-| card de serviço (×2) | cada um abre o WhatsApp já falando do assunto DELE — é o que os faz merecer o lugar, em vez de serem o mesmo botão duas vezes |
-| rodapé | o fecho, para quem leu a página inteira |
+| ponto | rótulo | por quê |
+|---|---|---|
+| menu | Falar no WhatsApp | sempre à mão, para quem já decidiu antes de ler. O que falta ali é o canal, não o convite |
+| hero | Começar uma conversa | a porta de entrada, ainda sem contexto: a barreira mais baixa da página |
+| card de serviço (×2) | Começar um projeto / Pedir uma revisão | cada um abre o WhatsApp já falando do assunto DELE — é o que os faz merecer o lugar, em vez de serem o mesmo botão duas vezes |
+| rodapé | Tirar um projeto do papel | o fecho, para quem leu a página inteira e aceita o pedido mais direto |
+
+> **O rótulo é o que separa um convite de um eco.** Três destes cinco diziam
+> "Entre em contato", e era a repetição da FRASE que fazia a página soar
+> insistente — não a quantidade de botões. Os cards já tinham resolvido isso; os
+> outros três só receberam o mesmo tratamento. Dois botões com o mesmo texto são
+> um botão repetido, mesmo em seções distantes.
+
+O menu tinha também um **link "Contato"** apontando para o rodapé, ao lado do
+botão que abre a conversa. Saiu: levava a pessoa a um lugar onde havia outro
+botão igual, e quem abre o menu e clica em "Contato" quer falar, não rolar.
 
 **Sem CTA de propósito:** o fim da narrativa do hero (caía uma tela antes dos
 serviços) e o FAQ (quem está tirando dúvida ainda não decidiu, e o rodapé vem
