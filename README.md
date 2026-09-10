@@ -355,6 +355,14 @@ description, o Open Graph e o JSON-LD são escritos à mão no `index.html` **e 
 `en/index.html`**. Os robôs de preview de link não executam JavaScript, então o
 que aparece no WhatsApp e no LinkedIn sai de lá.
 
+> **O `<title>` é só `SOPA`.** É ele que a aba do navegador mostra, e ali cabem
+> uns 20 caracteres antes de cortar — qualquer frase acrescentada aparece
+> truncada e a marca some no meio dela. O preço é o headline do resultado de
+> busca, que fica sem as palavras-chave; elas seguem na `description`, no
+> JSON-LD e no `og:title`, que é o que o preview de link usa e continua a frase
+> inteira. Se a tentação for alongar o title para agradar buscador: a aba é o
+> que o cliente vê todo dia.
+
 O par de `hreflang` tem que estar completo nas duas páginas (`pt-BR`, `en` e
 `x-default`) — listado só de um lado, o Google ignora o par inteiro. O
 `public/sitemap.xml` traz as duas URLs com os mesmos alternates.
