@@ -335,6 +335,40 @@ O par de `hreflang` tem que estar completo nas duas páginas (`pt-BR`, `en` e
 `x-default`) — listado só de um lado, o Google ignora o par inteiro. O
 `public/sitemap.xml` traz as duas URLs com os mesmos alternates.
 
+### O favicon
+
+`public/favicon.png` (32×32) e `public/logo.png` (512×512) saem os dois do
+mesmo lugar: `src/assets/logo.png`, a arte original em 1254×1254. Esse arquivo
+não é servido — mora ali só para dar de onde regerar.
+
+O recorte importa. Na arte original o desenho vem 93px deslocado para a
+esquerda, então gerar direto deixaria o ícone fora de centro na aba: o passo é
+recortar pela caixa do alfa e recentrar num quadrado antes de reduzir.
+
+```python
+from PIL import Image
+im = Image.open('src/assets/logo.png').convert('RGBA')
+art = im.crop(im.getchannel('A').getbbox())
+side = max(art.size)
+sq = Image.new('RGBA', (side, side), (0, 0, 0, 0))
+sq.paste(art, ((side - art.width) // 2, (side - art.height) // 2))
+
+sq.resize((32, 32), Image.LANCZOS).save('public/favicon.png', optimize=True)
+sq.resize((512, 512), Image.LANCZOS).quantize(colors=32, method=Image.FASTOCTREE)   .convert('RGBA').save('public/logo.png', optimize=True)
+```
+
+O 512 é quantizado em 32 cores e o 32 não: é pixel art de cor plana, então a
+paleta curta tira 8x do peso (122 KB → 15 KB) sem diferença visível — e na
+escala de 32px, onde cada pixel conta, não vale arriscar a nuance por 2 KB.
+
+O `logo.png` serve o `apple-touch-icon` e o `"logo"` do JSON-LD, que antes
+apontava para o `og.jpg` — um print da home, não uma marca.
+
+> **A 16px o desenho embola.** Os dois fios de vapor viram um borrão só e o
+> pires se perde; ainda lê como tigela fumegando, que é o suficiente para uma
+> aba, mas não espere ver os grãos. Por isso o `sizes="32x32"` declarado: em
+> tela de alta densidade o browser pega o 32 e o desenho se sustenta.
+
 ### A imagem de preview
 
 `public/og.jpg` é um **print da home de verdade**, não uma arte à parte: a
