@@ -1,7 +1,8 @@
 # SOPA — Website
 
 Site institucional da SOPA, estúdio de criação e engenharia. Página única em
-português, fundo escuro, com um hero em WebGL que conduz a narrativa por scroll.
+duas locales — português em `/` e inglês em `/en/` —, fundo escuro, com um hero
+em WebGL que conduz a narrativa por scroll.
 
 ## Stack
 
@@ -14,8 +15,8 @@ português, fundo escuro, com um hero em WebGL que conduz a narrativa por scroll
 | oxlint | lint |
 | WebGL2 | o feixe de luz do hero e do footer, sem biblioteca |
 
-Sem roteador, sem CMS, sem backend: tudo é estático e o conteúdo vem de um
-módulo TypeScript.
+Sem roteador, sem CMS, sem backend, sem biblioteca de i18n: tudo é estático e o
+conteúdo vem de dois módulos TypeScript, um por idioma.
 
 ## Rodar
 
@@ -44,15 +45,22 @@ Vercel. O `vercel.json` na raiz é o que aponta o framework:
 > `No Next.js version detected`. As chaves do `vercel.json` têm precedência sobre
 > o painel, então o conserto fica versionado junto com o código.
 
-Sem rewrite de SPA de propósito: a página é uma só, e um fallback para o
-`index.html` faria qualquer URL errada responder 200 em vez de 404.
+Sem rewrite de SPA de propósito. São duas páginas estáticas e nenhuma rota no
+cliente, então um fallback para o `index.html` só faria URL errada responder 200
+em vez de 404. É também por isso que o `vite.config.ts` traz `appType: 'mpa'`:
+no padrão (`spa`), o `pnpm dev` e o `pnpm preview` devolvem a home para
+qualquer caminho e escondem em teste o 404 que a Vercel dá em produção.
 
 ## Estrutura
 
 ```
 src/
 ├── App.tsx                # monta as seções na ordem da página
-├── data/content.ts        # TODA a copy do site
+├── data/
+│   ├── content.ts         # escolhe a locale pelo `lang` do documento
+│   ├── content.pt.ts      # TODA a copy em português
+│   ├── content.en.ts      # TODA a copy em inglês, mesma forma
+│   └── contact.ts         # o número de WhatsApp e o montador de link
 ├── sections/              # uma seção por arquivo
 │   ├── Hero.tsx           # hero com scrollytelling
 │   ├── Services.tsx       # dois cards com painel visual
@@ -79,10 +87,55 @@ src/
 └── index.css              # @theme (cores, fontes, keyframes) + @utility próprios
 ```
 
+## As duas locales
+
+Português em `/`, inglês em `/en/`. São duas **páginas estáticas**, não um
+estado do React, e é o que faz o inglês existir para quem importa: robô de
+preview de link e buscador não executam JavaScript, então um seletor de idioma
+em estado deixaria os dois vendo só português.
+
+O `vite.config.ts` declara as duas como entradas do mesmo build:
+
+```ts
+build: { rollupOptions: { input: { pt: 'index.html', en: 'en/index.html' } } }
+```
+
+Sai `dist/index.html` e `dist/en/index.html`, **compartilhando um bundle só** —
+as duas locales viajam juntas no JS. São alguns KB de texto, e em troca a
+segunda página abre com o cache quente. A Vercel serve as duas como arquivo
+estático: nenhum rewrite, nenhuma mudança no `vercel.json`.
+
+Quem decide a copy é o `lang` do documento:
+
+```ts
+// src/data/content.ts
+const locale = document.documentElement.lang.startsWith('en') ? en : pt
+export const { nav, hero, services, faq, footer, whatsappUrl } = locale
+```
+
+O `<script type="module">` é deferred, então o `<html>` já foi parseado quando
+o módulo inicializa. **Os componentes não mudaram**: seguem importando `nav`,
+`hero`, `services`… pelo nome, sem context e sem prop drilling.
+
+O seletor do menu são dois links de verdade (`/` e `/en/`) com `hrefLang` e
+`aria-current` — indexável, e sem estado para sincronizar.
+
+> **Mexeu numa locale, mexa na outra.** As duas têm a mesma forma, e os valores
+> estruturais são idênticos: `accent`, `visual`, `icon`, `slug` e os `href` de
+> âncora. Só a prosa e as mensagens de WhatsApp mudam. O
+> `satisfies Record<keyof typeof pt, unknown>` no fim do `content.en.ts` cobra
+> as chaves de primeiro nível — esquecer uma seção quebra o build; esquecer uma
+> chave de prosa aparece como texto vazio ao abrir o `/en/`.
+
+E as quebras do `hero.story` são estruturais **nas duas**: cada string é uma
+linha que o facho atravessa, com teto de 46 caracteres. Traduzir não é
+substituir string, é refazer as quebras em fim de oração.
+
 ## As seções
 
 A página é `Hero → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
-`#servicos`, `#faq` e `#contato` (esta última é o próprio footer).
+`#servicos`, `#faq` e `#contato` (esta última é o próprio footer) — os `id` são
+os mesmos nas duas locales, então só os rótulos são traduzidos.
 
 ### Onde a página pede contato
 
@@ -266,15 +319,21 @@ ela deixava de ser o retrato da marca e virava textura.
 
 ## Ajustar conteúdo
 
-**Todo** o texto do site está em `src/data/content.ts`, exportado por seção
-(`hero`, `services`, `faq`, `footer`). Nenhum componente tem texto embutido —
-para mudar a copy, os itens do FAQ, os serviços dos cards ou os links do rodapé,
-mexa só nesse arquivo.
+**Todo** o texto do site está em `src/data/content.pt.ts` e
+`src/data/content.en.ts`, por seção (`nav`, `hero`, `services`, `faq`,
+`footer`). Nenhum componente tem texto embutido — nem `aria-label`. Para mudar
+a copy, os itens do FAQ, os serviços dos cards ou os links do rodapé, mexa
+nesses dois arquivos. O número de WhatsApp fica no `contact.ts`, porque é o
+mesmo nas duas locales; as mensagens que abrem a conversa, não.
 
 As **meta tags** são a exceção: sem framework para gerar o `<head>`, o title, a
-description, o Open Graph e o JSON-LD são escritos à mão no `index.html`. Os
-robôs de preview de link não executam JavaScript, então o que aparece no
-WhatsApp e no LinkedIn sai de lá.
+description, o Open Graph e o JSON-LD são escritos à mão no `index.html` **e no
+`en/index.html`**. Os robôs de preview de link não executam JavaScript, então o
+que aparece no WhatsApp e no LinkedIn sai de lá.
+
+O par de `hreflang` tem que estar completo nas duas páginas (`pt-BR`, `en` e
+`x-default`) — listado só de um lado, o Google ignora o par inteiro. O
+`public/sitemap.xml` traz as duas URLs com os mesmos alternates.
 
 ### A imagem de preview
 
@@ -333,6 +392,11 @@ O que ainda é placeholder e deve ser trocado antes de publicar:
 
 - **o número de WhatsApp em `content.ts` é de teste** — trocar pelo da SOPA
 - **o link do Instagram no rodapé aponta para a home da rede**, não para um perfil
-- **PT/EN e claro/escuro no menu são maquete** — seguem `disabled` até haver
-  copy inglesa escrita e paleta clara desenhada
 - não há analytics, formulário de contato nem testes
+
+Tema claro **não** está na lista: o toggle saiu do menu de propósito. O
+`LightBeam` acumula cor partindo do preto e soma luz com blend `SRC_ALPHA` —
+sobre fundo claro ele não clareia, pinta um retângulo escuro com riscos. O
+`Starfield` tem o mesmo problema, e o `--color-stroke` da palavra gigante está
+calibrado para o degradê do card. Tema claro é reescrever os shaders, não trocar
+tokens; se um dia for pedido, `prefers-color-scheme` resolve sem botão.

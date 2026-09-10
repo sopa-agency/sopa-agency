@@ -113,50 +113,38 @@ export function Menu() {
           {nav.cta.label}
         </a>
 
-        {/* MAQUETE — idioma e tema ainda não fazem nada, e por isso vão
-            `disabled`: botão que parece funcionar e não funciona é pior que
-            botão nenhum. Ligar exige o site escrito em inglês e uma paleta
-            clara desenhada; até lá, servem para ver a forma. */}
-        <div
+        {/* PT e EN são duas páginas estáticas, então o seletor são dois
+            links de verdade — indexável, e sem estado para sincronizar. O
+            toggle de tema que morava aqui do lado saiu: era maquete, e ligar
+            custaria reescrever os shaders do hero, que somam luz partindo do
+            preto e sobre fundo claro pintariam um retângulo escuro. */}
+        <nav
+          aria-label={nav.languageLabel}
           style={{ transitionDelay: isOpen ? '380ms' : '0ms' }}
-          className={`flex items-center gap-3 transition-all duration-500 ${
+          className={`transition-all duration-500 ${
             isOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
           }`}
         >
-          <div className="flex items-center rounded-lg border border-white/8 bg-white/2 p-1">
-            {nav.settings.languages.map((language, i) => (
-              <button
-                key={language.code}
-                type="button"
-                disabled
-                className={`rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors ${
-                  i === 0 ? 'bg-white/8 text-ink' : 'text-ink/35'
-                }`}
-              >
-                {language.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center rounded-lg border border-white/8 bg-white/2 p-1">
-            <button
-              type="button"
-              disabled
-              aria-label={nav.settings.theme.dark}
-              className="flex size-8 items-center justify-center rounded-md bg-white/8 text-ink"
-            >
-              <Icon name="moon" className="size-4" />
-            </button>
-            <button
-              type="button"
-              disabled
-              aria-label={nav.settings.theme.light}
-              className="flex size-8 items-center justify-center rounded-md text-ink/35"
-            >
-              <Icon name="sun" className="size-4" />
-            </button>
-          </div>
-        </div>
+          <ul className="flex items-center rounded-lg border border-white/8 bg-white/2 p-1">
+            {nav.languages.map((language) => {
+              const isCurrent = language.code === nav.locale
+              return (
+                <li key={language.code}>
+                  <a
+                    href={language.href}
+                    hrefLang={language.code}
+                    aria-current={isCurrent ? 'page' : undefined}
+                    className={`block rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors ${
+                      isCurrent ? 'bg-white/8 text-ink' : 'text-ink/35 hover:text-ink/70'
+                    }`}
+                  >
+                    {language.label}
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
       </div>
     </>
   )
