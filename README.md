@@ -373,21 +373,55 @@ O par de `hreflang` tem que estar completo nas duas páginas (`pt-BR`, `en` e
 mesmo lugar: `src/assets/logo.png`, a arte original em 1254×1254. Esse arquivo
 não é servido — mora ali só para dar de onde regerar.
 
-O recorte importa. Na arte original o desenho vem 93px deslocado para a
-esquerda, então gerar direto deixaria o ícone fora de centro na aba: o passo é
-recortar pela caixa do alfa e recentrar num quadrado antes de reduzir.
+O enquadramento é a parte que dá trabalho, e centrar pela caixa da imagem
+**não** funciona aqui. Duas razões, as duas mensuráveis:
+
+- a arte vem **93px deslocada para a esquerda** no arquivo original;
+- e ela é desequilibrada de propósito — o topo é vapor fino (7% a 23% de tinta
+  por faixa) e a base é a tigela sólida (62% a 80%). O **centroide do alfa fica
+  em y=63,9%**, quase 14 pontos abaixo do centro geométrico.
+
+O navegador centraliza a *caixa* do ícone, então centrar pela caixa deixa a
+massa visual quase 14% mais baixa que o texto da aba: o ícone parece afundado
+ao lado do "SOPA". Some a isso a arte encostando nas bordas — todo outro
+favicon da barra tem folga, e sem ela este lê como grande demais.
+
+A receita corrige as duas coisas: **12% de folga** de cada lado e **metade** da
+correção de centroide. Metade, e não ela toda: corrigindo 100% o ícone sobe
+demais, passa a flutuar acima da linha do texto e o vapor volta a encostar no
+topo. Vale comparar os casos lado a lado numa barra de abas de mentira antes de
+mudar esses números.
 
 ```python
+import numpy as np
 from PIL import Image
+
+MARGIN, LIFT = 0.12, 0.5
+
 im = Image.open('src/assets/logo.png').convert('RGBA')
 art = im.crop(im.getchannel('A').getbbox())
-side = max(art.size)
+w, h = art.size
+
+# centroide do alfa: onde a tinta realmente está, não onde a caixa está
+ys, xs = np.nonzero(np.array(art.getchannel('A')) > 8)
+cy, cx = ys.mean() / h, xs.mean() / w
+
+side = int(round(h / (1 - 2 * MARGIN)))
 sq = Image.new('RGBA', (side, side), (0, 0, 0, 0))
-sq.paste(art, ((side - art.width) // 2, (side - art.height) // 2))
+sq.paste(art, (int(round((side - w) / 2 - (cx - 0.5) * w)),
+               int(round((side - h) / 2 - LIFT * (cy - 0.5) * h))))
 
 sq.resize((32, 32), Image.LANCZOS).save('public/favicon.png', optimize=True)
-sq.resize((512, 512), Image.LANCZOS).quantize(colors=32, method=Image.FASTOCTREE)   .convert('RGBA').save('public/logo.png', optimize=True)
+big = sq.resize((512, 512), Image.LANCZOS)
+big.quantize(colors=32, method=Image.FASTOCTREE).convert('RGBA').save(
+    'public/logo.png', optimize=True
+)
 ```
+
+> **Trocando a logo, remeça o centroide.** `MARGIN` e `LIFT` foram escolhidos
+> para *esta* arte. Uma logo equilibrada tem centroide perto de 50% e o `LIFT`
+> deixa de fazer diferença; uma pesada no topo pede lift negativo. Quem manda é
+> o número medido, não o palpite.
 
 O 512 é quantizado em 32 cores e o 32 não: é pixel art de cor plana, então a
 paleta curta tira 8x do peso (122 KB → 15 KB) sem diferença visível — e na
