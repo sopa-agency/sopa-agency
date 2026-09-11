@@ -173,6 +173,13 @@ efeito quebra a remontagem no StrictMode: o shader não compila mais e a árvore
 React cai inteira. O `LightBeam` libera shaders, programa e buffer, e nunca o
 contexto.
 
+**`w-screen` conta a barra de rolagem.** O canvas do `Starfield` e o do
+`LightBeam` são medidos pela viewport com `w-screen`, e `100vw` inclui os ~15px
+da barra — solto, cada um estoura a página e aparece uma barra horizontal. Quem
+os usa PRECISA cortá-los: no hero é o `overflow-hidden` do card, e na seção 02 é
+um invólucro só para isso, para a sombra do card não ser cortada junto. Ao
+colocar um desses em seção nova, confira o `scrollWidth` antes de fechar.
+
 **Efeitos de scroll leem a posição a cada frame** e devem funcionar nos dois
 sentidos — nada de estado acumulado que só avança.
 

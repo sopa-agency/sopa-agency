@@ -99,7 +99,17 @@ export function Metodo() {
           queria resolver. Aqui elas ocupam a seção inteira e o card flutua
           sobre elas.
         */}
-        <Starfield />
+        {/*
+          O recorte é obrigatório: o canvas do campo de estrelas tem `w-screen`,
+          e `100vw` conta a largura da barra de rolagem. Solto, ele estoura a
+          página em ~8px de cada lado e aparece uma barra horizontal. No hero
+          quem o corta é o `overflow-hidden` do card; aqui ele está fora do
+          card, então o recorte vem neste invólucro — e não no palco, para a
+          sombra do card não ser cortada junto.
+        */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <Starfield />
+        </div>
 
         <span
           aria-hidden
