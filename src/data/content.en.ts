@@ -4,7 +4,7 @@
  * O que muda é só o texto e as mensagens que abrem o WhatsApp.
  */
 
-import { waLink } from './contact'
+import { email, waLink } from './contact'
 import type { pt } from './content.pt'
 
 const whatsappUrl = waLink("Hi! I came from SOPA's site and I'd like to talk about a project.")
@@ -250,6 +250,7 @@ const footer = {
     'paying off long after they go live.',
   ],
   cta: { label: 'Get a project off the ground', href: whatsappUrl },
+  email: { prefix: 'or write to', address: email },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
     { label: 'Instagram', href: 'https://www.instagram.com/sopaagency/' },

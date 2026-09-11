@@ -84,7 +84,8 @@ ws.onmessage = (e) => {
   if (msg.id && pendentes.has(msg.id)) {
     const { resolve, reject } = pendentes.get(msg.id)
     pendentes.delete(msg.id)
-    msg.error ? reject(new Error(JSON.stringify(msg.error))) : resolve(msg.result)
+    if (msg.error) reject(new Error(JSON.stringify(msg.error)))
+    else resolve(msg.result)
   }
 }
 const cdp = (method, params = {}, sessionId) =>

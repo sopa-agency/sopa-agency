@@ -4,7 +4,7 @@
  * escolhe um dos dois. Componente nenhum tem texto embutido.
  */
 
-import { waLink } from './contact'
+import { email, waLink } from './contact'
 
 /** Link genérico, para os CTAs que não vêm de um contexto específico. */
 const whatsappUrl = waLink('Oi! Vim pelo site da SOPA e quero conversar sobre um projeto.')
@@ -308,6 +308,14 @@ const footer = {
     'resultado muito depois que entram no ar.',
   ],
   cta: { label: 'Tirar um projeto do papel', href: whatsappUrl },
+  /**
+   * O e-mail é link de texto ao pé do botão, e não um segundo botão: `mailto:`
+   * como CTA principal é aposta ruim — quem não tem cliente de e-mail
+   * configurado clica e nada acontece, e o lead se perde sem ninguém saber.
+   * Como linha discreta, serve quem prefere escrever e não custa nada a quem
+   * não usa. O `prefix` fica fora do link: só o endereço é clicável.
+   */
+  email: { prefix: 'ou escreva para', address: email },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
     { label: 'Instagram', href: 'https://www.instagram.com/sopaagency/' },

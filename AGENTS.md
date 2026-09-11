@@ -110,6 +110,18 @@ rodapé.
 **O menu é só navegação.** Quatro links do mesmo padrão, sem CTA no meio —
 "Contato" aponta para o `id="contato"` do rodapé, e é lá que está o botão.
 
+**Os canais de contato vivem no `contact.ts`**, não na copy: o número de
+WhatsApp e o e-mail são os mesmos nas duas locales. O que muda por idioma são
+as mensagens que abrem a conversa e os rótulos, e esses ficam em cada
+`content.*.ts`. O número tem 13 dígitos (55 + DDD + 9) — conte antes de trocar,
+porque faltando um o `wa.me` não reclama, só abre conversa vazia, e todo CTA do
+site vira link morto sem aviso.
+
+**O e-mail é link de texto ao pé do CTA do rodapé, não um segundo botão.**
+`mailto:` como botão principal é aposta ruim: quem não tem cliente de e-mail
+configurado clica e nada acontece. Como linha discreta serve quem prefere
+escrever e não atrapalha quem não usa.
+
 **As meta tags moram nos dois `index.html`.** Sem framework para gerar
 `<head>`, o title, a description, o OG e o JSON-LD são escritos à mão em
 `index.html` e `en/index.html` — e os robôs de preview de link não executam JS,

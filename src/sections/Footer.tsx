@@ -48,6 +48,18 @@ export function Footer() {
           <Icon name="whatsapp" className="size-4" />
           {footer.cta.label}
         </SpecularButton>
+
+        {/* Link de texto, e não um segundo botão — a razão está no
+            `content.pt.ts`, junto da copy. */}
+        <p className="mt-5 text-[13px] text-ink/35">
+          {footer.email.prefix}{' '}
+          <a
+            href={`mailto:${footer.email.address}`}
+            className="text-ink/60 underline decoration-ink/20 underline-offset-4 transition-colors hover:text-ink hover:decoration-ink/50"
+          >
+            {footer.email.address}
+          </a>
+        </p>
       </div>
 
       {/* No fluxo, empurrada para baixo pelo `mt-auto` — não mais ancorada em
