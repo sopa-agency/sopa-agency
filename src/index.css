@@ -241,3 +241,23 @@
   transform: scaleY(var(--t));
   transform-origin: top;
 }
+
+/**
+ * A crista de luz na aresta de cima do card da seção 02.
+ *
+ * O feixe do hero se rasga ao meio e as duas metades voam para fora do quadro
+ * enquanto o card sobe. A metade de baixo desce na direção do card, e sem nada
+ * ali ela simplesmente sai de cena — a luz e o card acontecem no mesmo instante
+ * sem se encostarem. Esta crista é o ponto de encontro: ela usa as cores do
+ * feixe (frio à esquerda, quente à direita, branco no meio, como o shader
+ * pinta) e está acesa justamente enquanto o rasgo acontece, então o que se lê é
+ * a luz pousando na beirada do card e virando ela.
+ *
+ * A intensidade cai com o `--enter`: cheia enquanto o card sobe, apagada quando
+ * ele assenta — e aí sobra a borda de 0.07 de sempre. O `0.85` é onde o rasgo
+ * termina, medido; o `3.3` é o que mantém a crista em 1 até quase lá, em vez de
+ * ir esmaecendo o caminho todo.
+ */
+@utility beam-dock {
+  opacity: clamp(0, (0.85 - var(--enter, 1)) * 3.3, 1);
+}

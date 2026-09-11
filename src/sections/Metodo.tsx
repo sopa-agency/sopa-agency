@@ -75,7 +75,28 @@ export function Metodo() {
           moldura preta não tem como ser visto, e a seção volta a parecer
           colada nas bordas da tela.
         */}
-        <div className="flex h-full w-full items-center overflow-hidden rounded-[22px] border border-white/[0.07] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-12 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:rounded-[40px] md:px-[clamp(32px,4.5vw,72px)] md:py-[72px]">
+        <div className="relative flex h-full w-full items-center overflow-hidden rounded-[22px] border border-white/[0.07] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-12 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:rounded-[40px] md:px-[clamp(32px,4.5vw,72px)] md:py-[72px]">
+          {/*
+            O halo. Carrega as cores do feixe no eixo X — frio à esquerda,
+            quente à direita, como o `beamShaders` pinta — e some no eixo Y por
+            uma máscara. Sem a máscara seria preciso um segundo degradê por
+            cima, e aí a cor horizontal se perdia no meio do caminho.
+          */}
+          <span
+            aria-hidden
+            className="beam-dock pointer-events-none absolute inset-x-0 top-0 h-36 bg-linear-[90deg,transparent,color-mix(in_srgb,var(--color-accent-cool)_34%,transparent)_22%,rgba(255,255,255,0.24)_50%,color-mix(in_srgb,var(--color-accent-warm)_34%,transparent)_78%,transparent] blur-[18px] [mask-image:linear-gradient(180deg,#000_0%,transparent_100%)]"
+          />
+          {/*
+            O fio, com brilho próprio: 2px de cor cheia mais um `box-shadow`
+            sem deslocamento, que é o que faz a luz parecer estar NA aresta em
+            vez de desenhada em cima dela. As pontas transparentes o matam
+            antes dos cantos arredondados.
+          */}
+          <span
+            aria-hidden
+            className="beam-dock pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-linear-[90deg,transparent_1%,var(--color-accent-cool)_18%,#fff_50%,var(--color-accent-warm)_82%,transparent_99%] shadow-[0_0_14px_1px_rgba(255,255,255,0.28)]"
+          />
+
           <div
             /*
              * O bloco inteiro sobe 18vh enquanto o quadro está parado, e por cima
