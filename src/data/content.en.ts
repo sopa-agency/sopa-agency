@@ -188,6 +188,23 @@ const services = {
   },
 } as const
 
+/** Ver a nota por extenso no `content.pt.ts`. */
+const marcas = {
+  label: 'Brands that have worked with SOPA',
+  eyebrow: 'who has sat at the table',
+  itens: [
+    { slug: 'hbo', nome: 'HBO' },
+    { slug: 'puma', nome: 'Puma' },
+    { slug: 'burger-king', nome: 'Burger King' },
+    { slug: 'c-a', nome: 'C&A' },
+    { slug: 'keepkey', nome: 'KeepKey' },
+    { slug: 'shapeshift', nome: 'ShapeShift' },
+    { slug: 'gnars', nome: 'Gnars' },
+    { slug: 'odysee', nome: 'Odysee' },
+    { slug: 'skatehive', nome: 'SkateHive' },
+  ],
+}
+
 const faq = {
   eyebrow: 'faq',
   title: ['Frequently asked', 'questions'],
@@ -274,6 +291,7 @@ export const en = {
   hero,
   metodo,
   services,
+  marcas,
   faq,
   footer,
   whatsappUrl,

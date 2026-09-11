@@ -243,6 +243,28 @@ const services = {
   },
 } as const
 
+/**
+ * Marcas que já passaram pela SOPA, na faixa entre os serviços e o FAQ.
+ *
+ * `slug` é o nome do arquivo em `src/assets/marcas/` — ver o README de lá. Sem
+ * arquivo, a faixa escreve o `nome` e segue; é melhor do que um buraco na fila.
+ */
+const marcas = {
+  label: 'Marcas que já passaram pela SOPA',
+  eyebrow: 'quem já sentou à mesa',
+  itens: [
+    { slug: 'hbo', nome: 'HBO' },
+    { slug: 'puma', nome: 'Puma' },
+    { slug: 'burger-king', nome: 'Burger King' },
+    { slug: 'c-a', nome: 'C&A' },
+    { slug: 'keepkey', nome: 'KeepKey' },
+    { slug: 'shapeshift', nome: 'ShapeShift' },
+    { slug: 'gnars', nome: 'Gnars' },
+    { slug: 'odysee', nome: 'Odysee' },
+    { slug: 'skatehive', nome: 'SkateHive' },
+  ],
+}
+
 const faq = {
   eyebrow: 'faq',
   title: ['Perguntas', 'frequentes'],
@@ -326,4 +348,4 @@ const footer = {
   legal: `© SOPA · ${new Date().getFullYear()}`,
 } as const
 
-export const pt = { nav, hero, metodo, services, faq, footer, whatsappUrl } as const
+export const pt = { nav, hero, metodo, services, marcas, faq, footer, whatsappUrl } as const

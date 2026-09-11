@@ -91,6 +91,16 @@ export function Metodo() {
           Mesma paleta do feixe no eixo X, mesma máscara no eixo Y do halo de
           dentro — só que invertida.
         */}
+        {/*
+          O campo de estrelas fica ATRÁS do card, e não dentro dele: o card é o
+          objeto, e o céu é o que ele atravessa. Dentro, as estrelas viravam
+          textura do próprio card e a moldura em volta continuava um preto
+          chapado encostando na seção de serviços — que era justamente o que se
+          queria resolver. Aqui elas ocupam a seção inteira e o card flutua
+          sobre elas.
+        */}
+        <Starfield />
+
         <span
           aria-hidden
           className="beam-dock pointer-events-none absolute inset-x-4 top-0 h-5 bg-linear-[90deg,transparent,color-mix(in_srgb,var(--color-accent-cool)_34%,transparent)_22%,rgba(255,255,255,0.24)_50%,color-mix(in_srgb,var(--color-accent-warm)_34%,transparent)_78%,transparent] blur-[12px] [mask-image:linear-gradient(0deg,#000_0%,transparent_100%)] md:inset-x-16 md:h-14"
@@ -102,15 +112,7 @@ export function Metodo() {
           moldura preta não tem como ser visto, e a seção volta a parecer
           colada nas bordas da tela.
         */}
-        <div className="relative flex h-full w-full items-center overflow-hidden rounded-[22px] border border-white/[0.07] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-12 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:rounded-[40px] md:px-[clamp(32px,4.5vw,72px)] md:py-[72px]">
-          {/*
-            O mesmo campo de estrelas do hero, e pela mesma razão: sem ele o
-            card é um retângulo de degradê chapado, e o de serviços logo abaixo
-            também — os dois encostam sem nada dizendo onde um acaba. O canvas
-            se mede pela viewport e quem recorta é o `overflow-hidden` daqui.
-          */}
-          <Starfield />
-
+        <div className="relative flex h-full w-full items-center overflow-hidden rounded-[22px] border border-white/[0.07] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-12 shadow-[0_0_140px_-10px_rgba(79,155,240,0.22)] md:rounded-[40px] md:px-[clamp(32px,4.5vw,72px)] md:py-[72px]">
           {/*
             O halo. Carrega as cores do feixe no eixo X — frio à esquerda,
             quente à direita, como o `beamShaders` pinta — e some no eixo Y por

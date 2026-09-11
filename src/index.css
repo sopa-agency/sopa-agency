@@ -259,6 +259,29 @@
  * ir esmaecendo o caminho todo.
  */
 /**
+ * A fila das marcas. Anda metade da própria largura e volta ao começo: como o
+ * conteúdo aparece duas vezes, a segunda cópia está exatamente onde a primeira
+ * começou no instante do salto, e o corte não se vê.
+ *
+ * Devagar de propósito — 44s para a volta inteira. Faixa de logo que corre
+ * rápido vira carrossel de propaganda; aqui ela é pano de fundo com nomes, e
+ * tem que dar tempo de ler sem pedir atenção.
+ */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee {
+  animation: marquee 44s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/**
  * Pulso de luz descendo o trilho da linha do tempo do painel, de "a conversa
  * começa" até "entregue".
  *
