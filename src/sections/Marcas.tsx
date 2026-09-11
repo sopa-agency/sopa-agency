@@ -30,40 +30,51 @@ export function Marcas() {
   return (
     <section
       aria-label={marcas.label}
-      className="relative isolate overflow-hidden border-y border-white/5 bg-frame py-14 md:py-20"
+      className="relative isolate border-y border-white/5 bg-frame px-6 py-14 sm:px-10 md:py-20"
     >
-      <p className="mb-9 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-ink/30 md:mb-12">
-        {marcas.eyebrow}
-      </p>
+      {/*
+        Mesma armação do `Services` e do `Faq`: o padding lateral na SEÇÃO e o
+        `max-w-6xl` centrado dentro dele. A ordem importa — padding dentro do
+        `max-w` deixava a faixa 40px mais estreita que o conteúdo de cima, que
+        é quase pior do que não alinhar.
+
+        Quem recorta os cards é este container, e não a seção: a fila morre na
+        mesma coluna em que o texto das outras seções começa.
+      */}
+      <div className="mx-auto max-w-6xl">
+        <p className="mb-9 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-ink/30 md:mb-12">
+          {marcas.eyebrow}
+        </p>
 
       {/*
         As máscaras laterais desfazem o corte seco nas bordas: sem elas os cards
         aparecem e somem de uma vez, e a fila deixa de parecer contínua.
       */}
-      <div className="flex flex-col gap-4 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] md:gap-5">
-        {fileiras.map((fileira, linha) => (
-          <ul
-            key={linha}
-            className="marquee flex w-max gap-4 md:gap-5"
-            // a de baixo corre para o outro lado
-            style={linha === 1 ? { animationDirection: 'reverse' } : undefined}
-          >
-            {/*
-              O conteúdo aparece DUAS vezes e a fila anda -50%: quando a
-              primeira cópia termina de sair, a segunda está exatamente onde a
-              primeira começou, e o salto de volta a zero não se vê. A segunda
-              cópia é `aria-hidden` — para quem ouve a página, a lista tem o
-              tamanho que tem.
-            */}
-            {[0, 1].map((copia) =>
-              fileira.map((marca) => (
-                <li key={`${copia}-${marca.slug}`} aria-hidden={copia === 1 || undefined}>
-                  <Card marca={marca} />
-                </li>
-              )),
-            )}
-          </ul>
-        ))}
+        <div className="flex flex-col gap-4 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)] md:gap-5">
+          {fileiras.map((fileira, linha) => (
+            <ul
+              key={linha}
+              className="marquee flex w-max gap-4 md:gap-5"
+              // a de baixo corre para o outro lado
+              style={linha === 1 ? { animationDirection: 'reverse' } : undefined}
+            >
+              {/*
+                O conteúdo aparece DUAS vezes e a fila anda -50%: quando a
+                primeira cópia termina de sair, a segunda está exatamente onde a
+                primeira começou, e o salto de volta a zero não se vê. A segunda
+                cópia é `aria-hidden` — para quem ouve a página, a lista tem o
+                tamanho que tem.
+              */}
+              {[0, 1].map((copia) =>
+                fileira.map((marca) => (
+                  <li key={`${copia}-${marca.slug}`} aria-hidden={copia === 1 || undefined}>
+                    <Card marca={marca} />
+                  </li>
+                )),
+              )}
+            </ul>
+          ))}
+        </div>
       </div>
     </section>
   )

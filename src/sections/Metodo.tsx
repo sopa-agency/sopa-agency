@@ -54,20 +54,20 @@ export function Metodo() {
        * e hoje é preto sobre preto — sem o fio, a cortina sobe invisível.
        *
        * **A altura do track é o que sobra de scroll preso depois que o card
-       * enche a tela**, e é o número que evita rolagem em falso. 135vh dão uma
-       * tela de card mais ~315px de palco preso: o bastante para a composição
-       * assentar e ser lida, e pouco para o scroll deixar de devolver algo.
+       * enche a tela**, e é o número que evita rolagem em falso. 115vh dão uma
+       * tela de card mais ~135px de palco preso, e é aí que o conteúdo termina
+       * de assentar: o scroll devolve algo até o fim.
        *
-       * Eram 190vh e davam 585px parados. O engano foi achar que o `hold` do
-       * hook resolvia: com o `easeOutCubic`, ~95% do movimento já acontece
+       * Foram 190vh (585px parados) e 135vh (315px). Nos dois a rolagem em
+       * falso foi sentida. O engano da primeira vez foi achar que o `hold` do
+       * hook resolvia: com o `easeOutCubic`, o grosso do movimento já acontece
        * enquanto o card SOBE, então quando ele prende quase não resta o que
-       * animar — o palco comprido inteiro é que estava morto, não só a folga
-       * do fim.
+       * animar — palco comprido é palco morto, e não só a folga do fim.
        *
        * No celular não há palco preso: a tela é curta demais para prender e
        * ainda sobrar percurso.
        */
-      className="relative isolate z-10 -mt-[70vh] bg-frame md:h-[135vh]"
+      className="relative isolate z-10 -mt-[70vh] bg-frame md:h-[115vh]"
     >
       {/*
         A moldura preta em volta do card, com a MESMA medida que o hero usa
