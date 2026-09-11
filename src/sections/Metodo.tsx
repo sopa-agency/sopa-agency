@@ -55,69 +55,85 @@ export function Metodo() {
        * em que os serviços começam a cobrir. No celular não há palco preso —
        * a tela é curta demais para prender e ainda sobrar percurso.
        */
-      className="relative isolate z-10 -mt-[70vh] border-t border-white/10 bg-frame shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:h-[190vh]"
+      className="relative isolate z-10 -mt-[70vh] bg-frame md:h-[190vh]"
     >
-      <div className="flex items-center overflow-hidden px-6 py-14 md:sticky md:top-0 md:h-viewport md:px-[clamp(56px,7vw,100px)] md:py-[88px]">
-        <div
-          /*
-           * O bloco inteiro sobe 18vh enquanto o quadro está parado, e por cima
-           * disso cada elemento tem o seu próprio curso e atraso. São duas
-           * camadas de movimento: esta é a que faz a composição ENTRAR no
-           * quadro, e a de cima é a que dá profundidade entre as partes.
-           */
-          className="mx-auto w-full max-w-[1240px] will-change-transform"
-          style={{ transform: 'translate3d(0, calc((1 - var(--enter, 1)) * 18vh), 0)' }}
-        >
-          <div className="flex flex-col gap-7 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-14 lg:gap-24">
-            {/* `contents` no celular: os filhos viram itens do flex de fora,
-                e aí o `order-last` do rodapé mono consegue jogá-lo para depois
-                do painel — que é a ordem do desenho. No desktop a coluna volta
-                a existir e o rodapé volta para o lugar dele. */}
-            <div className="contents md:flex md:flex-col md:gap-[34px]">
-              <p
-                className="enter-rise font-mono text-[11px] uppercase tracking-[0.18em] text-accent-warm md:text-[13px]"
-                style={{ '--d': 0, '--r': '72px' } as CSSProperties}
-              >
-                {metodo.eyebrow}
-              </p>
+      {/*
+        A moldura preta em volta do card, com a MESMA medida que o hero usa
+        quando o dele termina de fechar: 16/20px no celular e 64/56px daí para
+        cima. Os números estão escritos aqui e lá, e não num token, porque no
+        hero eles são multiplicados pelo `--p` a cada frame — ali são uma conta,
+        aqui um valor parado.
+      */}
+      <div className="px-4 py-5 md:sticky md:top-0 md:h-viewport md:px-16 md:py-14">
+        {/*
+          O card. Mesmo raio e mesmo degradê do card do hero, para os dois
+          lerem como o mesmo objeto: um fecha, o outro sobe no lugar dele.
+          Ganha uma borda de 1px que o hero não tem — sem ela, card preto sobre
+          moldura preta não tem como ser visto, e a seção volta a parecer
+          colada nas bordas da tela.
+        */}
+        <div className="flex h-full w-full items-center overflow-hidden rounded-[22px] border border-white/[0.07] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-12 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:rounded-[40px] md:px-[clamp(32px,4.5vw,72px)] md:py-[72px]">
+          <div
+            /*
+             * O bloco inteiro sobe 18vh enquanto o quadro está parado, e por cima
+             * disso cada elemento tem o seu próprio curso e atraso. São duas
+             * camadas de movimento: esta é a que faz a composição ENTRAR no
+             * quadro, e a de cima é a que dá profundidade entre as partes.
+             */
+            className="mx-auto w-full max-w-[1240px] will-change-transform"
+            style={{ transform: 'translate3d(0, calc((1 - var(--enter, 1)) * 18vh), 0)' }}
+          >
+            <div className="flex flex-col gap-7 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-14 lg:gap-24">
+              {/* `contents` no celular: os filhos viram itens do flex de fora,
+                  e aí o `order-last` do rodapé mono consegue jogá-lo para depois
+                  do painel — que é a ordem do desenho. No desktop a coluna volta
+                  a existir e o rodapé volta para o lugar dele. */}
+              <div className="contents md:flex md:flex-col md:gap-[34px]">
+                <p
+                  className="enter-rise font-mono text-[11px] uppercase tracking-[0.18em] text-accent-warm md:text-[13px]"
+                  style={{ '--d': 0, '--r': '72px' } as CSSProperties}
+                >
+                  {metodo.eyebrow}
+                </p>
 
-              <h2
-                className="enter-rise font-display text-[clamp(38px,9vw,74px)] font-medium leading-[0.96] tracking-[-0.038em] text-ink-bright"
-                style={{ '--d': 0.05, '--r': '64px' } as CSSProperties}
-              >
-                {metodo.title}
-              </h2>
+                <h2
+                  className="enter-rise font-display text-[clamp(38px,9vw,74px)] font-medium leading-[0.96] tracking-[-0.038em] text-ink-bright"
+                  style={{ '--d': 0.05, '--r': '64px' } as CSSProperties}
+                >
+                  {metodo.title}
+                </h2>
 
-              {/* Os dois parágrafos vão ao DOM e o CSS escolhe: media query não
-                  troca texto, e um listener de resize seria caro para isso. */}
-              <p
-                className="enter-rise max-w-[460px] text-[17px] leading-[1.55] text-ink/70 [text-wrap:pretty] md:text-[21px] md:leading-[1.6]"
-                style={{ '--d': 0.1, '--r': '56px' } as CSSProperties}
-              >
-                <span className="md:hidden">{metodo.paragraphCurto}</span>
-                <span className="hidden md:inline">{metodo.paragraph}</span>
-              </p>
+                {/* Os dois parágrafos vão ao DOM e o CSS escolhe: media query não
+                    troca texto, e um listener de resize seria caro para isso. */}
+                <p
+                  className="enter-rise max-w-[460px] text-[17px] leading-[1.55] text-ink/70 [text-wrap:pretty] md:text-[21px] md:leading-[1.6]"
+                  style={{ '--d': 0.1, '--r': '56px' } as CSSProperties}
+                >
+                  <span className="md:hidden">{metodo.paragraphCurto}</span>
+                  <span className="hidden md:inline">{metodo.paragraph}</span>
+                </p>
 
-              <div
-                className="enter-rise order-last flex flex-col gap-3 border-t border-[#1e1d1b] pt-6 md:order-none font-mono text-[11px] uppercase leading-[1.2] tracking-[0.1em] text-[#6f6b67] md:gap-3 md:pt-[26px] md:text-[12px]"
-                style={{ '--d': 0.16, '--r': '48px' } as CSSProperties}
-              >
-                {metodo.notas.map((nota, i) => (
-                  <p
-                    key={nota}
-                    // a do meio é a que o celular dispensa: em 390px as três viram
-                    // um bloco, e ela é a menos decisiva das três
-                    className={`${i === 1 ? 'hidden md:block' : ''} ${
-                      i === metodo.notas.length - 1 ? 'text-ink' : ''
-                    }`}
-                  >
-                    {nota}
-                  </p>
-                ))}
+                <div
+                  className="enter-rise order-last flex flex-col gap-3 border-t border-[#1e1d1b] pt-6 md:order-none font-mono text-[11px] uppercase leading-[1.2] tracking-[0.1em] text-[#6f6b67] md:gap-3 md:pt-[26px] md:text-[12px]"
+                  style={{ '--d': 0.16, '--r': '48px' } as CSSProperties}
+                >
+                  {metodo.notas.map((nota, i) => (
+                    <p
+                      key={nota}
+                      // a do meio é a que o celular dispensa: em 390px as três viram
+                      // um bloco, e ela é a menos decisiva das três
+                      className={`${i === 1 ? 'hidden md:block' : ''} ${
+                        i === metodo.notas.length - 1 ? 'text-ink' : ''
+                      }`}
+                    >
+                      {nota}
+                    </p>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <Painel />
+              <Painel />
+            </div>
           </div>
         </div>
       </div>
