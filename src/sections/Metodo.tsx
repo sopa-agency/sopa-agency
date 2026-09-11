@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 
 import { metodo } from '../data/content'
-import { useEnterProgress } from '../hooks/useEnterProgress'
+import { useStageProgress } from '../hooks/useStageProgress'
 
 /**
  * Seção 02 — "Mostramos antes de explicar".
@@ -22,96 +22,104 @@ import { useEnterProgress } from '../hooks/useEnterProgress'
  * `data/content.ts`.
  */
 export function Metodo() {
-  // 0,85 de tela em vez dos 0,6 padrão: a subida precisa durar para ser
-  // lida como chegada, e não como um fade rápido ao passar.
-  const ref = useEnterProgress(0.85)
+  const trackRef = useStageProgress()
 
   return (
     <section
-      ref={ref}
+      ref={trackRef}
       /*
+       * Track alto + `sticky` dentro dele: é a mesma armação do hero, e é o que
+       * faz esta seção ser um QUADRO em vez de um trecho de página rolando.
+       *
+       * A diferença importa. Com o quadro parado, o conteúdo que sobe por
+       * dentro tem contra o que se mover, e o olho lê uma chegada. Sem ele, o
+       * conteúdo acompanha a rolagem e o olho lê só a página passando — foi o
+       * que faltou nas tentativas anteriores, e é o que a narrativa antiga
+       * tinha de graça por morar dentro do card fixo do hero.
+       *
        * Esta seção sobe POR CIMA do hero em vez de empurrá-lo para fora: a
-       * margem negativa a faz começar antes do fim do track, o `z-10` a põe na
-       * frente e o fundo opaco cobre. A sombra para cima marca a beirada,
-       * senão ela encosta no hero sem que se perceba que é uma camada.
+       * margem negativa a faz começar antes do fim do track dele, o `z-10` a
+       * põe na frente e o fundo opaco cobre.
        *
        * **Os 70vh são o `CURTAIN` do `useHeroScroll` vistos daqui** — a mesma
        * sobreposição, escrita nos dois lugares. Mudar um sem o outro faz o
        * progresso do hero terminar em hora diferente da que esta seção chega.
        *
-       * Eram 40vh e não davam: a coreografia do hero terminava e sobravam
-       * ~700px de preto vazio antes de o conteúdo daqui entrar na tela. Quanto
-       * maior a sobreposição, mais cedo a seção chega — a conta está por
-       * extenso no `CURTAIN`, lá no hook.
-       *
-       * E **sem `padding-top` compensando a margem negativa**: a primeira
-       * versão empurrava o conteúdo 448px para baixo para ele não cair na
-       * faixa que cobre o hero, o que só adiava ainda mais a chegada. A faixa
-       * que cobre é justamente por onde a seção entra — é ali que o conteúdo
-       * PRECISA estar para ser visto subindo.
-       *
        * A aresta de cima é um fio claro, e não a sombra escura que o `Services`
-       * usava. A sombra funcionava quando o card do hero era um degradê cinza:
-       * escurecer a beirada destacava a camada. Hoje o card é preto e esta
-       * seção também — sombra preta sobre preto não aparece, e sem nenhuma
-       * aresta a cortina sobe invisível. O fio dá o que enxergar.
+       * usava: a sombra funcionava quando o card do hero era um degradê cinza,
+       * e hoje é preto sobre preto — sem o fio, a cortina sobe invisível.
        *
-       * O mecanismo morava no `Services`, que era quem vinha depois do hero.
-       * Quem herda a cortina é sempre a PRIMEIRA seção depois dele — deixá-la
-       * no `Services` fazia a margem negativa comer o rodapé desta aqui.
+       * A altura do track é o ritmo: 190vh dão uma tela de palco preso mais
+       * ~90vh de percurso, do qual o último terço é folga com tudo no lugar (o
+       * `hold` do hook). Menos que isso e o conteúdo assenta no mesmo instante
+       * em que os serviços começam a cobrir. No celular não há palco preso —
+       * a tela é curta demais para prender e ainda sobrar percurso.
        */
-      className="relative isolate z-10 -mt-[70vh] flex items-center border-t border-white/10 bg-frame px-6 py-14 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:min-h-viewport md:px-[clamp(56px,7vw,100px)] md:py-[88px]"
+      className="relative isolate z-10 -mt-[70vh] border-t border-white/10 bg-frame shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:h-[190vh]"
     >
-      <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-7 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-14 lg:gap-24">
-        {/* `contents` no celular: os filhos viram itens do flex de fora, e aí
-            o `order-last` do rodapé mono consegue jogá-lo para depois do
-            painel — que é a ordem do desenho. No desktop a coluna volta a
-            existir e o rodapé volta para o lugar dele. */}
-        <div className="contents md:flex md:flex-col md:gap-[34px]">
-          <p
-            className="enter-rise font-mono text-[11px] uppercase tracking-[0.18em] text-accent-warm md:text-[13px]"
-            style={{ '--d': 0, '--r': '72px' } as CSSProperties}
-          >
-            {metodo.eyebrow}
-          </p>
-
-          <h2
-            className="enter-rise font-display text-[clamp(38px,9vw,74px)] font-medium leading-[0.96] tracking-[-0.038em] text-ink-bright"
-            style={{ '--d': 0.05, '--r': '64px' } as CSSProperties}
-          >
-            {metodo.title}
-          </h2>
-
-          {/* Os dois parágrafos vão ao DOM e o CSS escolhe: media query não
-              troca texto, e um listener de resize seria caro para isso. */}
-          <p
-            className="enter-rise max-w-[460px] text-[17px] leading-[1.55] text-ink/70 [text-wrap:pretty] md:text-[21px] md:leading-[1.6]"
-            style={{ '--d': 0.1, '--r': '56px' } as CSSProperties}
-          >
-            <span className="md:hidden">{metodo.paragraphCurto}</span>
-            <span className="hidden md:inline">{metodo.paragraph}</span>
-          </p>
-
-          <div
-            className="enter-rise order-last flex flex-col gap-3 border-t border-[#1e1d1b] pt-6 md:order-none font-mono text-[11px] uppercase leading-[1.2] tracking-[0.1em] text-[#6f6b67] md:gap-3 md:pt-[26px] md:text-[12px]"
-            style={{ '--d': 0.16, '--r': '48px' } as CSSProperties}
-          >
-            {metodo.notas.map((nota, i) => (
+      <div className="flex items-center overflow-hidden px-6 py-14 md:sticky md:top-0 md:h-viewport md:px-[clamp(56px,7vw,100px)] md:py-[88px]">
+        <div
+          /*
+           * O bloco inteiro sobe 18vh enquanto o quadro está parado, e por cima
+           * disso cada elemento tem o seu próprio curso e atraso. São duas
+           * camadas de movimento: esta é a que faz a composição ENTRAR no
+           * quadro, e a de cima é a que dá profundidade entre as partes.
+           */
+          className="mx-auto w-full max-w-[1240px] will-change-transform"
+          style={{ transform: 'translate3d(0, calc((1 - var(--enter, 1)) * 18vh), 0)' }}
+        >
+          <div className="flex flex-col gap-7 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-14 lg:gap-24">
+            {/* `contents` no celular: os filhos viram itens do flex de fora,
+                e aí o `order-last` do rodapé mono consegue jogá-lo para depois
+                do painel — que é a ordem do desenho. No desktop a coluna volta
+                a existir e o rodapé volta para o lugar dele. */}
+            <div className="contents md:flex md:flex-col md:gap-[34px]">
               <p
-                key={nota}
-                // a do meio é a que o celular dispensa: em 390px as três viram
-                // um bloco, e ela é a menos decisiva das três
-                className={`${i === 1 ? 'hidden md:block' : ''} ${
-                  i === metodo.notas.length - 1 ? 'text-ink' : ''
-                }`}
+                className="enter-rise font-mono text-[11px] uppercase tracking-[0.18em] text-accent-warm md:text-[13px]"
+                style={{ '--d': 0, '--r': '72px' } as CSSProperties}
               >
-                {nota}
+                {metodo.eyebrow}
               </p>
-            ))}
+
+              <h2
+                className="enter-rise font-display text-[clamp(38px,9vw,74px)] font-medium leading-[0.96] tracking-[-0.038em] text-ink-bright"
+                style={{ '--d': 0.05, '--r': '64px' } as CSSProperties}
+              >
+                {metodo.title}
+              </h2>
+
+              {/* Os dois parágrafos vão ao DOM e o CSS escolhe: media query não
+                  troca texto, e um listener de resize seria caro para isso. */}
+              <p
+                className="enter-rise max-w-[460px] text-[17px] leading-[1.55] text-ink/70 [text-wrap:pretty] md:text-[21px] md:leading-[1.6]"
+                style={{ '--d': 0.1, '--r': '56px' } as CSSProperties}
+              >
+                <span className="md:hidden">{metodo.paragraphCurto}</span>
+                <span className="hidden md:inline">{metodo.paragraph}</span>
+              </p>
+
+              <div
+                className="enter-rise order-last flex flex-col gap-3 border-t border-[#1e1d1b] pt-6 md:order-none font-mono text-[11px] uppercase leading-[1.2] tracking-[0.1em] text-[#6f6b67] md:gap-3 md:pt-[26px] md:text-[12px]"
+                style={{ '--d': 0.16, '--r': '48px' } as CSSProperties}
+              >
+                {metodo.notas.map((nota, i) => (
+                  <p
+                    key={nota}
+                    // a do meio é a que o celular dispensa: em 390px as três viram
+                    // um bloco, e ela é a menos decisiva das três
+                    className={`${i === 1 ? 'hidden md:block' : ''} ${
+                      i === metodo.notas.length - 1 ? 'text-ink' : ''
+                    }`}
+                  >
+                    {nota}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <Painel />
           </div>
         </div>
-
-        <Painel />
       </div>
     </section>
   )

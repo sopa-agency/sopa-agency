@@ -84,6 +84,7 @@ src/
 ├── assets/trabalhos/      # clipe + print de cada trabalho, casados por slug
 ├── hooks/
 │   ├── useHeroScroll.ts   # todo o comportamento de scroll do hero
+│   ├── useStageProgress.ts # progresso de um palco preso (seção 02)
 │   └── useEnterProgress.ts # progresso de entrada de uma seção na viewport
 └── index.css              # @theme (cores, fontes, keyframes) + @utility próprios
 ```

@@ -83,6 +83,15 @@ line-reading`, o `--animate-caret` e a metade do `useHeroScroll` que media linha
 por linha. Se a sua memória fala em `hero.story`, `--typed`, `--caret` ou
 quebras de 46 caracteres, está desatualizada.
 
+**A seção 02 é um quadro preso, como o hero.** Track alto + `sticky` dentro
+dele, e o conteúdo sobe por DENTRO enquanto o quadro está parado. Não é
+enfeite: com o quadro em movimento o conteúdo não tem contra o que se mover, e
+o olho lê a rolagem da página em vez de uma chegada. Foi o que faltou em duas
+tentativas antes de chegar aqui. O `useStageProgress` publica o `--enter` desse
+percurso, que começa quando o track encosta no pé da tela e termina já com o
+quadro preso — cobrir os dois trechos é o que faz o conteúdo aparecer subindo e
+ainda assentar depois que o quadro para.
+
 **A cortina é de quem vem logo depois do hero.** A margem negativa `-mt-[40vh]`,
 o `z-10`, o fundo opaco e a sombra para cima moram hoje no `Metodo`. Ela morava
 no `Services`, que era quem vinha depois; deixá-la lá fazia a margem negativa
