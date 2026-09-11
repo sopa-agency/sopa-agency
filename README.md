@@ -134,21 +134,52 @@ substituir string, é refazer as quebras em fim de oração.
 ## As seções
 
 A página é `Hero → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
-`#servicos`, `#faq` e `#contato` (esta última é o próprio footer) — os `id` são
-os mesmos nas duas locales, então só os rótulos são traduzidos.
+`#servicos` e `#faq` — os `id` são os mesmos nas duas locales, então só os
+rótulos são traduzidos. O footer tem `id="contato"` e o menu **não** aponta mais
+para lá (ver abaixo); o `id` ficou para quem chegar por link direto.
 
 ### Onde a página pede contato
 
-Quatro pontos, cada um com uma razão diferente para existir — a política está
-escrita por extenso no topo do `content.ts`, e é para lá que vai qualquer
-mudança:
+**Dois** pontos, e já foram cinco. Cada um com uma razão diferente para
+existir **e um rótulo diferente** — a política está escrita por extenso no topo
+do `content.ts`, e é para lá que vai qualquer mudança:
 
-| ponto | por quê |
-|---|---|
-| menu | sempre à mão, para quem já decidiu antes de ler |
-| hero | a porta de entrada, ainda sem contexto |
-| card de serviço (×2) | cada um abre o WhatsApp já falando do assunto DELE — é o que os faz merecer o lugar, em vez de serem o mesmo botão duas vezes |
-| rodapé | o fecho, para quem leu a página inteira |
+| ponto | rótulo | por quê |
+|---|---|---|
+| hero | Começar uma conversa | a porta de entrada, ainda sem contexto: a barreira mais baixa da página |
+| rodapé | Tirar um projeto do papel | o fecho, para quem leu a página inteira e aceita o pedido mais direto |
+
+> **O rótulo é o que separa um convite de um eco.** Dos cinco antigos, três
+> diziam "Entre em contato", e era a repetição da FRASE que fazia a página soar
+> insistente — não a quantidade de botões. Dois botões com o mesmo texto são um
+> botão repetido, mesmo em seções distantes.
+
+**Os dois CTAs das faixas de serviço saíram.** Eles abriam o WhatsApp já falando
+do assunto da faixa, e era isso que os fazia merecer o lugar; ainda assim eram
+dois dos cinco botões, e a página pesava mais do que ganhava. A seção de
+serviços agora só apresenta — quem se convence rola até o rodapé.
+
+> **Com eles foi embora a única mensagem de WhatsApp com contexto.** As duas que
+> sobraram são genéricas: a conversa não chega mais dizendo se o assunto é
+> criação ou automação, e a qualificação do lead passou a ser manual.
+
+**Só o CTA do rodapé leva o ícone do WhatsApp.** Ele estava nos quatro, e um
+mesmo símbolo repetido não se resolve com rótulo diferente: deixa de ser sinal e
+vira textura da página. Mas tirado de todos, nenhum botão avisava que o clique
+abre outro app — os rótulos falam de intenção, não de canal.
+
+O rodapé é onde ele ganha o lugar: é o último ponto, de quem leu a página
+inteira e está decidindo, e é aí que saber o canal ajuda em vez de poluir.
+Aparecendo uma vez só, volta a ser sinal. **Não devolva o ícone aos outros
+três** — era a repetição, não o ícone.
+
+É também a única marca sólida do `Icon.tsx` (preenchimento em vez de traço), e
+por isso o componente tem uma comparação direta com `'whatsapp'` em vez de uma
+tabela: para um caso, tabela é enfeite.
+
+**O menu não tem CTA.** É lista de navegação e nada mais — quatro links do mesmo
+padrão, incluindo "Contato", que aponta para o rodapé, onde está o botão. Um
+botão solto no meio dos links era o único elemento fora do padrão do menu.
 
 **Sem CTA de propósito:** o fim da narrativa do hero (caía uma tela antes dos
 serviços) e o FAQ (quem está tirando dúvida ainda não decidiu, e o rodapé vem
@@ -158,12 +189,15 @@ logo depois). Botão repetido em toda seção deixa de ser convite e vira ruído
 
 Cinco camadas empilhadas dentro de um card, de baixo para cima:
 
-1. **gradiente** escuro do card (`--color-hero-top/mid/bot`)
+1. **fundo** do card (`--color-hero-top/mid/bot`) — hoje preto puro; era
+   um degradê cinza, e os três tokens continuam de pé para dar como voltar
+   a um sem tocar no `Hero.tsx`
 2. **Starfield** — pontos pequenos e esparsos piscando fora de fase, em canvas
    2D. Sem forma de estrela: nesta escala um disco de um pixel e pouco é o que
    o olho lê como brilho distante. Os alfas são altos para um céu, porque o
-   fundo aqui é cinza e não preto — no valor "realista" as estrelas sumiam
-   dentro do degradê
+   fundo era cinza e não preto — no valor "realista" as estrelas sumiam
+   dentro do degradê. **O card virou preto e este alfa não foi refeito:** hoje
+   ele é exagero, e está na lista de recalibrações do `index.css`
 3. **LightBeam** — shader WebGL2: uma linha central ondulante vira intensidade;
    a dispersão de prisma varre offsets verticais coloridos, e camadas de névoa
    tingem o fundo de quente (esquerda) a frio (direita)
@@ -189,7 +223,7 @@ posição de scroll dentro do track do hero:
 
 | etapa | faixa do track | o que faz |
 |---|---|---|
-| bordas fecham | 0 → 30% | `--p` (0→1) alimenta o `padding` e o `border-radius`; o preto do fundo aparece por trás e o card "se solta" das bordas |
+| bordas fecham | 0 → 30% | `--p` (0→1) alimenta o `padding` e o `border-radius`; o `--color-frame` aparece por trás e o card "se solta" das bordas — **hoje invisível**, porque o card também é preto (ver `index.css`) |
 | moldura sai | 0,5 → 5,5% | `--hc` (1→0) apaga o texto do canto, os botões e a dica, com os botões **subindo** 36px |
 | feixe se abre | 0 → 14% | `beamRef` (0→1) rasga o feixe ao meio (ver abaixo) |
 | palavra some | 10 → 22% | `--hw` (1→0), depois da moldura: entre as duas sobra um instante com a marca sozinha no card |
@@ -331,6 +365,14 @@ description, o Open Graph e o JSON-LD são escritos à mão no `index.html` **e 
 `en/index.html`**. Os robôs de preview de link não executam JavaScript, então o
 que aparece no WhatsApp e no LinkedIn sai de lá.
 
+> **O `<title>` é só `SOPA`.** É ele que a aba do navegador mostra, e ali cabem
+> uns 20 caracteres antes de cortar — qualquer frase acrescentada aparece
+> truncada e a marca some no meio dela. O preço é o headline do resultado de
+> busca, que fica sem as palavras-chave; elas seguem na `description`, no
+> JSON-LD e no `og:title`, que é o que o preview de link usa e continua a frase
+> inteira. Se a tentação for alongar o title para agradar buscador: a aba é o
+> que o cliente vê todo dia.
+
 O par de `hreflang` tem que estar completo nas duas páginas (`pt-BR`, `en` e
 `x-default`) — listado só de um lado, o Google ignora o par inteiro. O
 `public/sitemap.xml` traz as duas URLs com os mesmos alternates.
@@ -341,21 +383,55 @@ O par de `hreflang` tem que estar completo nas duas páginas (`pt-BR`, `en` e
 mesmo lugar: `src/assets/logo.png`, a arte original em 1254×1254. Esse arquivo
 não é servido — mora ali só para dar de onde regerar.
 
-O recorte importa. Na arte original o desenho vem 93px deslocado para a
-esquerda, então gerar direto deixaria o ícone fora de centro na aba: o passo é
-recortar pela caixa do alfa e recentrar num quadrado antes de reduzir.
+O enquadramento é a parte que dá trabalho, e centrar pela caixa da imagem
+**não** funciona aqui. Duas razões, as duas mensuráveis:
+
+- a arte vem **93px deslocada para a esquerda** no arquivo original;
+- e ela é desequilibrada de propósito — o topo é vapor fino (7% a 23% de tinta
+  por faixa) e a base é a tigela sólida (62% a 80%). O **centroide do alfa fica
+  em y=63,9%**, quase 14 pontos abaixo do centro geométrico.
+
+O navegador centraliza a *caixa* do ícone, então centrar pela caixa deixa a
+massa visual quase 14% mais baixa que o texto da aba: o ícone parece afundado
+ao lado do "SOPA". Some a isso a arte encostando nas bordas — todo outro
+favicon da barra tem folga, e sem ela este lê como grande demais.
+
+A receita corrige as duas coisas: **12% de folga** de cada lado e **metade** da
+correção de centroide. Metade, e não ela toda: corrigindo 100% o ícone sobe
+demais, passa a flutuar acima da linha do texto e o vapor volta a encostar no
+topo. Vale comparar os casos lado a lado numa barra de abas de mentira antes de
+mudar esses números.
 
 ```python
+import numpy as np
 from PIL import Image
+
+MARGIN, LIFT = 0.12, 0.5
+
 im = Image.open('src/assets/logo.png').convert('RGBA')
 art = im.crop(im.getchannel('A').getbbox())
-side = max(art.size)
+w, h = art.size
+
+# centroide do alfa: onde a tinta realmente está, não onde a caixa está
+ys, xs = np.nonzero(np.array(art.getchannel('A')) > 8)
+cy, cx = ys.mean() / h, xs.mean() / w
+
+side = int(round(h / (1 - 2 * MARGIN)))
 sq = Image.new('RGBA', (side, side), (0, 0, 0, 0))
-sq.paste(art, ((side - art.width) // 2, (side - art.height) // 2))
+sq.paste(art, (int(round((side - w) / 2 - (cx - 0.5) * w)),
+               int(round((side - h) / 2 - LIFT * (cy - 0.5) * h))))
 
 sq.resize((32, 32), Image.LANCZOS).save('public/favicon.png', optimize=True)
-sq.resize((512, 512), Image.LANCZOS).quantize(colors=32, method=Image.FASTOCTREE)   .convert('RGBA').save('public/logo.png', optimize=True)
+big = sq.resize((512, 512), Image.LANCZOS)
+big.quantize(colors=32, method=Image.FASTOCTREE).convert('RGBA').save(
+    'public/logo.png', optimize=True
+)
 ```
+
+> **Trocando a logo, remeça o centroide.** `MARGIN` e `LIFT` foram escolhidos
+> para *esta* arte. Uma logo equilibrada tem centroide perto de 50% e o `LIFT`
+> deixa de fazer diferença; uma pesada no topo pede lift negativo. Quem manda é
+> o número medido, não o palpite.
 
 O 512 é quantizado em 32 cores e o 32 não: é pixel art de cor plana, então a
 paleta curta tira 8x do peso (122 KB → 15 KB) sem diferença visível — e na
@@ -400,8 +476,8 @@ mudar:
 
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
 
-- **cores** — `hero-top/mid/bot` (gradiente do card, escurecido para a
-  narrativa se sustentar sem véu atrás), `frame` (preto do fundo),
+- **cores** — `hero-top/mid/bot` (fundo do card, hoje preto; era um degradê
+  cinza), `frame` (preto do fundo),
   `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card`
   (fundos), `accent-warm` / `accent-cool` / `accent-mint`
   (acentos por seção), `stroke` / `stroke-glow` (contorno da palavra do hero)

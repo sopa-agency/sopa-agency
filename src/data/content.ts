@@ -19,15 +19,41 @@ import { pt } from './content.pt'
  *
  * O mesmo botão repetido em toda seção deixa de ser convite e vira ruído: se
  * está em todo lugar, não está em lugar nenhum. A página tem quatro pontos de
- * contato, cada um com uma razão diferente para existir:
+ * contato, cada um com uma razão diferente para existir — e, o que importa
+ * tanto quanto, **um rótulo diferente**:
  *
- *   1. menu       — sempre à mão, para quem já decidiu antes de ler
- *   2. hero       — a porta de entrada, sem contexto ainda
- *   3. serviços   — um por card, com a INTENÇÃO do card na mensagem: quem
- *                   clica em Automação já abre a conversa falando de
- *                   automação. É isso que os faz merecer o lugar; fossem dois
- *                   botões iguais lado a lado, um sobraria.
- *   4. rodapé     — o fecho, para quem leu a página inteira
+ *   1. hero       — "Começar uma conversa": a porta de entrada, sem contexto
+ *                   ainda, então a barreira tem que ser a mais baixa da página.
+ *   2. rodapé     — "Tirar um projeto do papel": quem chegou aqui leu a página
+ *                   inteira e pode receber o pedido mais direto.
+ *
+ * São DOIS, e já foram cinco. Os rótulos são diferentes de propósito: os cinco
+ * antigos tinham três "Entre em contato", e era a repetição da FRASE que fazia
+ * a página soar insistente. Ao mexer num rótulo, mexa sabendo que ele é o que
+ * separa um convite de um eco — dois botões com o mesmo texto são um botão
+ * repetido, mesmo em seções distantes.
+ *
+ * **Os dois CTAs das faixas de serviço saíram.** Eles abriam o WhatsApp já
+ * falando do assunto da faixa, e era isso que os fazia merecer o lugar; ainda
+ * assim eram dois dos cinco botões, e a página pesava mais do que ganhava. A
+ * seção de serviços agora só apresenta — quem se convence rola para o rodapé.
+ * Com eles foi embora a única mensagem de WhatsApp com contexto: as duas que
+ * sobraram são genéricas.
+ *
+ * **Só o CTA do rodapé leva o ícone do WhatsApp.** Ele estava nos quatro, e um
+ * mesmo símbolo repetido não se resolve com rótulo diferente: deixa de ser
+ * sinal e vira textura da página. Mas tirado de todos, nenhum botão avisava que
+ * o clique abre outro app — e os rótulos falam de intenção, não de canal.
+ *
+ * O rodapé é onde ele ganha o lugar: é o último ponto, de quem leu a página
+ * inteira e está decidindo, e é exatamente aí que saber o canal ajuda em vez de
+ * poluir. Aparecendo uma vez só, volta a ser sinal. Não devolva o ícone aos
+ * outros três: é a repetição, e não o ícone, que era o problema.
+ *
+ * **O menu não tem CTA.** Ele é lista de navegação e nada mais: quatro links
+ * do mesmo padrão, incluindo "Contato", que aponta para o `id="contato"` do
+ * rodapé — e é lá que está o botão. Um botão solto no meio dos links era o
+ * único elemento fora do padrão do menu.
  *
  * Sem CTA: a narrativa do hero (o botão caía uma tela antes dos serviços, que
  * já pedem contato) e o FAQ (quem está tirando dúvida ainda não decidiu — e o

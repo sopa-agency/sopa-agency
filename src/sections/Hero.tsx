@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react'
 
-import { Icon } from '../components/Icon'
 import { SpecularButton } from '../components/SpecularButton'
 import { HeroStory } from '../components/hero/HeroStory'
 import { LightBeam } from '../components/hero/LightBeam'
@@ -144,9 +143,13 @@ export function Hero() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-xl border border-white/10 bg-surface-raised px-5 py-3 text-sm text-ink hover:border-white/25"
+                    /* Transparente, e não `bg-surface-raised`: o botão vive DENTRO do card, e
+                       qualquer cor própria virava um retângulo mais claro flutuando
+                       sobre o fundo. Transparente ele bate com o card em qualquer
+                       tom que ele venha a ter. Quem marca que este é o primário é o
+                       contorno especular, que o secundário não tem. */
+                    className="rounded-xl border border-white/10 bg-transparent px-5 py-3 text-sm text-ink hover:border-white/25"
                   >
-                    <Icon name="whatsapp" className="size-4" />
                     {hero.actions.primary}
                   </SpecularButton>
                   <a

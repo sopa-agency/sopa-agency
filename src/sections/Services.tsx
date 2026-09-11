@@ -2,7 +2,6 @@ import type { CSSProperties } from 'react'
 
 import { Icon } from '../components/Icon'
 import { SectionHeading } from '../components/SectionHeading'
-import { SpecularButton } from '../components/SpecularButton'
 import { ProcessSteps } from '../components/services/ProcessSteps'
 import { WorkGrid } from '../components/services/WorkGrid'
 import { services } from '../data/content'
@@ -131,16 +130,6 @@ function ServiceBand({ card, index }: { card: Card; index: number }) {
           ))}
         </ul>
 
-        <SpecularButton
-          href={card.cta.href}
-          target="_blank"
-          rel="noreferrer"
-          radius={8}
-          className="mt-8 w-fit rounded-lg border border-white/8 bg-white/4 px-7 py-4 text-sm text-ink/80 hover:border-white/20 hover:text-ink"
-        >
-          <Icon name={card.cta.icon} className="size-4" />
-          {card.cta.label}
-        </SpecularButton>
       </div>
 
       {/* Centrado, não esticado: os dois painéis têm altura própria — as

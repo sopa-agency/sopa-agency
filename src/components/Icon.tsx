@@ -70,9 +70,6 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
 }
 
-/** Marcas sólidas: desenhadas com preenchimento, não com traço. */
-const FILLED = new Set<IconName>(['whatsapp'])
-
 /** Ícones em traço, herdando `currentColor` e o tamanho passado. */
 export function Icon({
   name,
@@ -81,7 +78,9 @@ export function Icon({
   name: IconName
   className?: string
 }) {
-  const filled = FILLED.has(name)
+  // A marca do WhatsApp é desenhada com preenchimento, não com traço — e é o
+  // único ícone assim no site, então não vale um Set nem uma tabela.
+  const filled = name === 'whatsapp'
 
   return (
     <svg

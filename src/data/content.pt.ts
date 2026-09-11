@@ -23,7 +23,6 @@ const nav = {
     { label: 'Perguntas frequentes', href: '#faq' },
     { label: 'Contato', href: '#contato' },
   ],
-  cta: { label: 'Entre em contato', href: whatsappUrl },
   /**
    * PT e EN são duas páginas, não um estado do React: o seletor do menu são
    * dois links de verdade. `locale` é quem está no ar agora, e o menu marca o
@@ -50,7 +49,7 @@ const hero = {
   wordmark: 'SOPA',
   label: 'Agency',
   actions: {
-    primary: 'Entre em contato',
+    primary: 'Começar uma conversa',
     secondary: 'Trabalhos no ar',
   },
   /** Dica no pé do hero: some junto com o resto do bloco inicial. */
@@ -127,9 +126,8 @@ const services = {
    * traz `accent` (a cor que corre pela faixa) e `visual` (qual painel vai ao
    * lado do texto).
    *
-   * O `cta` de cada faixa leva ao mesmo WhatsApp, mas com rótulo e mensagem do
-   * assunto DELA — a conversa já começa no lugar certo, e os dois botões deixam
-   * de ser o mesmo botão duas vezes.
+   * Sem CTA nas faixas: os dois botões daqui saíram. A seção apresenta o que a
+   * SOPA faz, e quem se convence rola para o rodapé, que é o fecho da página.
    */
   cards: [
     {
@@ -149,13 +147,6 @@ const services = {
           detail: 'Fluxos, interfaces e protótipos prontos para desenvolvimento.',
         },
       ],
-      cta: {
-        label: 'Começar um projeto',
-        icon: 'whatsapp',
-        href: waLink(
-          'Oi! Vim pelo site da SOPA e quero tirar um projeto de criação do papel — site, marca ou produto digital.',
-        ),
-      },
       visual: 'works',
     },
     {
@@ -194,13 +185,6 @@ const services = {
           detail: 'Liga o que a empresa já usa — inclusive sistema feito em casa.',
         },
       ],
-      cta: {
-        label: 'Pedir uma revisão',
-        icon: 'whatsapp',
-        href: waLink(
-          'Oi! Vim pelo site da SOPA e quero uma revisão da minha operação para saber o que dá para automatizar.',
-        ),
-      },
       visual: 'process',
     },
   ],
@@ -323,7 +307,7 @@ const footer = {
     'sistemas feitos para continuar funcionando, evoluindo e gerando',
     'resultado muito depois que entram no ar.',
   ],
-  cta: { label: 'Entre em contato', href: whatsappUrl },
+  cta: { label: 'Tirar um projeto do papel', href: whatsappUrl },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
     { label: 'Instagram', href: 'https://www.instagram.com/sopaagency/' },

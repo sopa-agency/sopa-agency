@@ -85,7 +85,30 @@ sozinha, iluminada, com as vizinhas apagadas.
 fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
 `@layer utilities`), senão não aceitam variantes como `md:`.
 
+**O card do hero é preto, e três coisas ficaram calibradas para o cinza que
+ele era:** o efeito de "soltar das bordas" ficou invisível (o `--color-frame`
+atrás também é preto), e os alfas do `Starfield` e do `--color-stroke` estão
+altos porque foram subidos para vencer o degradê. A lista está por extenso no
+`index.css`, junto dos tokens. Não são bugs a consertar de surpresa — são
+decisões pendentes; mexer neles é mexer no desenho do hero.
+
 **Uma seção por arquivo** em `src/sections/`, montadas em `App.tsx`.
+
+**Cada CTA tem rótulo próprio, e só o do rodapé tem ícone.** São dois pontos de
+contato — hero e rodapé — e já foram cinco: os dois das faixas de serviço saíram
+junto com o do menu. A política inteira está no topo do `content.ts`. Três dos
+cinco diziam "Entre em contato", e era a repetição da frase, não a quantidade de
+botões, que fazia a página soar insistente. Não recrie CTA em seção nova sem ler
+essa nota primeiro.
+
+O ícone do WhatsApp segue a mesma lógica: nos quatro ele virava textura, então
+ficou só no rodapé, o último ponto, onde saber o canal ajuda quem está
+decidindo. Ao acrescentar ou mexer num CTA: o rótulo diz o que acontece a
+seguir, nunca é o mesmo de outro botão da página, e o ícone de canal não sai do
+rodapé.
+
+**O menu é só navegação.** Quatro links do mesmo padrão, sem CTA no meio —
+"Contato" aponta para o `id="contato"` do rodapé, e é lá que está o botão.
 
 **As meta tags moram nos dois `index.html`.** Sem framework para gerar
 `<head>`, o title, a description, o OG e o JSON-LD são escritos à mão em

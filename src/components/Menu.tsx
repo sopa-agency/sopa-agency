@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { Icon } from './Icon'
 import { nav } from '../data/content'
 
 /**
@@ -95,23 +94,6 @@ export function Menu() {
             ))}
           </ul>
         </nav>
-
-        {/* Link comum, e não o `SpecularButton`: o contorno especular abre um
-            contexto WebGL por botão, e este viveria montado o tempo todo atrás
-            do menu fechado, gastando GPU sem nunca ser visto. */}
-        <a
-          href={nav.cta.href}
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => setIsOpen(false)}
-          style={{ transitionDelay: isOpen ? '320ms' : '0ms' }}
-          className={`inline-flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-surface-raised px-6 py-3 text-sm text-ink transition-all duration-500 hover:border-white/25 ${
-            isOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
-          }`}
-        >
-          <Icon name="whatsapp" className="size-4" />
-          {nav.cta.label}
-        </a>
 
         {/* PT e EN são duas páginas estáticas, então o seletor são dois
             links de verdade — indexável, e sem estado para sincronizar. O

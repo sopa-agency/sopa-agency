@@ -19,7 +19,6 @@ const nav = {
     { label: 'FAQ', href: '#faq' },
     { label: 'Contact', href: '#contato' },
   ],
-  cta: { label: 'Get in touch', href: whatsappUrl },
   languageLabel: 'Language',
   languages: [
     { code: 'pt', label: 'PT', href: '/' },
@@ -37,7 +36,7 @@ const hero = {
   wordmark: 'SOPA',
   label: 'Agency',
   actions: {
-    primary: 'Get in touch',
+    primary: 'Start a conversation',
     secondary: 'Work in the wild',
   },
   scrollHint: 'Scroll to begin',
@@ -109,13 +108,6 @@ const services = {
           detail: 'Flows, interfaces and prototypes ready for development.',
         },
       ],
-      cta: {
-        label: 'Start a project',
-        icon: 'whatsapp',
-        href: waLink(
-          "Hi! I came from SOPA's site and I'd like to get a creative project off the ground — a site, a brand or a digital product.",
-        ),
-      },
       visual: 'works',
     },
     {
@@ -154,13 +146,6 @@ const services = {
           detail: 'Connects what the company already runs — in-house systems included.',
         },
       ],
-      cta: {
-        label: 'Request a review',
-        icon: 'whatsapp',
-        href: waLink(
-          "Hi! I came from SOPA's site and I'd like a review of my operation to find out what can be automated.",
-        ),
-      },
       visual: 'process',
     },
   ],
@@ -264,7 +249,7 @@ const footer = {
     'and systems made to keep working, keep evolving and keep',
     'paying off long after they go live.',
   ],
-  cta: { label: 'Get in touch', href: whatsappUrl },
+  cta: { label: 'Get a project off the ground', href: whatsappUrl },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
     { label: 'Instagram', href: 'https://www.instagram.com/sopaagency/' },
