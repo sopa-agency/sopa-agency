@@ -30,7 +30,7 @@ const WORDMARK_SIZE = 'text-[clamp(96px,min(36vw,30vh),380px)]'
  * As últimas telas do track não entram no progresso: um respiro curto, com o
  * último parágrafo já centralizado, e a cortina, em que a seção de serviços
  * sobe por cima do hero parado. Ver `HOLD` e `CURTAIN` no `useHeroScroll` — a
- * altura daqui é 60vh + (CURTAIN + HOLD) × 100vh = 210vh, e os três números andam
+ * altura daqui é 35vh + (CURTAIN + HOLD) × 100vh = 210vh, e os três números andam
  * juntos, mais a margem negativa do `Services`. O `isolate` mantém as camadas do hero num
  * empilhamento próprio, abaixo da seção que cobre.
  * Ver `useHeroScroll` para as faixas de scroll de cada etapa.

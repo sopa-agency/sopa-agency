@@ -33,15 +33,32 @@ export function Metodo() {
        * frente e o fundo opaco cobre. A sombra para cima marca a beirada,
        * senão ela encosta no hero sem que se perceba que é uma camada.
        *
-       * **Os 40vh são o `CURTAIN` do `useHeroScroll` vistos daqui** — a mesma
+       * **Os 70vh são o `CURTAIN` do `useHeroScroll` vistos daqui** — a mesma
        * sobreposição, escrita nos dois lugares. Mudar um sem o outro faz o
-       * progresso do hero terminar em hora diferente da que a cortina começa.
+       * progresso do hero terminar em hora diferente da que esta seção chega.
+       *
+       * Eram 40vh e não davam: a coreografia do hero terminava e sobravam
+       * ~700px de preto vazio antes de o conteúdo daqui entrar na tela. Quanto
+       * maior a sobreposição, mais cedo a seção chega — a conta está por
+       * extenso no `CURTAIN`, lá no hook.
+       *
+       * E **sem `padding-top` compensando a margem negativa**: a primeira
+       * versão empurrava o conteúdo 448px para baixo para ele não cair na
+       * faixa que cobre o hero, o que só adiava ainda mais a chegada. A faixa
+       * que cobre é justamente por onde a seção entra — é ali que o conteúdo
+       * PRECISA estar para ser visto subindo.
+       *
+       * A aresta de cima é um fio claro, e não a sombra escura que o `Services`
+       * usava. A sombra funcionava quando o card do hero era um degradê cinza:
+       * escurecer a beirada destacava a camada. Hoje o card é preto e esta
+       * seção também — sombra preta sobre preto não aparece, e sem nenhuma
+       * aresta a cortina sobe invisível. O fio dá o que enxergar.
        *
        * O mecanismo morava no `Services`, que era quem vinha depois do hero.
        * Quem herda a cortina é sempre a PRIMEIRA seção depois dele — deixá-la
-       * no `Services` fazia a margem negativa comer 40vh do rodapé desta aqui.
+       * no `Services` fazia a margem negativa comer o rodapé desta aqui.
        */
-      className="relative isolate z-10 flex items-center -mt-[40vh] bg-frame px-6 pb-14 pt-[calc(40vh+56px)] shadow-[0_-32px_64px_-24px_rgba(0,0,0,0.85)] md:min-h-[calc(100vh+40vh)] md:px-[clamp(56px,7vw,100px)] md:pb-[88px] md:pt-[calc(40vh+88px)]"
+      className="relative isolate z-10 -mt-[70vh] flex items-center border-t border-white/10 bg-frame px-6 py-14 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:min-h-viewport md:px-[clamp(56px,7vw,100px)] md:py-[88px]"
     >
       <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-7 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-14 lg:gap-24">
         {/* `contents` no celular: os filhos viram itens do flex de fora, e aí
