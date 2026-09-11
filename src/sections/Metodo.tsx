@@ -22,7 +22,9 @@ import { useEnterProgress } from '../hooks/useEnterProgress'
  * `data/content.ts`.
  */
 export function Metodo() {
-  const ref = useEnterProgress()
+  // 0,85 de tela em vez dos 0,6 padrão: a subida precisa durar para ser
+  // lida como chegada, e não como um fade rápido ao passar.
+  const ref = useEnterProgress(0.85)
 
   return (
     <section
@@ -68,14 +70,14 @@ export function Metodo() {
         <div className="contents md:flex md:flex-col md:gap-[34px]">
           <p
             className="enter-rise font-mono text-[11px] uppercase tracking-[0.18em] text-accent-warm md:text-[13px]"
-            style={{ '--d': 0 } as CSSProperties}
+            style={{ '--d': 0, '--r': '72px' } as CSSProperties}
           >
             {metodo.eyebrow}
           </p>
 
           <h2
             className="enter-rise font-display text-[clamp(38px,9vw,74px)] font-medium leading-[0.96] tracking-[-0.038em] text-ink-bright"
-            style={{ '--d': 0.06 } as CSSProperties}
+            style={{ '--d': 0.05, '--r': '64px' } as CSSProperties}
           >
             {metodo.title}
           </h2>
@@ -84,7 +86,7 @@ export function Metodo() {
               troca texto, e um listener de resize seria caro para isso. */}
           <p
             className="enter-rise max-w-[460px] text-[17px] leading-[1.55] text-ink/70 [text-wrap:pretty] md:text-[21px] md:leading-[1.6]"
-            style={{ '--d': 0.12 } as CSSProperties}
+            style={{ '--d': 0.1, '--r': '56px' } as CSSProperties}
           >
             <span className="md:hidden">{metodo.paragraphCurto}</span>
             <span className="hidden md:inline">{metodo.paragraph}</span>
@@ -92,7 +94,7 @@ export function Metodo() {
 
           <div
             className="enter-rise order-last flex flex-col gap-3 border-t border-[#1e1d1b] pt-6 md:order-none font-mono text-[11px] uppercase leading-[1.2] tracking-[0.1em] text-[#6f6b67] md:gap-3 md:pt-[26px] md:text-[12px]"
-            style={{ '--d': 0.18 } as CSSProperties}
+            style={{ '--d': 0.16, '--r': '48px' } as CSSProperties}
           >
             {metodo.notas.map((nota, i) => (
               <p
@@ -126,7 +128,7 @@ function Painel() {
   return (
     <div
       className="enter-rise overflow-hidden rounded-xl border border-[#1c1b19] bg-[#050505] md:shadow-[0_40px_120px_rgba(79,155,240,0.07)]"
-      style={{ '--d': 0.24 } as CSSProperties}
+      style={{ '--d': 0.14, '--r': '128px' } as CSSProperties}
     >
       {/* Barra de chrome: o painel se apresenta como uma janela, e é isso que
           faz a linha do tempo ler como algo que ACONTECEU, não como um
@@ -157,7 +159,7 @@ function Painel() {
             <li
               key={step.stamp}
               className="enter-rise flex items-start gap-3.5 md:grid md:grid-cols-[minmax(0,96px)_20px_minmax(0,1fr)] md:gap-0"
-              style={{ '--d': 0.3 + i * 0.07 } as CSSProperties}
+              style={{ '--d': 0.34 + i * 0.08, '--r': '28px' } as CSSProperties}
             >
               <span className="w-16 shrink-0 pt-px font-mono text-[11px] tracking-[0.1em] text-[#6f6b67] md:w-auto md:pt-0.5 md:text-[12px]">
                 <span className="md:hidden">{step.stampCurto}</span>

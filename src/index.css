@@ -213,10 +213,16 @@
 /**
  * Entrada da seção 02, derivada do `--enter` que o `useEnterProgress` publica.
  *
- * `--d` é o atraso de cada elemento, em fração do progresso: o rótulo entra em
- * 0, o título logo depois, e as paradas do painel escalonadas. O `* 4` encurta
- * a janela de cada um para um quarto do percurso, senão tudo sobe junto e
- * devagar em vez de um atrás do outro.
+ * Cada elemento sobe de `--r` até o lugar enquanto aparece. O curso é grande de
+ * propósito, e em duas velocidades — o mesmo recurso que o `Services` usa com
+ * 40px e 96px: o conteúdo anda MAIS do que a seção que o carrega, então ele
+ * sobe POR DENTRO dela em vez de só acompanhar a rolagem. É o que dava à
+ * narrativa antiga a sensação de entrar subindo, e ela tinha por passar dentro
+ * do card parado do hero.
+ *
+ * `--d` é o atraso de cada um, em fração do progresso. O `* 2.2` dá a cada
+ * elemento quase metade do percurso: janelas curtas demais (estava em `* 4`)
+ * fazem cada coisa piscar no lugar em vez de subir, e o efeito vira fade.
  *
  * Sem `@keyframes` e sem estado: quem dirige é a posição de scroll, então subir
  * de volta desfaz o movimento — a regra de efeito de scroll deste projeto. Com
@@ -224,14 +230,14 @@
  * fallback `1` no `var()` cobre o caso de o script nem rodar.
  */
 @utility enter-rise {
-  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 4, 1);
+  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 2.2, 1);
   opacity: var(--t);
-  transform: translateY(calc((1 - var(--t)) * 12px));
+  transform: translate3d(0, calc((1 - var(--t)) * var(--r, 56px)), 0);
 }
 
 /** O trilho entre duas paradas cresce de cima para baixo, no mesmo compasso. */
 @utility enter-grow {
-  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 4, 1);
+  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 2.2, 1);
   transform: scaleY(var(--t));
   transform-origin: top;
 }
