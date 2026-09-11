@@ -75,7 +75,25 @@ export function Metodo() {
         hero eles são multiplicados pelo `--p` a cada frame — ali são uma conta,
         aqui um valor parado.
       */}
-      <div className="px-4 py-5 md:sticky md:top-0 md:h-viewport md:px-16 md:py-14">
+      <div className="relative px-4 py-5 md:sticky md:top-0 md:h-viewport md:px-16 md:py-14">
+        {/*
+          O brilho que SOBE da aresta do card e preenche a moldura preta até o
+          card do hero.
+
+          O halo da crista mora dentro do card, e o `overflow-hidden` dele o
+          corta: a luz só descia. Ficava uma faixa preta entre a metade de baixo
+          do feixe, ainda acesa no card do hero, e a crista do card novo — as
+          duas coisas perto e sem se tocarem. Este vive FORA do card, ocupa
+          exatamente o padding de cima do palco (a mesma faixa preta) e some
+          para cima, então as duas luzes viram uma só.
+
+          Mesma paleta do feixe no eixo X, mesma máscara no eixo Y do halo de
+          dentro — só que invertida.
+        */}
+        <span
+          aria-hidden
+          className="beam-dock pointer-events-none absolute inset-x-4 top-0 h-5 bg-linear-[90deg,transparent,color-mix(in_srgb,var(--color-accent-cool)_34%,transparent)_22%,rgba(255,255,255,0.24)_50%,color-mix(in_srgb,var(--color-accent-warm)_34%,transparent)_78%,transparent] blur-[12px] [mask-image:linear-gradient(0deg,#000_0%,transparent_100%)] md:inset-x-16 md:h-14"
+        />
         {/*
           O card. Mesmo raio e mesmo degradê do card do hero, para os dois
           lerem como o mesmo objeto: um fecha, o outro sobe no lugar dele.
