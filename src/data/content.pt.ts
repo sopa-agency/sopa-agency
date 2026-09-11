@@ -326,10 +326,9 @@ const footer = {
   cta: { label: 'Entre em contato', href: whatsappUrl },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
   links: [
-    // sem perfil ainda: manda pro Instagram e pronto
-    { label: 'Instagram', href: 'https://www.instagram.com/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/sopaagency/' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/company/sopa-agency/?viewAsMember=true' },
-    { label: 'X', href: 'https://x.com/sopa_agency' },
+    { label: 'X', href: 'https://x.com/sopaagency' },
   ],
   legal: `© SOPA · ${new Date().getFullYear()}`,
 } as const

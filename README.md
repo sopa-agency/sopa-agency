@@ -390,8 +390,7 @@ que sobrava dele era um borrão sem motivo.
 As quatro seções estão construídas e responsivas (checadas em 1440px e 390px).
 O que ainda é placeholder e deve ser trocado antes de publicar:
 
-- **o número de WhatsApp em `content.ts` é de teste** — trocar pelo da SOPA
-- **o link do Instagram no rodapé aponta para a home da rede**, não para um perfil
+- **o número de WhatsApp em `contact.ts` é de teste** — trocar pelo da SOPA
 - não há analytics, formulário de contato nem testes
 
 Tema claro **não** está na lista: o toggle saiu do menu de propósito. O
