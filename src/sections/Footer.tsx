@@ -21,24 +21,10 @@ export function Footer() {
       <LightBeam className="bottom-[-6%] h-[70%]" />
 
       <div className="relative z-2 max-w-[820px] text-center">
-        <h2 className="mb-8 font-serif text-[clamp(30px,5vw,58px)] font-normal leading-[1.05] text-ink-bright">
-          {/* a segunda linha em itálico: o serifado do rodapé é o único lugar
-              do site com esse contraste */}
-          {footer.title.map((line, i) => (
-            <span key={line} className={`block ${i === 1 ? 'italic' : ''}`}>
-              {line}
-            </span>
-          ))}
-        </h2>
-
-        <p className="mb-9 text-[15px] leading-relaxed text-ink/50">
-          {footer.lede.map((line) => (
-            <span key={line} className="block">
-              {line}
-            </span>
-          ))}
-        </p>
-
+        {/* Sem título nem lede: o rodapé é só o fecho. Quem chegou até aqui
+            já leu a página inteira, e mais um parágrafo antes do botão é
+            repetir o que já foi dito — o feixe e o vazio em volta é que dão o
+            peso do fim. */}
         <SpecularButton
           href={footer.cta.href}
           target="_blank"

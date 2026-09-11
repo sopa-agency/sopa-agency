@@ -30,7 +30,7 @@ export function Marcas() {
   return (
     <section
       aria-label={marcas.label}
-      className="relative isolate border-y border-white/5 bg-frame px-6 py-14 sm:px-10 md:py-20"
+      className="relative isolate bg-frame px-6 py-14 sm:px-10 md:py-20"
     >
       {/*
         Mesma armação do `Services` e do `Faq`: o padding lateral na SEÇÃO e o
