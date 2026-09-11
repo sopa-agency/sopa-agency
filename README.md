@@ -499,7 +499,8 @@ muda. Os números que ele aplica, e por quê:
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
 
 - **cores** — `hero-top/mid/bot` (fundo do card, hoje preto; era um degradê
-  cinza), `frame` (preto do fundo),
+  cinza), `frame` (o preto de TODAS as seções — não existe mais fundo cinza
+  no site),
   `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card`
   (fundos), `accent-warm` / `accent-cool` / `accent-mint`
   (acentos por seção), `stroke` / `stroke-glow` (contorno da palavra do hero)

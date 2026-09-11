@@ -98,6 +98,11 @@ no `Services`, que era quem vinha depois; deixá-la lá fazia a margem negativa
 comer 40vh do rodapé da seção nova. Mudou a ordem das seções, a cortina anda
 junto.
 
+**A página inteira é preta.** Todas as seções usam `bg-frame`; o
+`--color-surface` (`#0c0d0e`) existia só para o fundo cinza da seção de serviços
+e saiu junto com ele. O que separa uma seção da outra são as bordas de 1px, o
+campo de estrelas e os cards — não tom de fundo.
+
 **O tema vive no `@theme` de `src/index.css`**, não há `tailwind.config`. Cores,
 fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
 `@layer utilities`), senão não aceitam variantes como `md:`.

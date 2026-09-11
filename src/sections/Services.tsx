@@ -45,7 +45,7 @@ export function Services() {
        * da seção 02, que agora é quem vem logo depois dele. Aqui é fluxo
        * normal — o `Metodo` já cobriu o hero antes desta seção existir.
        */
-      className="relative bg-surface px-6 py-28 sm:px-10 md:py-40"
+      className="relative bg-frame px-6 py-28 sm:px-10 md:py-40"
     >
       {/*
         Parallax de entrada: o cabeçalho e as faixas sobem a partir de baixo em
