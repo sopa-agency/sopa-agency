@@ -448,29 +448,49 @@ apontava para o `og.jpg` — um print da home, não uma marca.
 ### A imagem de preview
 
 `public/og.jpg` é um **print da home de verdade**, não uma arte à parte: a
-palavra, o feixe e as estrelas, sem o resto da interface. Refazer, quando o hero
-mudar:
+palavra, o feixe e as estrelas, sem o resto da interface. Refazer, quando o
+hero mudar:
 
-1. `pnpm build && pnpm preview`
-2. Abrir em **1200×630** com `deviceScaleFactor: 2` — o dobro e depois reduzir
-   dá antisserrilhado melhor do que capturar direto no tamanho final.
-3. Esconder o que não entra: o botão do menu (`button[aria-controls="menu"]`),
-   o `#menu`, e, dentro de `#topo section`, tudo que não seja canvas nem
-   contenha o `h1`. Vale ir pela estrutura e não por classe: as classes do
-   Tailwind mudam a cada ajuste de layout, o esqueleto (dois canvas de fundo
-   mais o `h1` no meio) não.
-4. Forçar `font-size: 33vw` na palavra. Ela é dimensionada por
-   `min(36vw, 30vh)`, e num quadro 1200×630 quem manda é o `vh`: sairia com
-   189px, pequena demais para uma miniatura de link.
-5. Esperar uns 7s antes do disparo — o canvas do feixe entra com fade de 1,8s, e
-   a linha central oscila devagar; o quadro bonito não é o primeiro.
-6. Reduzir para 1200×630 e salvar como **JPEG**, não PNG.
+```bash
+pnpm build && pnpm preview --port 4180
+node scripts/og.mjs            # escreve scripts/.og-raw.png em 2400×1260
+```
 
-> **Por que JPEG.** O mesmo quadro em PNG dá 428 KB, e o WhatsApp costuma
-> desistir do preview acima de uns 300 KB. Em JPEG são 75 KB, e num quadro que é
-> quase todo degradê escuro não aparece banda — o grão que o shader já joga por
-> cima é o que segura isso. Trocar de volta para PNG custa o preview no lugar
-> onde ele mais é usado.
+e reduzir para 1200×630 salvando como **JPEG**:
+
+```python
+from PIL import Image
+Image.open('scripts/.og-raw.png').convert('RGB')   .resize((1200, 630), Image.LANCZOS)   .save('public/og.jpg', 'JPEG', quality=88, optimize=True, progressive=True)
+```
+
+O `scripts/og.mjs` dirige um Chromium headless pelo DevTools Protocol, **sem
+dependência nenhuma**: usa o Chrome ou Edge que já está instalado e o
+`WebSocket` global do Node 22+. Puppeteer faria o mesmo em menos linhas e
+custaria ~300 MB de navegador baixado para um script que roda quando o hero
+muda. Os números que ele aplica, e por quê:
+
+- **captura em 2400×1260** (`deviceScaleFactor: 2`) e reduz depois — dá
+  antisserrilhado melhor do que capturar direto no tamanho final;
+- **espera 7s** antes do disparo: o canvas do feixe entra com fade de 1,8s e a
+  linha central oscila devagar, então o quadro bonito não é o primeiro;
+- **força `font-size: 33vw`** na span da marca. Ela é dimensionada por
+  `min(36vw, 30vh)`, e num quadro 1200×630 quem manda é o `vh`: sairia com
+  189px, pequena demais para uma miniatura de link. O tamanho vai na span, e
+  não no `h1` — a classe dela ganharia do pai.
+
+> **O que ele esconde, e as duas armadilhas.** Vale ir pela estrutura e não por
+> classe: as classes do Tailwind mudam a cada ajuste de layout, o esqueleto
+> (canvas de fundo mais o `h1` no meio) não. Mas "é um `canvas`" não basta —
+> **o feixe mora dentro de um `div`**, e a primeira versão do script o escondeu
+> junto, entregando um quadro só com as estrelas. E manter o wrapper do `h1`
+> traz os **botões e o "Agency"** junto: os dois penduram num `top-full`, um
+> como irmão do `h1` e outro como filho dele.
+
+> **Por que JPEG.** O mesmo quadro em PNG passa de 400 KB, e o WhatsApp costuma
+> desistir do preview acima de uns 300 KB. Em JPEG são 45 KB — o card preto de
+> hoje comprime melhor que o degradê cinza de antes, que dava 77 KB. Num quadro
+> quase todo escuro não aparece banda: o grão que o shader já joga por cima
+> segura isso. Trocar para PNG custa o preview no lugar onde ele mais é usado.
 
 ## Tema
 
