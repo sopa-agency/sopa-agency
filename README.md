@@ -346,14 +346,9 @@ resposta é animada por `grid-template-rows` (`0fr` → `1fr`), e `aria-expanded
 ### Footer
 
 O **mesmo** `LightBeam` do hero, só com outra ancoragem da faixa — e sem receber
-scroll, então ele não se abre: fica no desenho de repouso. Por cima, só o CTA de
-fecho, o e-mail e a linha de links.
-
-**Sem título nem lede.** Havia um título em serifado e um parágrafo de três
-linhas antes do botão; saíram. Quem chega no rodapé leu a página inteira, e mais
-um parágrafo ali repete o que já foi dito — o peso do fim vem do feixe e do
-vazio em volta, não de mais texto. Com eles saíram as chaves `title` e `lede` da
-copy, que ficaram sem consumidor.
+scroll, então ele não se abre: fica no desenho de repouso. Por cima, o título em
+serifado (segunda linha em itálico, o único lugar do site com esse contraste), o
+lede, o CTA de fecho e a linha de links.
 
 A palavra gigante em contorno morava aqui e subiu para o hero: nas duas pontas
 ela deixava de ser o retrato da marca e virava textura.

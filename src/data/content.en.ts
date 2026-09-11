@@ -268,12 +268,14 @@ const faq = {
   ],
 } as const
 
-/**
- * O rodapé é só o fecho: CTA, e-mail, links e a linha legal. O título em
- * serifado e o lede de três linhas saíram — quem chega aqui já leu a página
- * inteira, e mais um parágrafo antes do botão repete o que já foi dito.
- */
 const footer = {
+  title: ['Good work', 'keeps paying off'],
+  /** Quebras de linha na mão: cada item é uma linha do bloco centralizado. */
+  lede: [
+    'The delivery does not end at launch. We build products, brands',
+    'and systems made to keep working, keep evolving and keep',
+    'paying off long after they go live.',
+  ],
   cta: { label: 'Get a project off the ground', href: whatsappUrl },
   email: { prefix: 'or write to', address: email },
   /** Links externos (href com http) abrem em outra aba; '#' fica como placeholder. */
