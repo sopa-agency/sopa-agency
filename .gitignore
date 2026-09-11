@@ -28,3 +28,6 @@ dist-ssr
 
 # vercel
 .vercel
+
+# intermediário do scripts/og.mjs — o que se versiona é o public/og.jpg
+scripts/.og-*.png
