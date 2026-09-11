@@ -247,21 +247,31 @@ const services = {
  * Marcas que já passaram pela SOPA, na faixa entre os serviços e o FAQ.
  *
  * `slug` é o nome do arquivo em `src/assets/marcas/` — ver o README de lá. Sem
- * arquivo, a faixa escreve o `nome` e segue; é melhor do que um buraco na fila.
+ * arquivo, o card mostra só o nome e segue de pé.
+ *
+ * ⚠️ **`depoimento` é PLACEHOLDER, e é o mesmo texto em todos de propósito.**
+ * Ele existe para dar altura e ritmo ao card enquanto o feedback real não
+ * chega. Não invente frase em nome da marca para preencher: depoimento
+ * inventado ao lado de um logo de verdade lê como endosso real, e é assim que
+ * se vira alvo. Quando a fala chegar, cada item recebe a sua — e aí vale
+ * conferir se cabe nas três linhas do card em 300px.
  */
+/** Enquanto o feedback real não chega — ver o aviso acima. */
+const espera = 'Depoimento em breve — o texto real entra aqui.'
+
 const marcas = {
   label: 'Marcas que já passaram pela SOPA',
   eyebrow: 'quem já sentou à mesa',
   itens: [
-    { slug: 'hbo', nome: 'HBO' },
-    { slug: 'puma', nome: 'Puma' },
-    { slug: 'burger-king', nome: 'Burger King' },
-    { slug: 'c-a', nome: 'C&A' },
-    { slug: 'keepkey', nome: 'KeepKey' },
-    { slug: 'shapeshift', nome: 'ShapeShift' },
-    { slug: 'gnars', nome: 'Gnars' },
-    { slug: 'odysee', nome: 'Odysee' },
-    { slug: 'skatehive', nome: 'SkateHive' },
+    { slug: 'hbo', nome: 'HBO', depoimento: espera },
+    { slug: 'puma', nome: 'Puma', depoimento: espera },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
+    { slug: 'c-a', nome: 'C&A', depoimento: espera },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
+    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
+    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
   ],
 }
 

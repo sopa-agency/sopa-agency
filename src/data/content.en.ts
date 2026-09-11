@@ -188,20 +188,26 @@ const services = {
   },
 } as const
 
-/** Ver a nota por extenso no `content.pt.ts`. */
+/**
+ * Ver a nota por extenso no `content.pt.ts` — inclusive o aviso sobre o
+ * `depoimento`, que é placeholder e não deve virar frase inventada.
+ */
+/** Enquanto o feedback real não chega — ver o aviso acima. */
+const espera = 'Testimonial coming soon — the real text goes here.'
+
 const marcas = {
   label: 'Brands that have worked with SOPA',
   eyebrow: 'who has sat at the table',
   itens: [
-    { slug: 'hbo', nome: 'HBO' },
-    { slug: 'puma', nome: 'Puma' },
-    { slug: 'burger-king', nome: 'Burger King' },
-    { slug: 'c-a', nome: 'C&A' },
-    { slug: 'keepkey', nome: 'KeepKey' },
-    { slug: 'shapeshift', nome: 'ShapeShift' },
-    { slug: 'gnars', nome: 'Gnars' },
-    { slug: 'odysee', nome: 'Odysee' },
-    { slug: 'skatehive', nome: 'SkateHive' },
+    { slug: 'hbo', nome: 'HBO', depoimento: espera },
+    { slug: 'puma', nome: 'Puma', depoimento: espera },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
+    { slug: 'c-a', nome: 'C&A', depoimento: espera },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
+    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
+    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
   ],
 }
 
