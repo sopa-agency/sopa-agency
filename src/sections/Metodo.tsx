@@ -41,9 +41,12 @@ export function Metodo() {
        * margem negativa a faz começar antes do fim do track dele, o `z-10` a
        * põe na frente e o fundo opaco cobre.
        *
-       * **Os 70vh são o `CURTAIN` do `useHeroScroll` vistos daqui** — a mesma
-       * sobreposição, escrita nos dois lugares. Mudar um sem o outro faz o
-       * progresso do hero terminar em hora diferente da que esta seção chega.
+       * **Os 70vh decidem QUANDO este card aparece**, e são o único número que
+       * controla isso: o card fica visível quando o track dele encosta no pé da
+       * tela, ou seja `altura do track do hero − 70vh − uma tela` de rolagem.
+       * Aumentar aproxima a chegada, diminuir afasta. O `BEAM_OPEN` do
+       * `useHeroScroll` está calibrado para o rasgo acontecer durante essa
+       * subida — mexeu aqui, confira lá.
        *
        * A aresta de cima é um fio claro, e não a sombra escura que o `Services`
        * usava: a sombra funcionava quando o card do hero era um degradê cinza,
