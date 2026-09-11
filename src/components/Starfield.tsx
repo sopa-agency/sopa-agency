@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react'
 
-/** Uma estrela a cada tanto de pixel de tela — quanto maior o número, mais vazio. */
-const AREA_PER_STAR = 14000
+/** Uma estrela a cada tanto de pixel de tela — quanto maior o número, mais vazio.
+ *  Era 14000, que em 1440×900 dava 92 pontos: esparso demais para o card ter
+ *  profundidade, e o que fazia a seção 02 parecer colada na de serviços, sem
+ *  nada separando um fundo do outro. */
+const AREA_PER_STAR = 8000
 /** Piso e teto de contagem: numa tela de celular a conta acima daria um punhado
- *  de pontos perdidos, e num monitor muito grande, poeira demais. */
-const STAR_RANGE = { min: 40, max: 200 }
+ *  de pontos perdidos, e num monitor muito grande, poeira demais. O teto subiu
+ *  junto com a densidade, senão ele engolia o ganho em qualquer tela grande. */
+const STAR_RANGE = { min: 60, max: 320 }
 
 /**
  * Quase todas brancas. As poucas tingidas puxam para as pontas do MESMO espectro
@@ -62,8 +66,8 @@ function makeStars(count: number): Star[] {
 }
 
 /**
- * Poeira de estrelas no fundo do card: pontos pequenos, esparsos, piscando fora
- * de fase. Sem forma de estrela — é um disco de um pixel e pouco, que nesta
+ * Poeira de estrelas no fundo dos cards — o do hero e o da seção 02: pontos
+ * pequenos, esparsos, piscando fora de fase. Sem forma de estrela — é um disco de um pixel e pouco, que nesta
  * escala é o que o olho lê como brilho distante; a ponta de cinco braços viraria
  * ícone.
  *

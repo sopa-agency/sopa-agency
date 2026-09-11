@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 
+import { Starfield } from '../components/Starfield'
 import { metodo } from '../data/content'
 import { useStageProgress } from '../hooks/useStageProgress'
 
@@ -102,6 +103,14 @@ export function Metodo() {
           colada nas bordas da tela.
         */}
         <div className="relative flex h-full w-full items-center overflow-hidden rounded-[22px] border border-white/[0.07] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-12 shadow-[0_-24px_60px_-20px_rgba(79,155,240,0.10)] md:rounded-[40px] md:px-[clamp(32px,4.5vw,72px)] md:py-[72px]">
+          {/*
+            O mesmo campo de estrelas do hero, e pela mesma razão: sem ele o
+            card é um retângulo de degradê chapado, e o de serviços logo abaixo
+            também — os dois encostam sem nada dizendo onde um acaba. O canvas
+            se mede pela viewport e quem recorta é o `overflow-hidden` daqui.
+          */}
+          <Starfield />
+
           {/*
             O halo. Carrega as cores do feixe no eixo X — frio à esquerda,
             quente à direita, como o `beamShaders` pinta — e some no eixo Y por
@@ -253,9 +262,16 @@ function Painel() {
                 />
                 {!ultimo && (
                   <span
-                    className="enter-grow w-px flex-1"
+                    className="enter-grow relative w-px flex-1 overflow-hidden"
                     style={{ backgroundImage: `linear-gradient(${trilho})` }}
-                  />
+                  >
+                    {/* O atraso é o que costura os trechos num pulso só: o de
+                        baixo parte quando o de cima está na metade. */}
+                    <span
+                      className="beam-travel absolute inset-x-0 top-0 h-[40%] bg-linear-[180deg,transparent,rgba(255,255,255,0.9),transparent]"
+                      style={{ animationDelay: `${i * 1.4}s` }}
+                    />
+                  </span>
                 )}
               </span>
 

@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 
 import { SpecularButton } from '../components/SpecularButton'
 import { LightBeam } from '../components/hero/LightBeam'
-import { Starfield } from '../components/hero/Starfield'
+import { Starfield } from '../components/Starfield'
 import { hero, whatsappUrl } from '../data/content'
 import { useHeroScroll } from '../hooks/useHeroScroll'
 
