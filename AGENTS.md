@@ -117,6 +117,12 @@ as mensagens que abrem a conversa e os rótulos, e esses ficam em cada
 porque faltando um o `wa.me` não reclama, só abre conversa vazia, e todo CTA do
 site vira link morto sem aviso.
 
+**Analytics é o Vercel Web Analytics**, ligado por `inject()` no `main.tsx` — e
+não pelo componente `<Analytics />`, que existe para avisar troca de rota e aqui
+não tem roteador. Precisa estar habilitado no painel da Vercel; sem isso a
+chamada não faz nada. É sem cookie, então não introduza banner de consentimento
+por causa dele.
+
 **O e-mail é link de texto ao pé do CTA do rodapé, não um segundo botão.**
 `mailto:` como botão principal é aposta ruim: quem não tem cliente de e-mail
 configurado clica e nada acontece. Como linha discreta serve quem prefere

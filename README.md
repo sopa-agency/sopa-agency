@@ -13,6 +13,7 @@ em WebGL que conduz a narrativa por scroll.
 | TypeScript | tipos em tudo |
 | Tailwind CSS v4 | estilo, via `@tailwindcss/vite` (sem arquivo de config — o tema mora no `@theme` do `src/index.css`) |
 | oxlint | lint |
+| @vercel/analytics | medição de audiência, sem cookie |
 | WebGL2 | o feixe de luz do hero e do footer, sem biblioteca |
 
 Sem roteador, sem CMS, sem backend, sem biblioteca de i18n: tudo é estático e o
@@ -520,7 +521,7 @@ que sobrava dele era um borrão sem motivo.
 As quatro seções estão construídas e responsivas (checadas em 1440px e 390px).
 O que ainda é placeholder e deve ser trocado antes de publicar:
 
-- não há analytics, formulário de contato nem testes
+- não há formulário de contato nem testes
 
 Tema claro **não** está na lista: o toggle saiu do menu de propósito. O
 `LightBeam` acumula cor partindo do preto e soma luz com blend `SRC_ALPHA` —
