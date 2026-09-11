@@ -74,12 +74,34 @@ do site, mexa nesses dois arquivos e em mais nada. O `content.ts` é só o
 seletor de locale; o número de WhatsApp e o `waLink` moram no `contact.ts`,
 porque o número é o mesmo nas duas e as mensagens não.
 
-**As quebras de `hero.story` são estruturais, nas duas locales.** Cada string ali é uma linha de
-verdade na tela: é ela que o facho de leitura atravessa, e é ela que acende e
-apaga. O corpo é dimensionado em `ch` para a mais longa (46 caracteres) nunca
-refluir — refluindo, o facho passa a valer para duas fileiras ao mesmo tempo.
-Mexeu na copy, refaça as quebras, e quebre em fim de oração: a linha é lida
-sozinha, iluminada, com as vizinhas apagadas.
+**A narrativa que atravessava o card do hero não existe mais.** Ela era vinte
+linhas monoespaçadas numa coluna magra dentro de um vazio preto, reveladas uma a
+uma por um facho de leitura. Virou a seção 02 (`sections/Metodo.tsx`): texto
+parado com hierarquia de verdade e um painel ao lado que PROVA o argumento em
+vez de só afirmá-lo. Com ela foram embora o `HeroStory`, o `@utility
+line-reading`, o `--animate-caret` e a metade do `useHeroScroll` que media linha
+por linha. Se a sua memória fala em `hero.story`, `--typed`, `--caret` ou
+quebras de 46 caracteres, está desatualizada.
+
+**A seção 02 é um quadro preso, como o hero.** Track alto + `sticky` dentro
+dele, e o conteúdo sobe por DENTRO enquanto o quadro está parado. Não é
+enfeite: com o quadro em movimento o conteúdo não tem contra o que se mover, e
+o olho lê a rolagem da página em vez de uma chegada. Foi o que faltou em duas
+tentativas antes de chegar aqui. O `useStageProgress` publica o `--enter` desse
+percurso, que começa quando o track encosta no pé da tela e termina já com o
+quadro preso — cobrir os dois trechos é o que faz o conteúdo aparecer subindo e
+ainda assentar depois que o quadro para.
+
+**A cortina é de quem vem logo depois do hero.** A margem negativa `-mt-[40vh]`,
+o `z-10`, o fundo opaco e a sombra para cima moram hoje no `Metodo`. Ela morava
+no `Services`, que era quem vinha depois; deixá-la lá fazia a margem negativa
+comer 40vh do rodapé da seção nova. Mudou a ordem das seções, a cortina anda
+junto.
+
+**A página inteira é preta.** Todas as seções usam `bg-frame`; o
+`--color-surface` (`#0c0d0e`) existia só para o fundo cinza da seção de serviços
+e saiu junto com ele. O que separa uma seção da outra são as bordas de 1px, o
+campo de estrelas e os cards — não tom de fundo.
 
 **O tema vive no `@theme` de `src/index.css`**, não há `tailwind.config`. Cores,
 fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
@@ -150,6 +172,13 @@ sempre o mesmo objeto para aquele canvas. Chamar `loseContext()` na limpeza do
 efeito quebra a remontagem no StrictMode: o shader não compila mais e a árvore
 React cai inteira. O `LightBeam` libera shaders, programa e buffer, e nunca o
 contexto.
+
+**`w-screen` conta a barra de rolagem.** O canvas do `Starfield` e o do
+`LightBeam` são medidos pela viewport com `w-screen`, e `100vw` inclui os ~15px
+da barra — solto, cada um estoura a página e aparece uma barra horizontal. Quem
+os usa PRECISA cortá-los: no hero é o `overflow-hidden` do card, e na seção 02 é
+um invólucro só para isso, para a sombra do card não ser cortada junto. Ao
+colocar um desses em seção nova, confira o `scrollWidth` antes de fechar.
 
 **Efeitos de scroll leem a posição a cada frame** e devem funcionar nos dois
 sentidos — nada de estado acumulado que só avança.

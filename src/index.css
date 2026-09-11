@@ -46,7 +46,6 @@
   --color-frame: #000000;
   --color-ink: #e9e7e4;
   --color-ink-bright: #f2f0ee;
-  --color-surface: #0c0d0e;
   --color-surface-raised: #17181a;
   --color-card: #131416;
 
@@ -95,21 +94,7 @@
     }
   }
 
-  /* piscar do cursor da narrativa. `step-end` porque cursor de terminal não
-     tem meio-termo: ou está aceso ou não está */
-  --animate-caret: caret 1.1s step-end infinite;
-
-  @keyframes caret {
-    0%,
-    55% {
-      opacity: 1;
-    }
-    56%,
-    100% {
-      opacity: 0;
-    }
-  }
-
+  
   /* pulso lento da cópia que "acende" a palavra gigante do hero */
   --animate-breathe: breathe 7s ease-in-out infinite;
 
@@ -201,46 +186,6 @@
   }
 }
 
-/* Linha de terminal atravessada por um facho de leitura. `--typed` (0 → 1) é
-   escrito pelo `useHeroScroll`, linha a linha, a cada frame.
-
-   A linha existe inteira o tempo todo; o que muda é a COR, num degradê de dois
-   tons recortado pelo texto: aceso atrás do facho, apagado à frente dele. Não
-   é recorte de verdade — a primeira versão cortava a linha com `clip-path`, e
-   aí a linha só nascia quando o facho a alcançava. Para o card não ficar vazio
-   embaixo, o facho tinha que ser largo, e largo ele pegava cinco linhas ao
-   mesmo tempo: cinco cursores piscando, o que terminal nenhum faz. Com as
-   linhas já presentes em cinza, o facho pode ser estreito, e sobra um cursor.
-
-   `1.5ch` de transição: a borda tem que ser curta o bastante para ler como
-   cursor passando, e longa o bastante para não serrilhar dentro de um glifo.
-
-   Repare que a rampa fica ATRÁS da borda, e que o percurso é `100% + 1.5ch` e
-   não `100%`. Com a rampa à frente — que é o jeito ingênuo de escrever isto —
-   em `--typed: 0` ela pousa na coluna zero e acende o primeiro caractere e meio
-   de TODA linha, inclusive as que ninguém leu ainda: o texto inteiro ganhava
-   uma borda clara na lateral esquerda. Jogando a rampa para trás e alongando o
-   percurso, os dois extremos fecham certo — em 0 a linha é toda apagada, em 1 é
-   toda acesa.
-
-   Com movimento reduzido, a linha inteira acende — quem continua conduzindo a
-   leitura é a opacidade, que o hook escreve de qualquer jeito. */
-@utility line-reading {
-  background-image: linear-gradient(
-    90deg,
-    var(--ink-on) 0,
-    var(--ink-on) calc(var(--typed, 1) * (100% + 1.5ch) - 1.5ch),
-    var(--ink-off) calc(var(--typed, 1) * (100% + 1.5ch))
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  @media (prefers-reduced-motion: reduce) {
-    background-image: none;
-    color: var(--ink-on);
-  }
-}
 
 /* Fio de pontos na vertical, subindo devagar — a direção é a dica. Herda a cor
    de quem o usa, então basta um `text-*` para calibrar. */
@@ -264,3 +209,108 @@
   );
 }
 
+/**
+ * Entrada da seção 02, derivada do `--enter` que o `useEnterProgress` publica.
+ *
+ * Cada elemento sobe de `--r` até o lugar enquanto aparece. O curso é grande de
+ * propósito, e em duas velocidades — o mesmo recurso que o `Services` usa com
+ * 40px e 96px: o conteúdo anda MAIS do que a seção que o carrega, então ele
+ * sobe POR DENTRO dela em vez de só acompanhar a rolagem. É o que dava à
+ * narrativa antiga a sensação de entrar subindo, e ela tinha por passar dentro
+ * do card parado do hero.
+ *
+ * `--d` é o atraso de cada um, em fração do progresso. O `* 2.2` dá a cada
+ * elemento quase metade do percurso: janelas curtas demais (estava em `* 4`)
+ * fazem cada coisa piscar no lugar em vez de subir, e o efeito vira fade.
+ *
+ * Sem `@keyframes` e sem estado: quem dirige é a posição de scroll, então subir
+ * de volta desfaz o movimento — a regra de efeito de scroll deste projeto. Com
+ * movimento reduzido o hook já escreve `--enter: 1` e tudo nasce assentado; o
+ * fallback `1` no `var()` cobre o caso de o script nem rodar.
+ */
+@utility enter-rise {
+  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 2.2, 1);
+  opacity: var(--t);
+  transform: translate3d(0, calc((1 - var(--t)) * var(--r, 56px)), 0);
+}
+
+/** O trilho entre duas paradas cresce de cima para baixo, no mesmo compasso. */
+@utility enter-grow {
+  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 2.2, 1);
+  transform: scaleY(var(--t));
+  transform-origin: top;
+}
+
+/**
+ * A crista de luz na aresta de cima do card da seção 02.
+ *
+ * O feixe do hero se rasga ao meio e as duas metades voam para fora do quadro
+ * enquanto o card sobe. A metade de baixo desce na direção do card, e sem nada
+ * ali ela simplesmente sai de cena — a luz e o card acontecem no mesmo instante
+ * sem se encostarem. Esta crista é o ponto de encontro: ela usa as cores do
+ * feixe (frio à esquerda, quente à direita, branco no meio, como o shader
+ * pinta) e está acesa justamente enquanto o rasgo acontece, então o que se lê é
+ * a luz pousando na beirada do card e virando ela.
+ *
+ * A intensidade cai com o `--enter`: cheia enquanto o card sobe, apagada quando
+ * ele assenta — e aí sobra a borda de 0.07 de sempre. O `0.85` é onde o rasgo
+ * termina, medido; o `3.3` é o que mantém a crista em 1 até quase lá, em vez de
+ * ir esmaecendo o caminho todo.
+ */
+/**
+ * A fila das marcas. Anda metade da própria largura e volta ao começo: como o
+ * conteúdo aparece duas vezes, a segunda cópia está exatamente onde a primeira
+ * começou no instante do salto, e o corte não se vê.
+ *
+ * Devagar de propósito — 44s para a volta inteira. Faixa de logo que corre
+ * rápido vira carrossel de propaganda; aqui ela é pano de fundo com nomes, e
+ * tem que dar tempo de ler sem pedir atenção.
+ */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee {
+  animation: marquee 44s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/**
+ * Pulso de luz descendo o trilho da linha do tempo do painel, de "a conversa
+ * começa" até "entregue".
+ *
+ * Cada trecho do trilho recebe o mesmo pulso com um atraso próprio, então o que
+ * se vê é uma luz só atravessando a linha inteira em vez de dois lampejos
+ * independentes. O filho mede 40% do trecho, e por isso vai de -100% a 250%: é
+ * o que leva a ponta de fora em cima até sair de vez embaixo.
+ *
+ * Infinito e por keyframes, ao contrário do resto dos efeitos daqui, que são
+ * dirigidos por scroll: este não conta nada sobre a posição da página — é o
+ * painel dizendo que está vivo, no mesmo registro do ponto de "no ar" piscando.
+ */
+@keyframes beam-travel {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(250%);
+  }
+}
+
+@utility beam-travel {
+  animation: beam-travel 2.8s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@utility beam-dock {
+  opacity: clamp(0, (0.85 - var(--enter, 1)) * 3.3, 1);
+}

@@ -63,6 +63,7 @@ src/
 │   └── contact.ts         # o número de WhatsApp e o montador de link
 ├── sections/              # uma seção por arquivo
 │   ├── Hero.tsx           # hero com scrollytelling
+│   ├── Metodo.tsx         # "mostramos antes de explicar" + painel de preview
 │   ├── Services.tsx       # dois cards com painel visual
 │   ├── Faq.tsx            # acordeão em pills
 │   └── Footer.tsx         # CTA de fecho + feixe
@@ -83,6 +84,7 @@ src/
 ├── assets/trabalhos/      # clipe + print de cada trabalho, casados por slug
 ├── hooks/
 │   ├── useHeroScroll.ts   # todo o comportamento de scroll do hero
+│   ├── useStageProgress.ts # progresso de um palco preso (seção 02)
 │   └── useEnterProgress.ts # progresso de entrada de uma seção na viewport
 └── index.css              # @theme (cores, fontes, keyframes) + @utility próprios
 ```
@@ -133,7 +135,7 @@ substituir string, é refazer as quebras em fim de oração.
 
 ## As seções
 
-A página é `Hero → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
+A página é `Hero → Método → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
 `#servicos` e `#faq` — os `id` são os mesmos nas duas locales, então só os
 rótulos são traduzidos. O footer tem `id="contato"` e o menu **não** aponta mais
 para lá (ver abaixo); o `id` ficou para quem chegar por link direto.
@@ -497,7 +499,8 @@ muda. Os números que ele aplica, e por quê:
 `src/index.css` concentra as decisões visuais no bloco `@theme`:
 
 - **cores** — `hero-top/mid/bot` (fundo do card, hoje preto; era um degradê
-  cinza), `frame` (preto do fundo),
+  cinza), `frame` (o preto de TODAS as seções — não existe mais fundo cinza
+  no site),
   `ink` / `ink-bright` (texto), `surface` / `surface-raised` / `card`
   (fundos), `accent-warm` / `accent-cool` / `accent-mint`
   (acentos por seção), `stroke` / `stroke-glow` (contorno da palavra do hero)

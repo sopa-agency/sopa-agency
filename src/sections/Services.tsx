@@ -41,19 +41,11 @@ export function Services() {
       ref={ref}
       id="servicos"
       /*
-       * A seção sobe POR CIMA do hero em vez de empurrá-lo para fora: a margem
-       * negativa a faz começar antes do fim do track, o `z-10` a põe na frente
-       * e o fundo opaco cobre. A sombra para cima marca a beirada do painel,
-       * senão ele encosta no hero sem que se perceba que é uma camada.
-       *
-       * **Os 40vh são o `CURTAIN` do `useHeroScroll` vistos daqui** — a mesma
-       * sobreposição, escrita nos dois lugares. Mudar um sem o outro faz o
-       * progresso do hero terminar em hora diferente da que a cortina começa.
-       * Já foi uma tela inteira: o hero ficava preso e imóvel o caminho todo, e
-       * uma tela de nada se mexendo lê como fim de página. Com 40vh ele solta a
-       * fixação cedo e desliza junto com o painel que sobe.
+       * Sem margem negativa nem `z-10`: a cortina que sobe por cima do hero é
+       * da seção 02, que agora é quem vem logo depois dele. Aqui é fluxo
+       * normal — o `Metodo` já cobriu o hero antes desta seção existir.
        */
-      className="relative z-10 -mt-[40vh] bg-surface px-6 py-28 shadow-[0_-32px_64px_-24px_rgba(0,0,0,0.85)] sm:px-10 md:py-40"
+      className="relative bg-frame px-6 py-28 sm:px-10 md:py-40"
     >
       {/*
         Parallax de entrada: o cabeçalho e as faixas sobem a partir de baixo em

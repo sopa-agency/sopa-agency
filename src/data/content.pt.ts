@@ -35,6 +35,67 @@ const nav = {
   ],
 } as const
 
+/**
+ * Seção 02 — "Mostramos antes de explicar".
+ *
+ * Substituiu a narrativa em registro de terminal que atravessava o card do
+ * hero. Ela era vinte linhas monoespaçadas numa coluna magra dentro de um vazio
+ * preto, e um dos quatro blocos (`// o que`) listava os mesmos serviços que a
+ * seção seguinte mostra melhor, com os clipes dos trabalhos rodando.
+ *
+ * O que sobrou responde "quem somos / como trabalhamos" com o argumento que a
+ * concorrência não copia de graça — o preview funcionando no primeiro contato —
+ * e o PROVA com um painel ao lado, em vez de só afirmar.
+ *
+ * As versões `...Curto` são do celular: em 390px o texto longo vira parede. Os
+ * dois vão para o DOM e o CSS esconde um; trocar texto por largura de tela não
+ * é coisa que media query faça sozinha, e não vale um listener de resize.
+ */
+const metodo = {
+  eyebrow: '// como',
+  title: 'Mostramos antes de explicar.',
+  paragraph:
+    'Agência de criação e tecnologia — estratégia, design, marketing e engenharia na mesma equipe, dentro e fora do Brasil. Quase sempre o primeiro contato já chega com um preview funcionando.',
+  paragraphCurto:
+    'Criação e tecnologia na mesma equipe. O primeiro contato já chega com um preview funcionando.',
+  /** A terceira linha é a que fecha o argumento, e a única em tinta cheia. */
+  notas: [
+    'equipe enxuta · ferramenta de ponta',
+    'muitos projetos entregues no mesmo dia',
+    'menos reunião. mais coisa pronta.',
+  ],
+  painel: {
+    label: 'preview · primeira conversa',
+    status: 'no ar',
+    steps: [
+      {
+        stamp: '00:00',
+        stampCurto: '00:00',
+        title: 'A conversa começa',
+        titleCurto: 'A conversa começa',
+        detail: 'Você conta o problema. Ninguém abre apresentação.',
+        detailCurto: 'Ninguém abre apresentação.',
+      },
+      {
+        stamp: '+02:40',
+        stampCurto: '+02:40',
+        title: 'Um preview funcionando',
+        titleCurto: 'Preview funcionando',
+        detail: 'Da ideia a algo testável em poucas horas — no navegador, não no slide.',
+        detailCurto: 'Da ideia a algo testável em poucas horas.',
+      },
+      {
+        stamp: 'mesmo dia',
+        stampCurto: 'hoje',
+        title: 'Entregue',
+        titleCurto: 'Entregue',
+        detail: 'Muitos projetos saem no mesmo dia em que entraram.',
+        detailCurto: 'Muitos projetos saem no mesmo dia.',
+      },
+    ],
+  },
+}
+
 const hero = {
   corner: [
     '// flywheel',
@@ -54,66 +115,6 @@ const hero = {
   },
   /** Dica no pé do hero: some junto com o resto do bloco inicial. */
   scrollHint: 'Arraste para cima',
-  /**
-   * Texto que atravessa o card enquanto o hero fica preso na viewport, no
-   * mesmo registro de terminal do bloco do canto: comentário com `//` abrindo
-   * cada trecho, corpo em monoespaçada.
-   *
-   * **As quebras de linha são à mão, e são estruturais.** Cada string é uma
-   * linha de verdade na tela: é ela que se imprime da esquerda para a direita
-   * enquanto se rola, e é ela a unidade que acende e apaga. Reflow automático
-   * quebraria o efeito no meio — por isso o corpo é dimensionado para a linha
-   * mais longa caber sempre, e por isso mexer na copy é mexer nas quebras.
-   *
-   * Quebre em fim de oração, nunca no meio de um sintagma: a linha é lida
-   * sozinha, iluminada, enquanto as vizinhas estão apagadas.
-   *
-   * Mexer na quantidade de linhas muda o ritmo da leitura e pede um ajuste na
-   * altura do track em `Hero.tsx`.
-   *
-   * Sem CTA no fim: o botão ficava a uma tela dos serviços, que já pedem
-   * contato. Ver a nota de CTAs no topo do arquivo.
-   */
-  story: {
-    blocks: [
-      {
-        tag: '// quem',
-        lines: [
-          'A SOPA é uma agência de criação e tecnologia',
-          'que atende dentro e fora do Brasil.',
-          'Estratégia, design, marketing e engenharia',
-          'na mesma equipe, para transformar ideia',
-          'em produto de verdade — rápido.',
-        ],
-      },
-      {
-        tag: '// como',
-        lines: [
-          'Gostamos de mostrar antes de explicar.',
-          'Quase sempre o primeiro contato já chega',
-          'com um preview ou uma demo funcionando.',
-        ],
-      },
-      {
-        tag: '// o que',
-        lines: [
-          'Sites, marcas, imagens, automações e sistemas',
-          'sob medida — para quem está começando',
-          'e para quem já está rodando.',
-          'Equipe enxuta e ferramenta de ponta:',
-          'da ideia a algo testável em poucas horas,',
-          'e muitos projetos entregues no mesmo dia.',
-        ],
-      },
-      {
-        tag: '// no fim',
-        lines: [
-          'Menos reunião sobre o que poderia ser feito.',
-          'Mais coisa pronta para experimentar.',
-        ],
-      },
-    ],
-  },
 }
 
 const services = {
@@ -242,6 +243,38 @@ const services = {
   },
 } as const
 
+/**
+ * Marcas que já passaram pela SOPA, na faixa entre os serviços e o FAQ.
+ *
+ * `slug` é o nome do arquivo em `src/assets/marcas/` — ver o README de lá. Sem
+ * arquivo, o card mostra só o nome e segue de pé.
+ *
+ * ⚠️ **`depoimento` é PLACEHOLDER, e é o mesmo texto em todos de propósito.**
+ * Ele existe para dar altura e ritmo ao card enquanto o feedback real não
+ * chega. Não invente frase em nome da marca para preencher: depoimento
+ * inventado ao lado de um logo de verdade lê como endosso real, e é assim que
+ * se vira alvo. Quando a fala chegar, cada item recebe a sua — e aí vale
+ * conferir se cabe nas três linhas do card em 300px.
+ */
+/** Enquanto o feedback real não chega — ver o aviso acima. */
+const espera = 'Depoimento em breve — o texto real entra aqui.'
+
+const marcas = {
+  label: 'Marcas que já passaram pela SOPA',
+  eyebrow: 'quem já sentou à mesa',
+  itens: [
+    { slug: 'hbo', nome: 'HBO', depoimento: espera },
+    { slug: 'puma', nome: 'Puma', depoimento: espera },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
+    { slug: 'c-a', nome: 'C&A', depoimento: espera },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
+    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
+    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
+  ],
+}
+
 const faq = {
   eyebrow: 'faq',
   title: ['Perguntas', 'frequentes'],
@@ -325,4 +358,4 @@ const footer = {
   legal: `© SOPA · ${new Date().getFullYear()}`,
 } as const
 
-export const pt = { nav, hero, services, faq, footer, whatsappUrl } as const
+export const pt = { nav, hero, metodo, services, marcas, faq, footer, whatsappUrl } as const
