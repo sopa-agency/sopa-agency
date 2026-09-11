@@ -76,10 +76,10 @@ function Card({ marca }: { marca: (typeof marcas.itens)[number] }) {
     <article className="flex h-full w-[260px] flex-col gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-4 md:w-[300px] md:p-5">
       <header className="flex items-center gap-2.5">
         {/*
-          Os arquivos já chegam brancos sobre transparente — a normalização é
-          feita na imagem, não em filtro de CSS, e o README da pasta explica por
-          quê: os logos vêm em registros incompatíveis, uns em preto sobre alfa
-          e outros com o desenho na COR, e nenhum filtro unifica os dois.
+          Em cor, e sem filtro nenhum: a cor da marca É o ponto da faixa. O
+          tratamento mora na imagem, não aqui — o README da pasta explica o que
+          cada arquivo recebeu (fundo tirado por cor, recorte rente, e o
+          quase-preto clareado só em quem só existia em versão escura).
         */}
         {src ? (
           <img
@@ -87,7 +87,7 @@ function Card({ marca }: { marca: (typeof marcas.itens)[number] }) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-4 w-auto max-w-[72px] object-contain opacity-70 md:h-[18px]"
+            className="h-4 w-auto max-w-[76px] object-contain md:h-[18px]"
           />
         ) : null}
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/40">

@@ -5,69 +5,51 @@ lugar de espaço. É o mesmo padrão do `src/assets/trabalhos/`, e pela mesma
 razão: o componente acha o arquivo pelo slug, então publicar uma marca nova é
 soltar o arquivo aqui e citar o slug em `marcas.itens`, nas duas locales.
 
-**Marca sem arquivo não deixa buraco**: a faixa escreve o nome em texto e
-segue. É por isso que dá para publicar a lista antes de ter todos os logos.
+**Marca sem arquivo não deixa buraco**: o card mostra só o nome e segue de pé.
 
-## Os arquivos daqui são brancos sobre transparente
+## Os logos aparecem EM COR
 
-E isso é feito na IMAGEM, não em filtro de CSS. Os originais vêm em registros
-incompatíveis entre si:
+A cor da marca é o ponto da faixa, então o componente não aplica filtro nenhum.
+Todo o tratamento acontece na imagem, e são três passos — nesta ordem:
 
-- uns são **pretos sobre alfa** (PUMA, C&A, HBO) — o desenho está no recorte;
-- outros trazem o desenho **na cor**, com o alfa servindo só de contorno
-  externo (Burger King, KeepKey).
+**1. Fundo transparente.** Quem já tem alfa é só recortado pela caixa dele.
+Quem vem chapado tem o fundo tirado por cor, usando o pixel do canto como
+chave e uma tolerância curta, para não comer detalhe escuro do próprio desenho.
 
-Nenhum filtro unifica os dois. `brightness-0 invert` achata o segundo grupo em
-bolha sólida, porque a silhueta deles não é o logo; `grayscale` apaga o
-primeiro, porque preto continua preto sobre preto. Foram as duas tentativas
-antes desta, e as duas quebravam metade da fila.
+> Os quatro arquivos chapados daqui vinham com fundo **quase preto** (10 a 35),
+> e não branco. Era por isso que sumiam no site antes de serem tratados: um
+> retângulo escuro sobre fundo escuro não tem como ser visto.
 
-A conversão resolve caso a caso: mede a luminância média da tinta e decide de
-onde tirar o novo alfa — do inverso da luminância quando a tinta é escura, da
-própria quando é clara —, sempre multiplicado pelo alfa original para não
-ressuscitar o que já era recorte. A saída é branca, recortada rente e com 240px
-de altura.
+**2. Quase-preto sem saturação vira branco.** Marca preta sobre fundo preto não
+tem cor para mostrar; o que existe é a variante clara, que é o que toda marca
+publica para fundo escuro. A PUMA chega inteira assim, e a palavra "HBO" do
+HBOmax também.
 
-```python
-im = Image.open(f).convert('RGBA')
-arr = np.array(im, dtype=float)
-a = arr[..., 3] / 255
-lum = (0.2126 * arr[..., 0] + 0.7152 * arr[..., 1] + 0.0722 * arr[..., 2]) / 255
+Só o que é quase-preto **e** dessaturado muda — a saturação é o que separa
+"preto do logo" de "azul escuro do logo". Por isso o degradê do "max" e o
+laranja do Burger King passam intactos.
 
-tinta_clara = (lum * a).sum() / max(a.sum(), 1.0) > 0.5
-novo_a = a * (lum if tinta_clara else (1 - lum))
+> **Guarda importante:** se o arquivo já tem branco em quantidade (mais de 8%
+> dos pixels opacos), ele JÁ é a variante de fundo escuro, e o preto ali é o
+> fundo do próprio logo — não a tinta. Sem essa guarda, o KeepKey (texto branco
+> num quadrado preto) virava um quadrado branco chapado.
 
-saida = np.zeros(arr.shape, dtype=np.uint8)
-saida[..., 0:3] = 255
-saida[..., 3] = (np.clip(novo_a, 0, 1) * 255).astype(np.uint8)
-```
+**3. Recorte rente e 240px de altura**, sem ampliar: arquivo menor que isso
+fica no tamanho que tem, porque esticar não devolve nitidez e o card desenha em
+~18px de qualquer forma.
 
-Depois disso o CSS não precisa de filtro nenhum — só da opacidade que põe todos
-no mesmo tom.
+O script fica em `scratchpad` por ser de uso único — rodar de novo só faz
+sentido quando entrar logo novo, e aí vale reler os três passos acima antes.
 
 ## O que um arquivo novo precisa ter
 
-**Transparência que signifique alguma coisa.** Ou o recorte é o desenho, ou a
-cor é. Um PNG achatado sobre fundo branco não tem como virar marca branca.
+**Fundo separável.** Ou alfa de verdade, ou um fundo de cor uniforme. PNG
+achatado sobre foto não tem como ser recortado por cor.
 
-**Altura útil de pelo menos 200px.** A faixa desenha em ~32px, e em tela de alta
-densidade isso são 64px reais.
+**Altura útil de pelo menos 200px.** O card desenha em ~18px, e em tela de alta
+densidade são 36px reais. `odysee` e `shapeshift` vieram em 37×34 e 46×42, que é
+o mínimo que ainda passa — se der para pedir maiores, peça.
 
 **Nada de margem embutida.** O HBO original vinha 3000×3000 com 93% de área
-vazia, e saía minúsculo na fila porque a redução respeitava a moldura do
-arquivo. A conversão recorta pela caixa do alfa justamente por isso, mas partir
-de um arquivo rente é sempre melhor.
-
-## `_pendentes/`
-
-Arquivos que **não dá** para usar como estão. O glob da faixa não varre
-subpasta, então eles ficam guardados aqui sem aparecer no site:
-
-| arquivo | problema | o que trazer no lugar |
-| --- | --- | --- |
-| `gnars.jpg` | `.jpg`, sem canal alfa | PNG ou SVG com fundo transparente |
-| `odysee.png` | 37×34, 0% de transparência | mesmo logo em ≥200px de altura, recortado |
-| `shapeshift.png` | 46×42, 0% de transparência | idem |
-| `skatehive.png` | 160×155, 0% de transparência | idem |
-
-Enquanto não chegarem, as quatro aparecem na faixa como nome escrito.
+vazia. O recorte pela caixa do alfa resolve, mas partir de um arquivo rente é
+sempre melhor.
