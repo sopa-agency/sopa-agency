@@ -26,6 +26,53 @@ const nav = {
   ],
 } as const
 
+/**
+ * Seção 02 — ver a nota por extenso no `content.pt.ts`.
+ */
+const metodo = {
+  eyebrow: '// how',
+  title: 'We show before we explain.',
+  paragraph:
+    'A creative and technology agency — strategy, design, marketing and engineering on one team, in and beyond Brazil. Most first conversations already arrive with a working preview.',
+  paragraphCurto:
+    'Creative and technology on one team. The first conversation already arrives with a working preview.',
+  notas: [
+    'small team · sharp tools',
+    'many projects shipped the same day',
+    'fewer meetings. more things ready.',
+  ],
+  painel: {
+    label: 'preview · first conversation',
+    status: 'live',
+    steps: [
+      {
+        stamp: '00:00',
+        stampCurto: '00:00',
+        title: 'The conversation starts',
+        titleCurto: 'The conversation starts',
+        detail: 'You describe the problem. Nobody opens a deck.',
+        detailCurto: 'Nobody opens a deck.',
+      },
+      {
+        stamp: '+02:40',
+        stampCurto: '+02:40',
+        title: 'A working preview',
+        titleCurto: 'A working preview',
+        detail: 'From idea to something testable in hours — in the browser, not in a slide.',
+        detailCurto: 'From idea to something testable in hours.',
+      },
+      {
+        stamp: 'same day',
+        stampCurto: 'today',
+        title: 'Shipped',
+        titleCurto: 'Shipped',
+        detail: 'Many projects go live the same day they came in.',
+        detailCurto: 'Many projects go live the same day.',
+      },
+    ],
+  },
+}
+
 const hero = {
   corner: [
     '// flywheel',
@@ -40,49 +87,6 @@ const hero = {
     secondary: 'Work in the wild',
   },
   scrollHint: 'Scroll to begin',
-  /**
-   * As quebras são estruturais, como no português: cada string é uma linha de
-   * verdade na tela, e o teto é o que o corpo em `ch` comporta — 46
-   * caracteres. Quebre em fim de oração, nunca no meio de um sintagma: a linha
-   * é lida sozinha, iluminada, com as vizinhas apagadas.
-   */
-  story: {
-    blocks: [
-      {
-        tag: '// who',
-        lines: [
-          'SOPA is a creative and technology agency',
-          'working with clients in and beyond Brazil.',
-          'Strategy, design, marketing and engineering',
-          'on one team, to turn an idea into',
-          'a real product — fast.',
-        ],
-      },
-      {
-        tag: '// how',
-        lines: [
-          'We would rather show than explain.',
-          'Most first conversations already arrive',
-          'with a working preview or a live demo.',
-        ],
-      },
-      {
-        tag: '// what',
-        lines: [
-          'Sites, brands, visuals, automations and',
-          'custom systems — for those just starting',
-          'and for those already running.',
-          'A small team with sharp tools:',
-          'from idea to something testable in hours,',
-          'and plenty of projects shipped same day.',
-        ],
-      },
-      {
-        tag: '// in the end',
-        lines: ['Fewer meetings about what could be done.', 'More things ready to try.'],
-      },
-    ],
-  },
 }
 
 const services = {
@@ -268,6 +272,7 @@ const footer = {
 export const en = {
   nav,
   hero,
+  metodo,
   services,
   faq,
   footer,

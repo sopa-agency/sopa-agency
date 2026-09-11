@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 
 import { SpecularButton } from '../components/SpecularButton'
-import { HeroStory } from '../components/hero/HeroStory'
 import { LightBeam } from '../components/hero/LightBeam'
 import { Starfield } from '../components/hero/Starfield'
 import { hero, whatsappUrl } from '../data/content'
@@ -27,22 +26,20 @@ const WORDMARK_SIZE = 'text-[clamp(96px,min(36vw,30vh),380px)]'
  * O track alto + sticky dão a distância de scroll: conforme `--p` vai de 0 a 1
  * o padding cresce e os cantos arredondam, o preto do fundo aparece por trás e
  * o card "se solta" das bordas. Depois disso o texto começa a passar. A altura
- * do track é o ritmo da leitura: quanto mais parágrafos na narrativa, mais
- * track para o texto não sair correndo.
  *
  * As últimas telas do track não entram no progresso: um respiro curto, com o
  * último parágrafo já centralizado, e a cortina, em que a seção de serviços
  * sobe por cima do hero parado. Ver `HOLD` e `CURTAIN` no `useHeroScroll` — a
- * altura daqui é 240vh + (CURTAIN + HOLD) × 100vh, e os três números andam
+ * altura daqui é 60vh + (CURTAIN + HOLD) × 100vh = 210vh, e os três números andam
  * juntos, mais a margem negativa do `Services`. O `isolate` mantém as camadas do hero num
  * empilhamento próprio, abaixo da seção que cobre.
  * Ver `useHeroScroll` para as faixas de scroll de cada etapa.
  */
 export function Hero() {
-  const { trackRef, contentRef, storyRef, beamRef } = useHeroScroll()
+  const { trackRef, contentRef, beamRef } = useHeroScroll()
 
   return (
-    <div ref={trackRef} id="topo" className="relative isolate h-[290vh] bg-frame">
+    <div ref={trackRef} id="topo" className="relative isolate h-[210vh] bg-frame">
       <div className="sticky top-0 flex h-viewport items-center justify-center bg-frame">
         <div className="h-full w-full px-[calc(var(--p,0)*16px)] py-[calc(var(--p,0)*20px)] md:px-[calc(var(--p,0)*64px)] md:py-[calc(var(--p,0)*56px)]">
           <section className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(var(--p,0)*22px)] bg-linear-[180deg,var(--color-hero-top)_0%,var(--color-hero-mid)_42%,var(--color-hero-bot)_78%] px-5 py-[6vh] md:rounded-[calc(var(--p,0)*40px)] md:px-[6vw]">
@@ -175,8 +172,6 @@ export function Hero() {
               </span>
               <span className="line-dots block h-10 w-[3px] text-ink/30" />
             </div>
-
-            <HeroStory ref={storyRef} />
           </section>
         </div>
       </div>

@@ -63,6 +63,7 @@ src/
 │   └── contact.ts         # o número de WhatsApp e o montador de link
 ├── sections/              # uma seção por arquivo
 │   ├── Hero.tsx           # hero com scrollytelling
+│   ├── Metodo.tsx         # "mostramos antes de explicar" + painel de preview
 │   ├── Services.tsx       # dois cards com painel visual
 │   ├── Faq.tsx            # acordeão em pills
 │   └── Footer.tsx         # CTA de fecho + feixe
@@ -133,7 +134,7 @@ substituir string, é refazer as quebras em fim de oração.
 
 ## As seções
 
-A página é `Hero → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
+A página é `Hero → Método → Serviços → FAQ → Footer`. A navegação aponta para as âncoras
 `#servicos` e `#faq` — os `id` são os mesmos nas duas locales, então só os
 rótulos são traduzidos. O footer tem `id="contato"` e o menu **não** aponta mais
 para lá (ver abaixo); o `id` ficou para quem chegar por link direto.

@@ -74,12 +74,20 @@ do site, mexa nesses dois arquivos e em mais nada. O `content.ts` é só o
 seletor de locale; o número de WhatsApp e o `waLink` moram no `contact.ts`,
 porque o número é o mesmo nas duas e as mensagens não.
 
-**As quebras de `hero.story` são estruturais, nas duas locales.** Cada string ali é uma linha de
-verdade na tela: é ela que o facho de leitura atravessa, e é ela que acende e
-apaga. O corpo é dimensionado em `ch` para a mais longa (46 caracteres) nunca
-refluir — refluindo, o facho passa a valer para duas fileiras ao mesmo tempo.
-Mexeu na copy, refaça as quebras, e quebre em fim de oração: a linha é lida
-sozinha, iluminada, com as vizinhas apagadas.
+**A narrativa que atravessava o card do hero não existe mais.** Ela era vinte
+linhas monoespaçadas numa coluna magra dentro de um vazio preto, reveladas uma a
+uma por um facho de leitura. Virou a seção 02 (`sections/Metodo.tsx`): texto
+parado com hierarquia de verdade e um painel ao lado que PROVA o argumento em
+vez de só afirmá-lo. Com ela foram embora o `HeroStory`, o `@utility
+line-reading`, o `--animate-caret` e a metade do `useHeroScroll` que media linha
+por linha. Se a sua memória fala em `hero.story`, `--typed`, `--caret` ou
+quebras de 46 caracteres, está desatualizada.
+
+**A cortina é de quem vem logo depois do hero.** A margem negativa `-mt-[40vh]`,
+o `z-10`, o fundo opaco e a sombra para cima moram hoje no `Metodo`. Ela morava
+no `Services`, que era quem vinha depois; deixá-la lá fazia a margem negativa
+comer 40vh do rodapé da seção nova. Mudou a ordem das seções, a cortina anda
+junto.
 
 **O tema vive no `@theme` de `src/index.css`**, não há `tailwind.config`. Cores,
 fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não

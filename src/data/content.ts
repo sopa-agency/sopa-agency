@@ -69,4 +69,4 @@ const locale: typeof pt = document.documentElement.lang.startsWith('en')
   ? (en as unknown as typeof pt)
   : pt
 
-export const { nav, hero, services, faq, footer, whatsappUrl } = locale
+export const { nav, hero, metodo, services, faq, footer, whatsappUrl } = locale

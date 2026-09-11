@@ -95,21 +95,7 @@
     }
   }
 
-  /* piscar do cursor da narrativa. `step-end` porque cursor de terminal não
-     tem meio-termo: ou está aceso ou não está */
-  --animate-caret: caret 1.1s step-end infinite;
-
-  @keyframes caret {
-    0%,
-    55% {
-      opacity: 1;
-    }
-    56%,
-    100% {
-      opacity: 0;
-    }
-  }
-
+  
   /* pulso lento da cópia que "acende" a palavra gigante do hero */
   --animate-breathe: breathe 7s ease-in-out infinite;
 
@@ -201,46 +187,6 @@
   }
 }
 
-/* Linha de terminal atravessada por um facho de leitura. `--typed` (0 → 1) é
-   escrito pelo `useHeroScroll`, linha a linha, a cada frame.
-
-   A linha existe inteira o tempo todo; o que muda é a COR, num degradê de dois
-   tons recortado pelo texto: aceso atrás do facho, apagado à frente dele. Não
-   é recorte de verdade — a primeira versão cortava a linha com `clip-path`, e
-   aí a linha só nascia quando o facho a alcançava. Para o card não ficar vazio
-   embaixo, o facho tinha que ser largo, e largo ele pegava cinco linhas ao
-   mesmo tempo: cinco cursores piscando, o que terminal nenhum faz. Com as
-   linhas já presentes em cinza, o facho pode ser estreito, e sobra um cursor.
-
-   `1.5ch` de transição: a borda tem que ser curta o bastante para ler como
-   cursor passando, e longa o bastante para não serrilhar dentro de um glifo.
-
-   Repare que a rampa fica ATRÁS da borda, e que o percurso é `100% + 1.5ch` e
-   não `100%`. Com a rampa à frente — que é o jeito ingênuo de escrever isto —
-   em `--typed: 0` ela pousa na coluna zero e acende o primeiro caractere e meio
-   de TODA linha, inclusive as que ninguém leu ainda: o texto inteiro ganhava
-   uma borda clara na lateral esquerda. Jogando a rampa para trás e alongando o
-   percurso, os dois extremos fecham certo — em 0 a linha é toda apagada, em 1 é
-   toda acesa.
-
-   Com movimento reduzido, a linha inteira acende — quem continua conduzindo a
-   leitura é a opacidade, que o hook escreve de qualquer jeito. */
-@utility line-reading {
-  background-image: linear-gradient(
-    90deg,
-    var(--ink-on) 0,
-    var(--ink-on) calc(var(--typed, 1) * (100% + 1.5ch) - 1.5ch),
-    var(--ink-off) calc(var(--typed, 1) * (100% + 1.5ch))
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  @media (prefers-reduced-motion: reduce) {
-    background-image: none;
-    color: var(--ink-on);
-  }
-}
 
 /* Fio de pontos na vertical, subindo devagar — a direção é a dica. Herda a cor
    de quem o usa, então basta um `text-*` para calibrar. */
@@ -264,3 +210,28 @@
   );
 }
 
+/**
+ * Entrada da seção 02, derivada do `--enter` que o `useEnterProgress` publica.
+ *
+ * `--d` é o atraso de cada elemento, em fração do progresso: o rótulo entra em
+ * 0, o título logo depois, e as paradas do painel escalonadas. O `* 4` encurta
+ * a janela de cada um para um quarto do percurso, senão tudo sobe junto e
+ * devagar em vez de um atrás do outro.
+ *
+ * Sem `@keyframes` e sem estado: quem dirige é a posição de scroll, então subir
+ * de volta desfaz o movimento — a regra de efeito de scroll deste projeto. Com
+ * movimento reduzido o hook já escreve `--enter: 1` e tudo nasce assentado; o
+ * fallback `1` no `var()` cobre o caso de o script nem rodar.
+ */
+@utility enter-rise {
+  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 4, 1);
+  opacity: var(--t);
+  transform: translateY(calc((1 - var(--t)) * 12px));
+}
+
+/** O trilho entre duas paradas cresce de cima para baixo, no mesmo compasso. */
+@utility enter-grow {
+  --t: clamp(0, (var(--enter, 1) - var(--d, 0)) * 4, 1);
+  transform: scaleY(var(--t));
+  transform-origin: top;
+}
