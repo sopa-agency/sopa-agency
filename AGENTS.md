@@ -44,17 +44,37 @@ mora no repositório e não em quem apertar deploy. Não apague o arquivo.
 
 ## Idioma
 
-O site é **só português**. Não existe versão em inglês: o seletor PT/EN do menu
-é maquete e segue `disabled` até haver copy inglesa escrita. Não adicione chaves
-de tradução nem estruture conteúdo por locale — a copy é uma string só.
+O site tem **duas locales**: português em `/` e inglês em `/en/`. São duas
+páginas estáticas de verdade, não um estado do React — cada uma tem o seu
+`index.html` com `<head>`, `lang` e canonical próprios, e o `vite.config.ts` as
+declara como duas entradas do mesmo build.
+
+Quem escolhe a copy é o `lang` do documento: o `src/data/content.ts` lê
+`document.documentElement.lang` na inicialização do módulo (o
+`<script type="module">` é deferred, então o `<html>` já foi parseado) e
+reexporta `content.pt.ts` ou `content.en.ts`. Os componentes seguem importando
+`nav`, `hero`, `services`… pelo nome e não sabem de locale nenhuma.
+
+Não adicione biblioteca de i18n nem chave de tradução: são dois objetos de
+texto estático, e uma lib seria mais código que o problema. **Mexeu numa
+locale, mexa na outra** — as duas têm a mesma forma, e os valores estruturais
+(`accent`, `visual`, `icon`, `slug`, `href` de âncora) são idênticos nas duas.
+Só a prosa e as mensagens de WhatsApp mudam.
+
+O `satisfies Record<keyof typeof pt, unknown>` no fim do `content.en.ts` cobra
+as chaves de primeiro nível: esquecer uma seção inteira quebra o build. Chave de
+prosa que falte não é pega ali — aparece como texto vazio ao abrir o `/en/`.
 
 ## Convenções
 
-**Toda a copy vive em `src/data/content.ts`**, exportada por seção (`hero`,
-`services`, `faq`, `footer`). Componentes não têm texto embutido — para mudar
-qualquer palavra do site, mexa só nesse arquivo.
+**Toda a copy vive em `src/data/content.pt.ts` e `src/data/content.en.ts`**,
+por seção (`nav`, `hero`, `services`, `faq`, `footer`). Componentes não têm
+texto embutido — nem `aria-label`, nem placeholder. Para mudar qualquer palavra
+do site, mexa nesses dois arquivos e em mais nada. O `content.ts` é só o
+seletor de locale; o número de WhatsApp e o `waLink` moram no `contact.ts`,
+porque o número é o mesmo nas duas e as mensagens não.
 
-**As quebras de `hero.story` são estruturais.** Cada string ali é uma linha de
+**As quebras de `hero.story` são estruturais, nas duas locales.** Cada string ali é uma linha de
 verdade na tela: é ela que o facho de leitura atravessa, e é ela que acende e
 apaga. O corpo é dimensionado em `ch` para a mais longa (46 caracteres) nunca
 refluir — refluindo, o facho passa a valer para duas fileiras ao mesmo tempo.
@@ -67,9 +87,20 @@ fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
 
 **Uma seção por arquivo** em `src/sections/`, montadas em `App.tsx`.
 
-**As meta tags moram no `index.html`.** Sem framework para gerar `<head>`, o
-title, a description, o OG e o JSON-LD são escritos à mão lá — e os robôs de
-preview de link não executam JS, então o que eles leem sai de lá, não do React.
+**As meta tags moram nos dois `index.html`.** Sem framework para gerar
+`<head>`, o title, a description, o OG e o JSON-LD são escritos à mão em
+`index.html` e `en/index.html` — e os robôs de preview de link não executam JS,
+então o que eles leem sai de lá, não do React. Mexeu num, mexa no outro: o par
+de `hreflang` tem que estar completo nas duas páginas ou o Google ignora o par
+inteiro. O `public/sitemap.xml` lista as duas URLs.
+
+**Sem tema claro, e não é pendência.** O toggle de tema saiu do menu de
+propósito. O `LightBeam` acumula cor partindo de `vec3(0.0)` e soma luz, com
+blend `SRC_ALPHA`: sobre fundo claro ele não clareia, pinta um retângulo escuro
+com riscos. O `Starfield` tem o mesmo problema, e o `--color-stroke` da palavra
+gigante está calibrado para o degradê do card. Tema claro é reescrever os
+shaders, não trocar tokens — se um dia for pedido, `prefers-color-scheme`
+resolve sem botão.
 
 ## Armadilhas conhecidas
 

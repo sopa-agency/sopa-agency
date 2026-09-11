@@ -14,8 +14,6 @@ type IconName =
   | 'globe'
   | 'chevron'
   | 'whatsapp'
-  | 'moon'
-  | 'sun'
 
 const PATHS: Record<IconName, React.ReactNode> = {
   compass: (
@@ -25,13 +23,6 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   code: <path d="m8 6-5 6 5 6M16 6l5 6-5 6" />,
-  moon: <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z" />,
-  sun: (
-    <>
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-    </>
-  ),
   target: (
     <>
       <circle cx="12" cy="12" r="8" />
