@@ -19,14 +19,20 @@ const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
  * `enter-rise` e `enter-grow` consomem os dois sem saber qual é qual.
  *
  * `hold` é a fração do track reservada ao fim, em que o progresso já vale 1 e o
- * quadro fica parado com tudo no lugar. Sem ela o conteúdo termina de assentar
- * no mesmo instante em que a seção seguinte começa a cobrir, e não se chega a
- * ver a composição inteira.
+ * quadro fica parado com tudo no lugar. Precisa existir — sem ela o conteúdo
+ * assenta no mesmo instante em que o quadro solta e ninguém vê a composição
+ * inteira —, mas é caro passar do necessário.
+ *
+ * Quem manda de verdade na rolagem em falso, porém, é a ALTURA DO TRACK, e não
+ * este número. Com o `easeOutCubic` daqui, o grosso do movimento acontece
+ * enquanto o quadro ainda sobe; quando ele prende, quase não resta o que
+ * animar. Track comprido, portanto, é scroll preso sem nada acontecendo — a
+ * nota está no `Metodo.tsx`, junto da altura.
  *
  * Como todo efeito de scroll daqui, lê a posição a cada frame e funciona nos
  * dois sentidos. Com movimento reduzido no sistema o palco já nasce assentado.
  */
-export function useStageProgress(hold = 0.35) {
+export function useStageProgress(hold = 0.15) {
   const trackRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
