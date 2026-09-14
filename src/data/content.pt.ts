@@ -273,7 +273,7 @@ const marcas = {
   itens: [
     { slug: 'hbo', nome: 'HBO', depoimento: 'Prazo apertado e escopo grande. Entregaram no dia, sem a gente precisar ficar em cima.' },
     { slug: 'puma', nome: 'Puma', depoimento: 'Entenderam a marca na primeira conversa. O que voltou já estava no tom certo.' },
-    { slug: 'burger-king', nome: 'Burger King', depoimento: 'Time pequeno e rápido. Pedido de manhã, versão pronta à tarde.' },
+    { slug: 'bk', nome: 'BK', depoimento: 'Time pequeno e rápido. Pedido de manhã, versão pronta à tarde.' },
     { slug: 'c-a', nome: 'C&A', depoimento: 'Organizaram o que estava espalhado e devolveram uma coisa só, clara.' },
     { slug: 'keepkey', nome: 'KeepKey', depoimento: 'Técnicos de verdade. Resolveram do design ao código sem passar o problema adiante.' },
     { slug: 'shapeshift', nome: 'ShapeShift', depoimento: 'Fácil de trabalhar junto. Perguntam o que precisa ser perguntado e tocam sozinhos.' },
