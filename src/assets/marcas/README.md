@@ -7,6 +7,19 @@ soltar o arquivo aqui e citar o slug em `marcas.itens`, nas duas locales.
 
 **Marca sem arquivo não deixa buraco**: o card mostra só o nome e segue de pé.
 
+## Logo, não foto
+
+O card desenha a imagem com ~18px de altura e no máximo 76px de largura. Nesse
+tamanho um retrato vira mancha: o que se lê ali é forma e cor de marca, não
+rosto. Quando o cliente é uma PESSOA e não existe wordmark, o certo é não pôr
+arquivo nenhum — o card com o nome sozinho é legível, e a linha de cima do card
+já é o nome em mono.
+
+É o caso do `BK`: o arquivo salvo na pasta é uma foto, então ele fica fora do
+padrão de nome de propósito (`BK.png`, e não `bk.png`) e o glob não o encontra.
+Renomear para minúsculas é o que basta para publicá-lo, se um dia virar
+wordmark.
+
 ## Os logos aparecem EM COR
 
 A cor da marca é o ponto da faixa, então o componente não aplica filtro nenhum.
@@ -16,7 +29,7 @@ Todo o tratamento acontece na imagem, e são três passos — nesta ordem:
 Quem vem chapado tem o fundo tirado por cor, usando o pixel do canto como
 chave e uma tolerância curta, para não comer detalhe escuro do próprio desenho.
 
-> Os quatro arquivos chapados daqui vinham com fundo **quase preto** (10 a 35),
+> Os arquivos chapados daqui vinham com fundo **quase preto** (10 a 35),
 > e não branco. Era por isso que sumiam no site antes de serem tratados: um
 > retângulo escuro sobre fundo escuro não tem como ser visto.
 

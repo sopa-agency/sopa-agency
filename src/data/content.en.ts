@@ -190,7 +190,7 @@ const marcas = {
   itens: [
     { slug: 'hbo', nome: 'HBO', depoimento: 'Tight deadline and huge scope. They delivered on day one, without us having to stay on top of it.' },
     { slug: 'puma', nome: 'Puma', depoimento: 'They understood the brand at first glance. What came back was already in the right tone.' },
-    { slug: 'burger-king', nome: 'Burger King', depoimento: 'Small team, fast pace. Request in the morning, working version by afternoon.' },
+    { slug: 'bk', nome: 'BK', depoimento: 'Small team, fast pace. Request in the morning, working version by afternoon.' },
     { slug: 'c-a', nome: 'C&A', depoimento: 'They organized what was scattered and handed back one single, clear thing.' },
     { slug: 'keepkey', nome: 'KeepKey', depoimento: 'Real technicians. They solved it end-to-end without passing problems down the line.' },
     { slug: 'shapeshift', nome: 'ShapeShift', depoimento: 'Easy to work with. They ask the right questions and run with it on their own.' },
