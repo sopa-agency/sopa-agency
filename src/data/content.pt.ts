@@ -69,24 +69,18 @@ const metodo = {
     status: 'no ar',
     steps: [
       {
-        stamp: '00:00',
-        stampCurto: '00:00',
         title: 'A conversa começa',
         titleCurto: 'A conversa começa',
         detail: 'Você conta o problema. Ninguém abre apresentação.',
         detailCurto: 'Ninguém abre apresentação.',
       },
       {
-        stamp: '+02:40',
-        stampCurto: '+02:40',
         title: 'Um preview funcionando',
         titleCurto: 'Preview funcionando',
         detail: 'Da ideia a algo testável em poucas horas — no navegador, não no slide.',
         detailCurto: 'Da ideia a algo testável em poucas horas.',
       },
       {
-        stamp: 'mesmo dia',
-        stampCurto: 'hoje',
         title: 'Entregue',
         titleCurto: 'Entregue',
         detail: 'Muitos projetos saem no mesmo dia em que entraram.',
@@ -204,39 +198,50 @@ const services = {
     { slug: 'slop', name: 'Slop', href: 'https://www.slop.fi/' },
   ],
   /**
-   * Como um contrato de automação começa — o painel da faixa de Automação.
+   * Onde o trabalho se repete hoje, e o que ele vira — o painel da faixa de
+   * Automação.
    *
    * Ocupa o lugar de uma grade de logos de ferramentas. Logo responde "com o que
    * vocês trabalham"; a pergunta que o cliente faz antes dessa é "serve para
-   * mim?", e uma parede de marcas que ele não reconhece responde que não. O
-   * processo responde que sim: o que se contrata é a revisão, e ela cabe em
-   * qualquer operação.
+   * mim?", e uma parede de marcas que ele não reconhece responde que não.
+   *
+   * **Era uma sequência de quatro etapas** (conversa → revisão → proposta → no
+   * ar), e foi trocada porque colidia com a seção 02: os dois painéis eram uma
+   * linha do tempo numerada ligada por um fio, num painel ao lado do texto, e os
+   * dois iam de "conversa" a "no ar". A repetição não era de estilo, era de
+   * argumento — e a terceira cópia é a primeira pergunta do FAQ.
+   *
+   * Etapas respondem "como funciona". A pergunta desta faixa é "cabe na minha
+   * operação", e isso se responde com reconhecimento: a coluna da esquerda tem
+   * que ser o dia do cliente. Quem argumenta TEMPO é a seção 02, onde a linha do
+   * tempo é a forma certa porque o argumento é o mesmo dia.
    *
    * A `note` é a linha mais importante do bloco — é ela que tira o pé do cliente
    * da dúvida de precisar ter alguma coisa antes de chamar.
    */
   process: {
-    eyebrow: 'como entra',
-    steps: [
+    eyebrow: 'onde o trabalho se repete',
+    columns: { before: 'hoje, na mão', after: 'sozinho' },
+    rows: [
       {
-        n: '01',
-        name: 'Conversa',
-        detail: 'Vinte minutos olhando a operação como ela é hoje — não como deveria ser.',
+        before: 'Responder a mesma pergunta no WhatsApp',
+        after: 'Resposta em segundos, a qualquer hora',
       },
       {
-        n: '02',
-        name: 'Revisão',
-        detail: 'Mapeamos o que é refeito à mão, o que se perde no meio do caminho e o que atrasa.',
+        before: 'Copiar cada pedido para a planilha',
+        after: 'Entra direto, sem ninguém digitar',
       },
       {
-        n: '03',
-        name: 'Proposta',
-        detail: 'O que automatizar primeiro, o que dá para medir e quanto custa. Escopo fechado.',
+        before: 'Lembrar de cobrar quem atrasou',
+        after: 'A cobrança dispara na data',
       },
       {
-        n: '04',
-        name: 'No ar',
-        detail: 'Construímos, ligamos no que já existe e acompanhamos depois que entra.',
+        before: 'Perguntar tudo de novo a cada contato',
+        after: 'Chega qualificado, com o próximo passo',
+      },
+      {
+        before: 'Montar o relatório no fim do mês',
+        after: 'Pronto quando você abrir',
       },
     ],
     note: 'Funciona com o que a sua empresa já tem — WhatsApp, planilha, CRM, sistema feito em casa. Ou com o que ainda nem existe.',

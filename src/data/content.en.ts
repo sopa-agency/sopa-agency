@@ -46,24 +46,18 @@ const metodo = {
     status: 'live',
     steps: [
       {
-        stamp: '00:00',
-        stampCurto: '00:00',
         title: 'The conversation starts',
         titleCurto: 'The conversation starts',
         detail: 'You describe the problem. Nobody opens a deck.',
         detailCurto: 'Nobody opens a deck.',
       },
       {
-        stamp: '+02:40',
-        stampCurto: '+02:40',
         title: 'A working preview',
         titleCurto: 'A working preview',
         detail: 'From idea to something testable in hours — in the browser, not in a slide.',
         detailCurto: 'From idea to something testable in hours.',
       },
       {
-        stamp: 'same day',
-        stampCurto: 'today',
         title: 'Shipped',
         titleCurto: 'Shipped',
         detail: 'Many projects go live the same day they came in.',
@@ -159,30 +153,26 @@ const services = {
     { slug: 'swaps', name: 'Swaps', href: 'https://www.swaps.pro/' },
     { slug: 'slop', name: 'Slop', href: 'https://www.slop.fi/' },
   ],
+  /** Ver a nota por extenso no `content.pt.ts` — inclusive por que isto
+      deixou de ser uma sequência de etapas. */
   process: {
-    eyebrow: 'how it starts',
-    steps: [
+    eyebrow: 'where the work repeats',
+    columns: { before: 'today, by hand', after: 'on its own' },
+    rows: [
       {
-        n: '01',
-        name: 'Conversation',
-        detail: 'Twenty minutes looking at the operation as it is today — not as it should be.',
+        before: 'Answering the same question on WhatsApp',
+        after: 'Answered in seconds, at any hour',
       },
       {
-        n: '02',
-        name: 'Review',
-        detail:
-          'We map what gets redone by hand, what falls through the cracks and what holds things up.',
+        before: 'Copying every order into the spreadsheet',
+        after: 'Lands there on its own, nobody types',
       },
+      { before: 'Remembering who still has not paid', after: 'The reminder goes out on the date' },
       {
-        n: '03',
-        name: 'Proposal',
-        detail: 'What to automate first, what we can measure and what it costs. Fixed scope.',
+        before: 'Asking every new contact the same things',
+        after: 'Arrives qualified, with the next step set',
       },
-      {
-        n: '04',
-        name: 'Live',
-        detail: 'We build it, wire it into what exists and stay with it after it goes live.',
-      },
+      { before: 'Building the report at the end of the month', after: 'Ready when you open it' },
     ],
     note: 'Works with whatever your company already has — WhatsApp, a spreadsheet, a CRM, something built in-house. Or with what does not exist yet.',
   },

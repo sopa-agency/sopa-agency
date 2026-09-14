@@ -83,14 +83,29 @@ line-reading`, o `--animate-caret` e a metade do `useHeroScroll` que media linha
 por linha. Se a sua memória fala em `hero.story`, `--typed`, `--caret` ou
 quebras de 46 caracteres, está desatualizada.
 
-**A seção 02 é um quadro preso, como o hero.** Track alto + `sticky` dentro
-dele, e o conteúdo sobe por DENTRO enquanto o quadro está parado. Não é
-enfeite: com o quadro em movimento o conteúdo não tem contra o que se mover, e
-o olho lê a rolagem da página em vez de uma chegada. Foi o que faltou em duas
-tentativas antes de chegar aqui. O `useStageProgress` publica o `--enter` desse
-percurso, que começa quando o track encosta no pé da tela e termina já com o
-quadro preso — cobrir os dois trechos é o que faz o conteúdo aparecer subindo e
-ainda assentar depois que o quadro para.
+**A seção 02 é um palco preso, como o hero.** Track alto + `sticky` dentro
+dele, e o conteúdo sobe por DENTRO enquanto o palco está parado. Não é enfeite:
+com o palco em movimento o conteúdo não tem contra o que se mover, e o olho lê a
+rolagem da página em vez de uma chegada. Foi o que faltou em duas tentativas
+antes de chegar aqui. O `useStageProgress` publica o `--enter` desse percurso,
+que começa quando o track encosta no pé da tela e termina já com o palco preso —
+cobrir os dois trechos é o que faz o conteúdo aparecer subindo e ainda assentar
+depois que ele para.
+
+**O card da seção 02 não existe mais.** Era o retângulo de 40px de raio, borda
+de 1px, degradê e sombra azul que repetia o objeto do hero. Preto sobre preto, o
+que a borda desenhava era a moldura e não o objeto, e a seção lia como um slide
+dentro da página em vez de a página continuando. Hoje o conteúdo fica direto
+sobre o campo de estrelas, e o que separa esta seção da anterior é a costura de
+luz no topo do palco, as estrelas e o vazio.
+
+**Não tente pendurar uma luz colorida no conteúdo** para substituir a borda: já
+foi tentado, com o halo do card reancorado no topo do bloco. O halo nunca teve
+forma própria — quem a dava era o fio de 2px de cor cheia na aresta, e ele só
+punha o brilho atrás. Sem o fio vira um borrão colorido atravessando o alto da
+seção; com o fio volta a divisória horizontal, que é o que o card tinha de
+errado. Se a sua memória fala no card da 02, na sombra dele, no fio de 2px, no
+`overflow-hidden` dele ou numa luz que sobe do conteúdo, está desatualizada.
 
 **A cortina é de quem vem logo depois do hero.** A margem negativa `-mt-[40vh]`,
 o `z-10`, o fundo opaco e a sombra para cima moram hoje no `Metodo`. Ela morava
@@ -101,7 +116,8 @@ junto.
 **A página inteira é preta.** Todas as seções usam `bg-frame`; o
 `--color-surface` (`#0c0d0e`) existia só para o fundo cinza da seção de serviços
 e saiu junto com ele. O que separa uma seção da outra são as bordas de 1px, o
-campo de estrelas e os cards — não tom de fundo.
+campo de estrelas e os cards — não tom de fundo. Na seção 02 nem isso: lá o que
+separa é a luz que sobe do conteúdo.
 
 **O tema vive no `@theme` de `src/index.css`**, não há `tailwind.config`. Cores,
 fontes e keyframes entram lá. Utilitários próprios usam `@utility` (e não
@@ -113,6 +129,17 @@ atrás também é preto), e os alfas do `Starfield` e do `--color-stroke` estão
 altos porque foram subidos para vencer o degradê. A lista está por extenso no
 `index.css`, junto dos tokens. Não são bugs a consertar de surpresa — são
 decisões pendentes; mexer neles é mexer no desenho do hero.
+
+**Os dois painéis não podem ter a mesma forma.** O da seção 02 é uma linha do
+tempo, e o da faixa de Automação é um antes/depois em duas colunas. Já foram os
+dois a mesma coisa — lista vertical com marcadores ligados por um fio, ao lado
+do texto, indo de "conversa" a "no ar" —, e a página lia repetitiva com razão: o
+arco aparecia três vezes, contando a primeira pergunta do FAQ. A regra é de
+argumento, não de estilo: linha do tempo é a forma de quem argumenta TEMPO (a 02
+prova o mesmo dia), e antes/depois é a de quem argumenta COBERTURA (a Automação
+responde "cabe na minha operação", e isso se responde com reconhecimento). Ao
+criar painel novo, escolha a forma pelo argumento — e confira que nenhum outro
+já a usou.
 
 **Uma seção por arquivo** em `src/sections/`, montadas em `App.tsx`.
 
@@ -177,8 +204,10 @@ contexto.
 `LightBeam` são medidos pela viewport com `w-screen`, e `100vw` inclui os ~15px
 da barra — solto, cada um estoura a página e aparece uma barra horizontal. Quem
 os usa PRECISA cortá-los: no hero é o `overflow-hidden` do card, e na seção 02 é
-um invólucro só para isso, para a sombra do card não ser cortada junto. Ao
-colocar um desses em seção nova, confira o `scrollWidth` antes de fechar.
+um invólucro só para isso — ele nasceu para a sombra do card não ser cortada
+junto, e continua necessário depois que o card saiu, porque o palco não recorta
+nada. Ao colocar um desses em seção nova, confira o `scrollWidth` antes de
+fechar.
 
 **Efeitos de scroll leem a posição a cada frame** e devem funcionar nos dois
 sentidos — nada de estado acumulado que só avança.
