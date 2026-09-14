@@ -69,24 +69,18 @@ const metodo = {
     status: 'no ar',
     steps: [
       {
-        stamp: '00:00',
-        stampCurto: '00:00',
         title: 'A conversa começa',
         titleCurto: 'A conversa começa',
         detail: 'Você conta o problema. Ninguém abre apresentação.',
         detailCurto: 'Ninguém abre apresentação.',
       },
       {
-        stamp: '+02:40',
-        stampCurto: '+02:40',
         title: 'Um preview funcionando',
         titleCurto: 'Preview funcionando',
         detail: 'Da ideia a algo testável em poucas horas — no navegador, não no slide.',
         detailCurto: 'Da ideia a algo testável em poucas horas.',
       },
       {
-        stamp: 'mesmo dia',
-        stampCurto: 'hoje',
         title: 'Entregue',
         titleCurto: 'Entregue',
         detail: 'Muitos projetos saem no mesmo dia em que entraram.',
@@ -204,39 +198,50 @@ const services = {
     { slug: 'slop', name: 'Slop', href: 'https://www.slop.fi/' },
   ],
   /**
-   * Como um contrato de automação começa — o painel da faixa de Automação.
+   * Onde o trabalho se repete hoje, e o que ele vira — o painel da faixa de
+   * Automação.
    *
    * Ocupa o lugar de uma grade de logos de ferramentas. Logo responde "com o que
    * vocês trabalham"; a pergunta que o cliente faz antes dessa é "serve para
-   * mim?", e uma parede de marcas que ele não reconhece responde que não. O
-   * processo responde que sim: o que se contrata é a revisão, e ela cabe em
-   * qualquer operação.
+   * mim?", e uma parede de marcas que ele não reconhece responde que não.
+   *
+   * **Era uma sequência de quatro etapas** (conversa → revisão → proposta → no
+   * ar), e foi trocada porque colidia com a seção 02: os dois painéis eram uma
+   * linha do tempo numerada ligada por um fio, num painel ao lado do texto, e os
+   * dois iam de "conversa" a "no ar". A repetição não era de estilo, era de
+   * argumento — e a terceira cópia é a primeira pergunta do FAQ.
+   *
+   * Etapas respondem "como funciona". A pergunta desta faixa é "cabe na minha
+   * operação", e isso se responde com reconhecimento: a coluna da esquerda tem
+   * que ser o dia do cliente. Quem argumenta TEMPO é a seção 02, onde a linha do
+   * tempo é a forma certa porque o argumento é o mesmo dia.
    *
    * A `note` é a linha mais importante do bloco — é ela que tira o pé do cliente
    * da dúvida de precisar ter alguma coisa antes de chamar.
    */
   process: {
-    eyebrow: 'como entra',
-    steps: [
+    eyebrow: 'onde o trabalho se repete',
+    columns: { before: 'hoje, na mão', after: 'sozinho' },
+    rows: [
       {
-        n: '01',
-        name: 'Conversa',
-        detail: 'Vinte minutos olhando a operação como ela é hoje — não como deveria ser.',
+        before: 'Responder a mesma pergunta no WhatsApp',
+        after: 'Resposta em segundos, a qualquer hora',
       },
       {
-        n: '02',
-        name: 'Revisão',
-        detail: 'Mapeamos o que é refeito à mão, o que se perde no meio do caminho e o que atrasa.',
+        before: 'Copiar cada pedido para a planilha',
+        after: 'Entra direto, sem ninguém digitar',
       },
       {
-        n: '03',
-        name: 'Proposta',
-        detail: 'O que automatizar primeiro, o que dá para medir e quanto custa. Escopo fechado.',
+        before: 'Lembrar de cobrar quem atrasou',
+        after: 'A cobrança dispara na data',
       },
       {
-        n: '04',
-        name: 'No ar',
-        detail: 'Construímos, ligamos no que já existe e acompanhamos depois que entra.',
+        before: 'Perguntar tudo de novo a cada contato',
+        after: 'Chega qualificado, com o próximo passo',
+      },
+      {
+        before: 'Montar o relatório no fim do mês',
+        after: 'Pronto quando você abrir',
       },
     ],
     note: 'Funciona com o que a sua empresa já tem — WhatsApp, planilha, CRM, sistema feito em casa. Ou com o que ainda nem existe.',
@@ -249,29 +254,32 @@ const services = {
  * `slug` é o nome do arquivo em `src/assets/marcas/` — ver o README de lá. Sem
  * arquivo, o card mostra só o nome e segue de pé.
  *
- * ⚠️ **`depoimento` é PLACEHOLDER, e é o mesmo texto em todos de propósito.**
- * Ele existe para dar altura e ritmo ao card enquanto o feedback real não
- * chega. Não invente frase em nome da marca para preencher: depoimento
- * inventado ao lado de um logo de verdade lê como endosso real, e é assim que
- * se vira alvo. Quando a fala chegar, cada item recebe a sua — e aí vale
- * conferir se cabe nas três linhas do card em 300px.
+ * ⚠️ **OS `depoimento` ABAIXO SÃO RASCUNHO, NÃO APROVADO POR NINGUÉM.**
+ * Foram escritos para ver o card cheio e nenhuma dessas marcas disse nada
+ * disso. Frase inventada ao lado de um logo de verdade lê como endosso real —
+ * não vá ao ar assim. As mesmas frases e o modelo de e-mail para pedir
+ * aprovação estão em `depoimentos-rascunho.md`, na raiz; quando a fala voltar
+ * assinada, ela entra aqui com o nome de quem assina.
+ *
+ * Sem aprovação, o valor honesto é o placeholder:
+ * `'Depoimento em breve — o texto real entra aqui.'`, o mesmo em todos.
+ *
+ * A fala cabe em três linhas do card em 300px — conferir ao trocar.
  */
-/** Enquanto o feedback real não chega — ver o aviso acima. */
-const espera = 'Depoimento em breve — o texto real entra aqui.'
 
 const marcas = {
   label: 'Marcas que já passaram pela SOPA',
   eyebrow: 'quem já sentou à mesa',
   itens: [
-    { slug: 'hbo', nome: 'HBO', depoimento: espera },
-    { slug: 'puma', nome: 'Puma', depoimento: espera },
-    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
-    { slug: 'c-a', nome: 'C&A', depoimento: espera },
-    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
-    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
-    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
-    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
-    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
+    { slug: 'hbo', nome: 'HBO', depoimento: 'Prazo apertado e escopo grande. Entregaram no dia, sem a gente precisar ficar em cima.' },
+    { slug: 'puma', nome: 'Puma', depoimento: 'Entenderam a marca na primeira conversa. O que voltou já estava no tom certo.' },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: 'Time pequeno e rápido. Pedido de manhã, versão pronta à tarde.' },
+    { slug: 'c-a', nome: 'C&A', depoimento: 'Organizaram o que estava espalhado e devolveram uma coisa só, clara.' },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: 'Técnicos de verdade. Resolveram do design ao código sem passar o problema adiante.' },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: 'Fácil de trabalhar junto. Perguntam o que precisa ser perguntado e tocam sozinhos.' },
+    { slug: 'gnars', nome: 'Gnars', depoimento: 'Pegaram uma ideia solta e transformaram em produto no ar.' },
+    { slug: 'odysee', nome: 'Odysee', depoimento: 'Ficaram depois do lançamento. Isso quase ninguém faz.' },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: 'Rápidos, diretos e sem enrolação de agência.' },
   ],
 }
 

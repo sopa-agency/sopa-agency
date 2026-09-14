@@ -46,24 +46,18 @@ const metodo = {
     status: 'live',
     steps: [
       {
-        stamp: '00:00',
-        stampCurto: '00:00',
         title: 'The conversation starts',
         titleCurto: 'The conversation starts',
         detail: 'You describe the problem. Nobody opens a deck.',
         detailCurto: 'Nobody opens a deck.',
       },
       {
-        stamp: '+02:40',
-        stampCurto: '+02:40',
         title: 'A working preview',
         titleCurto: 'A working preview',
         detail: 'From idea to something testable in hours — in the browser, not in a slide.',
         detailCurto: 'From idea to something testable in hours.',
       },
       {
-        stamp: 'same day',
-        stampCurto: 'today',
         title: 'Shipped',
         titleCurto: 'Shipped',
         detail: 'Many projects go live the same day they came in.',
@@ -159,55 +153,50 @@ const services = {
     { slug: 'swaps', name: 'Swaps', href: 'https://www.swaps.pro/' },
     { slug: 'slop', name: 'Slop', href: 'https://www.slop.fi/' },
   ],
+  /** Ver a nota por extenso no `content.pt.ts` — inclusive por que isto
+      deixou de ser uma sequência de etapas. */
   process: {
-    eyebrow: 'how it starts',
-    steps: [
+    eyebrow: 'where the work repeats',
+    columns: { before: 'today, by hand', after: 'on its own' },
+    rows: [
       {
-        n: '01',
-        name: 'Conversation',
-        detail: 'Twenty minutes looking at the operation as it is today — not as it should be.',
+        before: 'Answering the same question on WhatsApp',
+        after: 'Answered in seconds, at any hour',
       },
       {
-        n: '02',
-        name: 'Review',
-        detail:
-          'We map what gets redone by hand, what falls through the cracks and what holds things up.',
+        before: 'Copying every order into the spreadsheet',
+        after: 'Lands there on its own, nobody types',
       },
+      { before: 'Remembering who still has not paid', after: 'The reminder goes out on the date' },
       {
-        n: '03',
-        name: 'Proposal',
-        detail: 'What to automate first, what we can measure and what it costs. Fixed scope.',
+        before: 'Asking every new contact the same things',
+        after: 'Arrives qualified, with the next step set',
       },
-      {
-        n: '04',
-        name: 'Live',
-        detail: 'We build it, wire it into what exists and stay with it after it goes live.',
-      },
+      { before: 'Building the report at the end of the month', after: 'Ready when you open it' },
     ],
     note: 'Works with whatever your company already has — WhatsApp, a spreadsheet, a CRM, something built in-house. Or with what does not exist yet.',
   },
 } as const
 
 /**
- * Ver a nota por extenso no `content.pt.ts` — inclusive o aviso sobre o
- * `depoimento`, que é placeholder e não deve virar frase inventada.
+ * Ver a nota por extenso no `content.pt.ts` — inclusive o aviso de que os
+ * `depoimento` abaixo são RASCUNHO não aprovado, e o placeholder honesto
+ * enquanto ninguém assina: `'Testimonial coming soon — the real text goes here.'`
  */
-/** Enquanto o feedback real não chega — ver o aviso acima. */
-const espera = 'Testimonial coming soon — the real text goes here.'
 
 const marcas = {
   label: 'Brands that have worked with SOPA',
   eyebrow: 'who has sat at the table',
   itens: [
-    { slug: 'hbo', nome: 'HBO', depoimento: espera },
-    { slug: 'puma', nome: 'Puma', depoimento: espera },
-    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
-    { slug: 'c-a', nome: 'C&A', depoimento: espera },
-    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
-    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
-    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
-    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
-    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
+    { slug: 'hbo', nome: 'HBO', depoimento: 'Tight deadline and huge scope. They delivered on day one, without us having to stay on top of it.' },
+    { slug: 'puma', nome: 'Puma', depoimento: 'They understood the brand at first glance. What came back was already in the right tone.' },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: 'Small team, fast pace. Request in the morning, working version by afternoon.' },
+    { slug: 'c-a', nome: 'C&A', depoimento: 'They organized what was scattered and handed back one single, clear thing.' },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: 'Real technicians. They solved it end-to-end without passing problems down the line.' },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: 'Easy to work with. They ask the right questions and run with it on their own.' },
+    { slug: 'gnars', nome: 'Gnars', depoimento: 'They took a loose idea and turned it into a live product.' },
+    { slug: 'odysee', nome: 'Odysee', depoimento: 'They stayed after launch. Almost no one does that.' },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: 'Fast, direct, no agency fluff.' },
   ],
 }
 

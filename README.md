@@ -79,7 +79,7 @@ src/
 │   │   └── HeroStory.tsx     # narrativa em terminal que atravessa o card
 │   └── services/
 │       ├── WorkGrid.tsx      # trabalhos no ar, o vídeo toca no lugar do print
-│       └── ProcessSteps.tsx  # como um contrato de automação começa
+│       └── ProcessSteps.tsx  # o que é manual hoje e o que vira automático
 ├── assets/trabalhos/      # clipe + print de cada trabalho, casados por slug
 ├── hooks/
 │   ├── useHeroScroll.ts   # todo o comportamento de scroll do hero
@@ -313,9 +313,9 @@ largura e não se enxergavam, e a lista de serviços vivia escondida atrás de u
 os clipes dobram de tamanho.
 
 Os painéis ficam **centrados**, não esticados: os dois têm altura própria — as
-proporções dos thumbs num, os quatro passos no outro. Esticados até a altura da
-coluna de texto, o vão sobrava dentro deles, e no processo isso abria um buraco
-de mais de cem pixels entre um passo e o seguinte.
+proporções dos thumbs num, as linhas do antes/depois no outro. Esticados até a
+altura da coluna de texto, o vão sobrava dentro deles, e isso abria um buraco de
+mais de cem pixels entre uma linha e a seguinte.
 
 - `WorkGrid` — os trabalhos no ar. Cada slot mostra o print e troca pelo clipe
   quando ele pode tocar; os arquivos são casados pelo slug em build time, então
@@ -324,8 +324,21 @@ de mais de cem pixels entre um passo e o seguinte.
   num placeholder hachurado com o domínio escrito. Uma coluna no celular: em
   duas, cada clipe ficava com uns 145px e não dava para distinguir um site do
   outro.
-- `ProcessSteps` — como um contrato de automação começa, em quatro passos
-  ligados por um fio.
+- `ProcessSteps` — o trabalho que se repete hoje, em duas colunas: o que é feito
+  na mão à esquerda, o que ele vira à direita. No celular o par empilha e quem
+  liga os dois é a diferença de tinta, não a seta.
+
+> **Por que não são etapas.** O painel foi uma sequência de quatro passos
+> numerados ligados por um fio (conversa → revisão → proposta → no ar), e a
+> forma estava errada duas vezes. Primeiro, colidia com o painel da seção 02:
+> os dois eram uma lista vertical com marcadores ligados por fio, ao lado do
+> texto, e os dois iam de "conversa" a "no ar" — a terceira cópia do mesmo arco
+> é a primeira pergunta do FAQ. Segundo, e mais importante: etapas respondem
+> "como funciona", e a pergunta desta faixa é "cabe na minha operação". Isso se
+> responde com reconhecimento — a coluna da esquerda tem que ser o dia do
+> cliente, para ele se ver nela antes de olhar a direita. Quem argumenta tempo é
+> a seção 02, onde a linha do tempo é a forma certa porque o argumento é o mesmo
+> dia.
 
 > **Por que não uma grade de logos.** Este painel era uma parede de ferramentas
 > — HubSpot, Pipedrive, RD Station, Bling, Omie… Logo de ferramenta responde
