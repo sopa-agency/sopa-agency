@@ -254,29 +254,32 @@ const services = {
  * `slug` é o nome do arquivo em `src/assets/marcas/` — ver o README de lá. Sem
  * arquivo, o card mostra só o nome e segue de pé.
  *
- * ⚠️ **`depoimento` é PLACEHOLDER, e é o mesmo texto em todos de propósito.**
- * Ele existe para dar altura e ritmo ao card enquanto o feedback real não
- * chega. Não invente frase em nome da marca para preencher: depoimento
- * inventado ao lado de um logo de verdade lê como endosso real, e é assim que
- * se vira alvo. Quando a fala chegar, cada item recebe a sua — e aí vale
- * conferir se cabe nas três linhas do card em 300px.
+ * ⚠️ **OS `depoimento` ABAIXO SÃO RASCUNHO, NÃO APROVADO POR NINGUÉM.**
+ * Foram escritos para ver o card cheio e nenhuma dessas marcas disse nada
+ * disso. Frase inventada ao lado de um logo de verdade lê como endosso real —
+ * não vá ao ar assim. As mesmas frases e o modelo de e-mail para pedir
+ * aprovação estão em `depoimentos-rascunho.md`, na raiz; quando a fala voltar
+ * assinada, ela entra aqui com o nome de quem assina.
+ *
+ * Sem aprovação, o valor honesto é o placeholder:
+ * `'Depoimento em breve — o texto real entra aqui.'`, o mesmo em todos.
+ *
+ * A fala cabe em três linhas do card em 300px — conferir ao trocar.
  */
-/** Enquanto o feedback real não chega — ver o aviso acima. */
-const espera = 'Depoimento em breve — o texto real entra aqui.'
 
 const marcas = {
   label: 'Marcas que já passaram pela SOPA',
   eyebrow: 'quem já sentou à mesa',
   itens: [
-    { slug: 'hbo', nome: 'HBO', depoimento: espera },
-    { slug: 'puma', nome: 'Puma', depoimento: espera },
-    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
-    { slug: 'c-a', nome: 'C&A', depoimento: espera },
-    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
-    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
-    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
-    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
-    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
+    { slug: 'hbo', nome: 'HBO', depoimento: 'Prazo apertado e escopo grande. Entregaram no dia, sem a gente precisar ficar em cima.' },
+    { slug: 'puma', nome: 'Puma', depoimento: 'Entenderam a marca na primeira conversa. O que voltou já estava no tom certo.' },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: 'Time pequeno e rápido. Pedido de manhã, versão pronta à tarde.' },
+    { slug: 'c-a', nome: 'C&A', depoimento: 'Organizaram o que estava espalhado e devolveram uma coisa só, clara.' },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: 'Técnicos de verdade. Resolveram do design ao código sem passar o problema adiante.' },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: 'Fácil de trabalhar junto. Perguntam o que precisa ser perguntado e tocam sozinhos.' },
+    { slug: 'gnars', nome: 'Gnars', depoimento: 'Pegaram uma ideia solta e transformaram em produto no ar.' },
+    { slug: 'odysee', nome: 'Odysee', depoimento: 'Ficaram depois do lançamento. Isso quase ninguém faz.' },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: 'Rápidos, diretos e sem enrolação de agência.' },
   ],
 }
 

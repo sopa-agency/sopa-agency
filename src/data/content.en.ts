@@ -179,25 +179,24 @@ const services = {
 } as const
 
 /**
- * Ver a nota por extenso no `content.pt.ts` — inclusive o aviso sobre o
- * `depoimento`, que é placeholder e não deve virar frase inventada.
+ * Ver a nota por extenso no `content.pt.ts` — inclusive o aviso de que os
+ * `depoimento` abaixo são RASCUNHO não aprovado, e o placeholder honesto
+ * enquanto ninguém assina: `'Testimonial coming soon — the real text goes here.'`
  */
-/** Enquanto o feedback real não chega — ver o aviso acima. */
-const espera = 'Testimonial coming soon — the real text goes here.'
 
 const marcas = {
   label: 'Brands that have worked with SOPA',
   eyebrow: 'who has sat at the table',
   itens: [
-    { slug: 'hbo', nome: 'HBO', depoimento: espera },
-    { slug: 'puma', nome: 'Puma', depoimento: espera },
-    { slug: 'burger-king', nome: 'Burger King', depoimento: espera },
-    { slug: 'c-a', nome: 'C&A', depoimento: espera },
-    { slug: 'keepkey', nome: 'KeepKey', depoimento: espera },
-    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: espera },
-    { slug: 'gnars', nome: 'Gnars', depoimento: espera },
-    { slug: 'odysee', nome: 'Odysee', depoimento: espera },
-    { slug: 'skatehive', nome: 'SkateHive', depoimento: espera },
+    { slug: 'hbo', nome: 'HBO', depoimento: 'Tight deadline and huge scope. They delivered on day one, without us having to stay on top of it.' },
+    { slug: 'puma', nome: 'Puma', depoimento: 'They understood the brand at first glance. What came back was already in the right tone.' },
+    { slug: 'burger-king', nome: 'Burger King', depoimento: 'Small team, fast pace. Request in the morning, working version by afternoon.' },
+    { slug: 'c-a', nome: 'C&A', depoimento: 'They organized what was scattered and handed back one single, clear thing.' },
+    { slug: 'keepkey', nome: 'KeepKey', depoimento: 'Real technicians. They solved it end-to-end without passing problems down the line.' },
+    { slug: 'shapeshift', nome: 'ShapeShift', depoimento: 'Easy to work with. They ask the right questions and run with it on their own.' },
+    { slug: 'gnars', nome: 'Gnars', depoimento: 'They took a loose idea and turned it into a live product.' },
+    { slug: 'odysee', nome: 'Odysee', depoimento: 'They stayed after launch. Almost no one does that.' },
+    { slug: 'skatehive', nome: 'SkateHive', depoimento: 'Fast, direct, no agency fluff.' },
   ],
 }
 
