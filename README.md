@@ -70,7 +70,6 @@ src/
 ├── components/
 │   ├── Menu.tsx           # menu que abre a partir de quatro pontos
 │   ├── SpecularButton.tsx # botão com reflexo que segue o cursor
-│   ├── ScrambleText.tsx   # texto que se embaralha ao entrar (sem uso hoje)
 │   ├── SectionHeading.tsx # eyebrow + título das seções
 │   ├── Icon.tsx           # ícones em traço, um switch de paths
 │   ├── hero/

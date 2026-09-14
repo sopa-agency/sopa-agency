@@ -69,9 +69,8 @@
   /* corpo, botões e rótulos */
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* varredura de luz que atravessa o H1 do hero */
-  --animate-shine: shine 9s linear infinite;
-
+  /* varredura de luz que atravessa o H1 do hero (aplicada no @utility
+     text-shine; o keyframes mora aqui porque é onde o @theme o enxerga) */
   @keyframes shine {
     from {
       background-position: 190% 0;
@@ -83,8 +82,6 @@
 
   /* fio pontilhado da dica de scroll, subindo — o mesmo sentido do gesto que
      o texto pede, e do conteúdo que vem de baixo */
-  --animate-dot-drift: dot-drift 1.8s linear infinite;
-
   @keyframes dot-drift {
     from {
       background-position: center 7px;
